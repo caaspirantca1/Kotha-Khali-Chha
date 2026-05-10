@@ -80,6 +80,10 @@ textarea{resize:vertical;min-height:100px}
 .role-opt .rn{font-weight:600;font-size:.9rem}
 .role-opt .rd{font-size:.72rem;color:var(--text-muted);margin-top:4px}
 .role-opt[data-role="developer"]{border-color:rgba(108,92,231,.4);background:linear-gradient(135deg,rgba(108,92,231,.08),rgba(240,199,94,.08))}
+.verify-box{text-align:center;padding:40px 20px}
+.verify-box .vi{font-size:4rem;margin-bottom:16px;opacity:.8}
+.verify-box h3{font-family:var(--font-display);font-size:1.3rem;margin-bottom:8px}
+.verify-box p{font-size:.85rem;color:var(--text-muted);margin-bottom:24px;line-height:1.5}
 #app{display:none}
 #app.active{display:flex;flex-direction:column;min-height:100vh}
 .top-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg-secondary);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
@@ -193,6 +197,7 @@ textarea{resize:vertical;min-height:100px}
 <div class="toast-c" id="toastC"></div>
 <div class="modal-overlay" id="modalO"><div class="modal" id="modalC"></div></div>
 
+<!-- SPLASH -->
 <div class="screen active" id="splash">
   <div class="splash-bg"></div>
   <div class="splash-content">
@@ -211,8 +216,10 @@ textarea{resize:vertical;min-height:100px}
   <p class="splash-ver">v2.0 Kathmandu Valley</p>
 </div>
 
+<!-- AUTH -->
 <div class="screen" id="auth">
   <div class="auth-card">
+    <!-- STEP 1: Role + Credentials -->
     <div id="authStep1">
       <h2>Welcome</h2>
       <p class="sub">Choose your role to continue</p>
@@ -247,9 +254,23 @@ textarea{resize:vertical;min-height:100px}
       <button class="btn btn-primary btn-full" onclick="doSignIn()" id="signInBtn">Sign In</button>
       <p style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--text-muted)" id="authError"></p>
     </div>
+    <!-- STEP 2: Email Verification Required -->
+    <div id="authStep2" class="hidden">
+      <div class="verify-box">
+        <div class="vi">&#9993;</div>
+        <h3>Verify Your Email</h3>
+        <p id="verifyMsg">We sent a verification link to your email. Please check your inbox and click the link to verify.</p>
+        <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:20px" id="verifyEmail"></p>
+        <button class="btn btn-primary btn-full" onclick="checkVerification()" id="checkBtn">I Have Verified — Check Now</button>
+        <button class="btn btn-outline btn-full" style="margin-top:10px" onclick="resendVerification()" id="resendBtn">Resend Verification Email</button>
+        <p style="margin-top:16px"><button class="resend-btn" onclick="goBackToLogin()" style="background:none;color:var(--accent);font-size:.82rem;font-weight:500;cursor:pointer;border:none">Back to Login</button></p>
+        <p style="margin-top:12px;font-size:.78rem;color:var(--text-muted)" id="verifyError"></p>
+      </div>
+    </div>
   </div>
 </div>
 
+<!-- APP -->
 <div id="app">
   <div class="dev-badge hidden" id="devBadge">DEV MODE</div>
   <div class="top-bar">
@@ -273,12 +294,12 @@ textarea{resize:vertical;min-height:100px}
 <script>
 try {
   var firebaseConfig = {
-    apiKey: "AIzaSyD1ly92hKDn2CthbAxd8t14Qb1deFFd_qI",
-    authDomain: "kotha-khali-chha-6ca55.firebaseapp.com",
-    projectId: "kotha-khali-chha-6ca55",
-    storageBucket: "kotha-khali-chha-6ca55.firebasestorage.app",
-    messagingSenderId: "246577028104",
-    appId: "1:246577028104:web:61ca30f70d8079d4b9c5bd"
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_PROJECT.firebaseapp.com",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_PROJECT.appspot.com",
+    messagingSenderId: "YOUR_SENDER_ID",
+    appId: "YOUR_APP_ID"
   };
   firebase.initializeApp(firebaseConfig);
   var auth = firebase.auth();
@@ -289,7 +310,7 @@ try {
 var CLOUD_NAME = 'demo';
 var UPLOAD_PRESET = 'demo';
 var DEV_PHONE = "+9779800000000";
-var DEV_EMAIL = "kotha.khalichha05@gmail.com";
+var DEV_EMAIL = "developer@kothakhali.com";
 
 var APP = { user:null, profile:null, role:null, currentNav:'dashboard', unsubscribers:[], properties:[], messages:[], notifications:[], _f:{type:'all',district:'all'} };
 
@@ -321,6 +342,9 @@ function selectRole(el) {
   APP.role = el.dataset.role;
 }
 
+// ============================================================
+// SIGN IN WITH EMAIL VERIFICATION
+// ============================================================
 function doSignIn() {
   if (!APP.role) { showToast('Please select a role first', 'error'); return; }
   document.getElementById('authError').textContent = '';
@@ -330,12 +354,33 @@ function doSignIn() {
   if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
   document.getElementById('signInBtn').disabled = true;
   document.getElementById('signInBtn').textContent = 'Signing in...';
+
   auth.signInWithEmailAndPassword(email, pass)
-    .then(function() { onAuthSuccess(); })
+    .then(function(result) {
+      var user = result.user;
+      if (!user.emailVerified) {
+        // Email NOT verified — send verification and block
+        user.sendEmailVerification();
+        showVerificationScreen(email);
+        document.getElementById('signInBtn').disabled = false;
+        document.getElementById('signInBtn').textContent = 'Sign In';
+      } else {
+        // Email IS verified — check if developer
+        checkDevAndProceed(user);
+      }
+    })
     .catch(function(e) {
       if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/invalid-login-credentials') {
+        // New user — create account
         auth.createUserWithEmailAndPassword(email, pass)
-          .then(function() { onAuthSuccess(); })
+          .then(function(result) {
+            var user = result.user;
+            // Always send verification for new accounts
+            user.sendEmailVerification();
+            showVerificationScreen(email);
+            document.getElementById('signInBtn').disabled = false;
+            document.getElementById('signInBtn').textContent = 'Sign In';
+          })
           .catch(function(e2) {
             document.getElementById('authError').textContent = e2.message;
             showToast(e2.message, 'error');
@@ -351,24 +396,88 @@ function doSignIn() {
     });
 }
 
-function onAuthSuccess() {
+function showVerificationScreen(email) {
+  document.getElementById('authStep1').classList.add('hidden');
+  document.getElementById('authStep2').classList.remove('hidden');
+  document.getElementById('verifyEmail').textContent = email;
+  document.getElementById('verifyError').textContent = '';
+  showToast('Verification email sent! Check your inbox.', 'info');
+}
+
+function checkVerification() {
   var user = auth.currentUser;
+  if (!user) { showToast('Session expired. Please sign in again.', 'error'); goBackToLogin(); return; }
+  document.getElementById('checkBtn').disabled = true;
+  document.getElementById('checkBtn').textContent = 'Checking...';
+  document.getElementById('verifyError').textContent = '';
+
+  user.reload().then(function() {
+    if (auth.currentUser.emailVerified) {
+      showToast('Email verified! Welcome!', 'success');
+      document.getElementById('checkBtn').disabled = false;
+      document.getElementById('checkBtn').textContent = 'I Have Verified — Check Now';
+      checkDevAndProceed(auth.currentUser);
+    } else {
+      document.getElementById('verifyError').textContent = 'Not verified yet. Please check your email and click the verification link.';
+      showToast('Not verified yet. Check your email.', 'error');
+      document.getElementById('checkBtn').disabled = false;
+      document.getElementById('checkBtn').textContent = 'I Have Verified — Check Now';
+    }
+  }).catch(function(e) {
+    document.getElementById('verifyError').textContent = e.message;
+    document.getElementById('checkBtn').disabled = false;
+    document.getElementById('checkBtn').textContent = 'I Have Verified — Check Now';
+  });
+}
+
+function resendVerification() {
+  var user = auth.currentUser;
+  if (!user) { showToast('Session expired. Please sign in again.', 'error'); goBackToLogin(); return; }
+  user.sendEmailVerification().then(function() {
+    showToast('Verification email resent!', 'success');
+  }).catch(function(e) {
+    showToast('Error: ' + e.message, 'error');
+  });
+}
+
+function goBackToLogin() {
+  auth.signOut().then(function() {
+    document.getElementById('authStep1').classList.remove('hidden');
+    document.getElementById('authStep2').classList.add('hidden');
+    document.getElementById('signInBtn').disabled = false;
+    document.getElementById('signInBtn').textContent = 'Sign In';
+  });
+}
+
+function checkDevAndProceed(user) {
+  if (user.email === DEV_EMAIL) {
+    // Developer — must be verified AND match DEV_EMAIL
+    onAuthSuccess(user);
+  } else if (APP.role === 'developer') {
+    // Someone selected Developer but email doesn't match
+    auth.signOut();
+    showToast('Access denied. Not authorized developer.', 'error');
+    document.getElementById('authStep1').classList.remove('hidden');
+    document.getElementById('authStep2').classList.add('hidden');
+    document.getElementById('signInBtn').disabled = false;
+    document.getElementById('signInBtn').textContent = 'Sign In';
+  } else {
+    // Normal user — verified, proceed
+    onAuthSuccess(user);
+  }
+}
+
+function onAuthSuccess(user) {
+  if (!user) user = auth.currentUser;
   if (!user) { showToast('Authentication failed', 'error'); showScreen('auth'); return; }
+  if (!user.emailVerified) { showToast('Please verify your email first', 'error'); showVerificationScreen(user.email); return; }
   APP.user = user;
   var role = APP.role;
   if (user.email === DEV_EMAIL) { role = 'developer'; }
-  else if (APP.role === 'developer') {
-    auth.signOut();
-    showToast('Access denied. Not authorized developer.', 'error');
-    showScreen('auth');
-    document.getElementById('signInBtn').disabled = false;
-    document.getElementById('signInBtn').textContent = 'Sign In';
-    return;
-  }
   db.collection('users').doc(user.uid).get()
     .then(function(doc) {
       if (!doc.exists) {
-        var p = { name: role === 'developer' ? 'Developer' : (role === 'landlord' ? 'Gharbeti' : 'Kirayadar'), phone: user.phoneNumber || '', email: user.email || '', role: role, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+        var p = { name: role === 'developer' ? 'Developer' : (role === 'landlord' ? 'Gharbeti' : 'Kirayadar'), phone: '', email: user.email || '', role: role, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
         return db.collection('users').doc(user.uid).set(p).then(function() { APP.profile = Object.assign({}, p, { id: user.uid }); });
       } else {
         APP.profile = Object.assign({ id: user.uid }, doc.data());
@@ -382,6 +491,7 @@ function onAuthSuccess() {
 function enterApp() {
   var user = firebase.auth().currentUser;
   if (!user) { showToast('Please sign in first', 'error'); showScreen('auth'); return; }
+  if (!user.emailVerified) { showToast('Please verify your email first', 'error'); showVerificationScreen(user.email); return; }
   APP.user = user;
   document.getElementById('splash').classList.remove('active');
   document.getElementById('auth').classList.remove('active');
@@ -393,7 +503,7 @@ function enterApp() {
 }
 
 auth.onAuthStateChanged(function(user) {
-  if (user) {
+  if (user && user.emailVerified) {
     APP.user = user;
     db.collection('users').doc(user.uid).get()
       .then(function(doc) {
@@ -404,6 +514,10 @@ auth.onAuthStateChanged(function(user) {
         }
       })
       .catch(function(e) { console.error(e); });
+  } else if (user && !user.emailVerified) {
+    // Signed in but not verified — show verification screen
+    showScreen('auth');
+    showVerificationScreen(user.email);
   } else {
     document.getElementById('splash').classList.add('active');
     document.getElementById('app').classList.remove('active');
@@ -734,6 +848,8 @@ function doLogout() {
     showScreen('splash');
     document.getElementById('authEmail').value = '';
     document.getElementById('authPass').value = '';
+    document.getElementById('authStep1').classList.remove('hidden');
+    document.getElementById('authStep2').classList.add('hidden');
     var rl = document.querySelectorAll('.role-opt');
     for (var i = 0; i < rl.length; i++) rl[i].classList.remove('selected');
     APP.role = null;
