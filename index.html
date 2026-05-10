@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="deep-dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Kotha Khali Chha !?</title>
 <meta name="theme-color" content="#0a0e27">
+<meta name="description" content="Find rooms in Kathmandu Valley">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="KothaKhali">
+<link rel="manifest" href="manifest.json">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Expires" content="0">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@300;400;500;600;700&family=Lora:wght@400;600;700&family=Nunito:wght@400;600;700&family=DM+Sans:wght@400;500;700&family=Quicksand:wght@400;600;700&family=Crimson+Pro:wght@400;600;700&family=Space+Mono:wght@400;700&family=Roboto:wght@400;500;700&family=Source+Sans+3:wght@400;600;700&family=Work+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 <style>
 :root{--font-display:'Playfair Display',serif;--font-body:'Poppins',sans-serif;--transition:.35s cubic-bezier(.4,0,.2,1);--radius:14px;--radius-sm:8px;--shadow:0 8px 32px rgba(0,0,0,.2)}
-[data-theme="dark"]{--bg-primary:#0a0e27;--bg-secondary:#111538;--bg-card:#161a3e;--bg-input:#1c2148;--bg-hover:#1e2350;--accent:#f0c75e;--accent-glow:rgba(240,199,94,.25);--text-primary:#eee8ff;--text-secondary:#a0a4c4;--text-muted:#6b6f94;--border:rgba(255,255,255,.06);--success:#00b894;--danger:#e17055;--info:#74b9ff;--warning:#fdcb6e;--gradient-hero:linear-gradient(135deg,#0a0e27,#1a0a3e 50%,#0d1b3e);--gradient-accent:linear-gradient(135deg,#f0c75e,#e8a838);--gradient-card:linear-gradient(145deg,#161a3e,#1a1e48);--overlay:rgba(10,14,39,.85)}
-[data-theme="light"]{--bg-primary:#f5f3ef;--bg-secondary:#fff;--bg-card:#fff;--bg-input:#f0eee8;--bg-hover:#eae7e0;--accent:#b8860b;--accent-glow:rgba(184,134,11,.15);--text-primary:#1a1a2e;--text-secondary:#555577;--text-muted:#8888aa;--border:rgba(0,0,0,.08);--success:#00a884;--danger:#d63031;--info:#0984e3;--warning:#e17055;--gradient-hero:linear-gradient(135deg,#f5f3ef,#ece8df 50%,#f0ece4);--gradient-accent:linear-gradient(135deg,#b8860b,#d4a03c);--gradient-card:linear-gradient(145deg,#fff,#faf8f5);--overlay:rgba(245,243,239,.9)}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px}
 body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);min-height:100vh;min-height:100dvh;overflow-x:hidden;transition:background var(--transition),color var(--transition);-webkit-tap-highlight-color:transparent}
@@ -28,12 +31,9 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .screen.active{display:flex;flex-direction:column}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;border-radius:var(--radius);font-weight:600;font-size:.95rem;transition:all var(--transition)}
 .btn-primary{background:var(--gradient-accent);color:#0a0e27;box-shadow:0 4px 20px var(--accent-glow)}
-.btn-primary:hover{transform:translateY(-2px)}
-.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
-.btn-secondary{background:var(--bg-card);color:var(--text-primary);border:1.5px solid var(--border)}
-.btn-secondary:hover{border-color:var(--accent)}
-.btn-outline{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}
-.btn-outline:hover{background:var(--accent);color:#0a0e27}
+.btn-primary:hover{transform:translateY(-2px)}.btn-primary:disabled{opacity:.5;cursor:not-allowed;transform:none}
+.btn-secondary{background:var(--bg-card);color:var(--text-primary);border:1.5px solid var(--border)}.btn-secondary:hover{border-color:var(--accent)}
+.btn-outline{background:transparent;color:var(--accent);border:1.5px solid var(--accent)}.btn-outline:hover{background:var(--accent);color:#0a0e27}
 .btn-danger{background:var(--danger);color:#fff}
 .btn-success{background:var(--success);color:#fff}
 .btn-sm{padding:8px 16px;font-size:.82rem;border-radius:var(--radius-sm)}
@@ -47,11 +47,13 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .badge-info{background:rgba(116,185,255,.15);color:var(--info)}
 .badge-accent{background:var(--accent-glow);color:var(--accent)}
 .badge-warning{background:rgba(253,203,110,.15);color:var(--warning)}
+.badge-khalti{background:rgba(92,45,145,.15);color:#9b59b6}
+.badge-verified{background:rgba(0,184,148,.2);color:var(--success);border:1px solid var(--success)}
+.badge-featured{background:rgba(240,199,94,.2);color:var(--accent);border:1px solid var(--accent)}
 .section-title{font-family:var(--font-display);font-size:1.3rem;font-weight:700;margin-bottom:16px}
 .form-group{margin-bottom:16px}
 .form-group label{display:block;font-size:.82rem;font-weight:500;color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
-.form-row{display:flex;gap:12px}
-.form-row>*{flex:1}
+.form-row{display:flex;gap:12px}.form-row>*{flex:1}
 .chip-group{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .chip{padding:8px 16px;border-radius:24px;font-size:.82rem;font-weight:500;background:var(--bg-input);color:var(--text-secondary);border:1.5px solid var(--border);cursor:pointer;transition:all var(--transition);user-select:none}
 .chip.selected{background:var(--accent-glow);color:var(--accent);border-color:var(--accent)}
@@ -62,7 +64,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .empty-state{text-align:center;padding:60px 20px;color:var(--text-muted)}
 .empty-state .empty-icon{font-size:3rem;margin-bottom:16px;opacity:.5}
 .empty-state h3{font-size:1.1rem;color:var(--text-secondary);margin-bottom:8px}
-#splash{background:var(--gradient-hero);align-items:center;justify-content:center;position:fixed;inset:0;z-index:1000;overflow:hidden}
+#splash{background:var(--bg-primary);align-items:center;justify-content:center;position:fixed;inset:0;z-index:1000;overflow:hidden}
 .splash-bg{position:absolute;inset:0;opacity:.03;background-image:repeating-conic-gradient(var(--accent) 0% 25%,transparent 0% 50%);background-size:60px 60px;animation:spinBg 120s linear infinite}
 @keyframes spinBg{to{transform:rotate(360deg)}}
 .splash-content{text-align:center;z-index:1;padding:20px}
@@ -78,6 +80,11 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .splash-cta{animation:titleUp .8s ease-out .9s both}
 .splash-skip{margin-top:16px;font-size:.8rem;color:var(--text-muted);cursor:pointer;animation:titleUp .8s ease-out 1.1s both}
 .splash-ver{position:absolute;bottom:20px;font-size:.7rem;color:var(--text-muted)}
+.install-prompt{position:fixed;bottom:0;left:0;right:0;background:var(--bg-secondary);border-top:1px solid var(--border);padding:16px 20px;display:flex;align-items:center;gap:12px;z-index:1001;animation:slideUp .3s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.install-prompt .ip-text{flex:1;font-size:.85rem}
+.install-prompt .ip-text strong{color:var(--accent)}
+.maintenance-banner{position:fixed;top:0;left:0;right:0;background:var(--danger);color:#fff;padding:8px 20px;text-align:center;font-size:.82rem;font-weight:600;z-index:9999}
 #auth{background:var(--bg-primary);align-items:center;justify-content:center;padding:40px 20px}
 .auth-card{width:100%;max-width:400px;background:var(--gradient-card);border:1px solid var(--border);border-radius:20px;padding:36px 28px;box-shadow:var(--shadow)}
 .auth-card h2{font-family:var(--font-display);font-size:1.5rem;text-align:center;margin-bottom:6px}
@@ -93,6 +100,9 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .google-btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 24px;background:#fff;border-radius:var(--radius);font-weight:600;font-size:.95rem;color:#333;cursor:pointer;transition:all var(--transition);box-shadow:0 2px 8px rgba(0,0,0,.1);width:100%;border:none;font-family:var(--font-body)}
 .google-btn:hover{box-shadow:0 4px 16px rgba(0,0,0,.2);transform:translateY(-2px)}
 .google-btn svg{width:20px;height:20px}
+.lang-sel{display:flex;justify-content:center;gap:8px;margin-bottom:16px}
+.lang-btn{padding:6px 14px;border-radius:20px;font-size:.78rem;font-weight:500;background:var(--bg-input);color:var(--text-muted);border:1.5px solid var(--border);cursor:pointer;transition:all var(--transition)}
+.lang-btn.active{background:var(--accent-glow);color:var(--accent);border-color:var(--accent)}
 #app{display:none}
 #app.active{display:flex;flex-direction:column;min-height:100vh}
 .top-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg-secondary);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
@@ -108,7 +118,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .nav-item{display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 16px;border-radius:12px;background:transparent;color:var(--text-muted);font-size:.65rem;font-weight:500;transition:all var(--transition);cursor:pointer;border:none}
 .nav-item .ni{font-size:1.3rem}
 .nav-item.active{color:var(--accent)}
-.nav-item:hover{color:var(--accent)}
 .dash-greet{margin-bottom:24px}
 .dash-greet .gt{font-size:.85rem;color:var(--text-muted)}
 .dash-greet .gn{font-family:var(--font-display);font-size:1.6rem;font-weight:700;margin-top:4px}
@@ -130,8 +139,11 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .prop-img img{width:100%;height:100%;object-fit:cover}
 .prop-badge{position:absolute;top:12px;right:12px}
 .prop-type-badge{position:absolute;top:12px;left:12px}
-.prop-fav{position:absolute;top:12px;right:50px;font-size:1.2rem;cursor:pointer;z-index:2;opacity:.7;transition:all .2s}
+.prop-fav{position:absolute;top:12px;right:50px;font-size:1.2rem;cursor:pointer;z-index:2;opacity:.7;transition:all .2s;background:none}
 .prop-fav:hover,.prop-fav.active{opacity:1;transform:scale(1.2)}
+.prop-video-badge{position:absolute;bottom:12px;right:12px}
+.prop-badges-row{position:absolute;bottom:12px;left:12px;display:flex;gap:4px}
+.prop-views{position:absolute;bottom:12px;left:12px;font-size:.7rem;background:rgba(0,0,0,.6);color:#fff;padding:2px 8px;border-radius:10px}
 .prop-info{padding:16px}
 .prop-info h3{font-size:1.05rem;font-weight:600;margin-bottom:4px}
 .prop-loc{font-size:.82rem;color:var(--text-muted);margin-bottom:10px}
@@ -140,7 +152,6 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .prop-facs{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .prop-facs .badge{font-size:.65rem;padding:3px 8px}
 .prop-rating{display:flex;align-items:center;gap:4px;margin-top:6px;font-size:.85rem}
-.prop-rating .star{color:var(--accent)}
 .prop-rating .count{color:var(--text-muted);font-size:.75rem}
 .search-bar{position:relative;margin-bottom:16px}
 .search-bar input{padding-left:44px;height:48px}
@@ -172,7 +183,8 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .bubble.sent{align-self:flex-end;background:var(--accent);color:#0a0e27;border-bottom-right-radius:4px}
 .bubble.recv{align-self:flex-start;background:var(--bg-card);border:1px solid var(--border);border-bottom-left-radius:4px}
 .bubble .bt{font-size:.65rem;opacity:.6;margin-top:4px;text-align:right}
-.chat-in{display:flex;gap:8px;padding:12px 16px;background:var(--bg-secondary);border-top:1px solid var(--border)}
+.bubble img{max-width:200px;border-radius:8px;margin-top:4px;cursor:pointer}
+.chat-in{display:flex;gap:8px;padding:12px 16px;background:var(--bg-secondary);border-top:1px solid var(--border);align-items:center}
 .chat-in input{flex:1}
 .chat-in button{flex-shrink:0}
 .set-group{margin-bottom:24px}
@@ -189,7 +201,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .dev-badge{position:fixed;top:12px;right:12px;background:var(--accent);color:#0a0e27;padding:4px 10px;border-radius:20px;font-size:.65rem;font-weight:700;z-index:999;text-transform:uppercase;letter-spacing:1px}
 .modal-overlay{position:fixed;inset:0;background:var(--overlay);display:flex;align-items:center;justify-content:center;z-index:1000;padding:20px;opacity:0;visibility:hidden;transition:all var(--transition)}
 .modal-overlay.active{opacity:1;visibility:visible}
-.modal{background:var(--bg-secondary);border:1px solid var(--border);border-radius:20px;padding:28px;max-width:400px;width:100%;max-height:85vh;overflow-y:auto;transform:scale(.9) translateY(20px);transition:all var(--transition)}
+.modal{background:var(--bg-secondary);border:1px solid var(--border);border-radius:20px;padding:28px;max-width:420px;width:100%;max-height:85vh;overflow-y:auto;transform:scale(.9) translateY(20px);transition:all var(--transition)}
 .modal-overlay.active .modal{transform:scale(1) translateY(0)}
 .modal h3{font-family:var(--font-display);font-size:1.2rem;text-align:center;margin-bottom:8px}
 .modal p{text-align:center;color:var(--text-muted);font-size:.85rem;margin-bottom:20px}
@@ -198,13 +210,30 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .rating-stars{display:flex;gap:8px;justify-content:center;margin:16px 0}
 .rating-stars .star{font-size:2rem;cursor:pointer;transition:all .2s;color:var(--text-muted);background:none;border:none}
 .rating-stars .star.active{color:var(--accent);transform:scale(1.1)}
+.share-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:16px 0}
+.share-opt{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 8px;border-radius:var(--radius-sm);background:var(--bg-input);cursor:pointer;transition:all var(--transition);border:1px solid var(--border)}
+.share-opt:hover{border-color:var(--accent);transform:translateY(-2px)}
+.video-embed{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:var(--radius);margin-bottom:16px;border:1px solid var(--border)}
+.video-embed iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+.payment-opts{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.payment-opt{display:flex;align-items:center;gap:12px;padding:14px 16px;border:2px solid var(--border);border-radius:var(--radius);cursor:pointer;transition:all var(--transition)}
+.payment-opt:hover{border-color:var(--accent)}
+.payment-opt.selected{border-color:var(--accent);background:var(--accent-glow)}
+.theme-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
+.theme-opt{padding:12px;border-radius:var(--radius-sm);border:2px solid var(--border);cursor:pointer;transition:all var(--transition);text-align:center}
+.theme-opt:hover{border-color:var(--accent)}
+.theme-opt.active{border-color:var(--accent);box-shadow:0 0 12px var(--accent-glow)}
+.theme-opt .to-preview{height:40px;border-radius:6px;margin-bottom:8px}
+.theme-opt .to-name{font-size:.78rem;font-weight:600}
+.font-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.font-opt{padding:12px;border-radius:var(--radius-sm);border:2px solid var(--border);cursor:pointer;transition:all var(--transition);text-align:center}
+.font-opt:hover{border-color:var(--accent)}
+.font-opt.active{border-color:var(--accent);background:var(--accent-glow)}
 .toast-c{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:2000;display:flex;flex-direction:column;gap:8px;pointer-events:none}
 .toast{background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-sm);padding:12px 20px;font-size:.85rem;box-shadow:var(--shadow);animation:tIn .3s ease,tOut .3s ease 2.7s forwards;pointer-events:auto;white-space:nowrap}
 @keyframes tIn{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
 @keyframes tOut{to{opacity:0;transform:translateY(-20px)}}
-.toast.success{border-left:3px solid var(--success)}
-.toast.error{border-left:3px solid var(--danger)}
-.toast.info{border-left:3px solid var(--info)}
+.toast.success{border-left:3px solid var(--success)}.toast.error{border-left:3px solid var(--danger)}.toast.info{border-left:3px solid var(--info)}
 .spinner{width:36px;height:36px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:20px auto}
 @keyframes spin{to{transform:rotate(360deg)}}
 .page-enter{animation:pgIn .3s ease}
@@ -213,11 +242,9 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .compare-card h4{font-size:1rem;margin-bottom:8px;color:var(--accent)}
 .compare-card .row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);font-size:.85rem}
 .compare-card .row:last-child{border:none}
-.compare-card .row .lbl{color:var(--text-muted)}
-.compare-card .row .val{font-weight:600}
+.compare-card .row .lbl{color:var(--text-muted)}.compare-card .row .val{font-weight:600}
 .map-container{height:300px;border-radius:var(--radius);overflow:hidden;margin-bottom:16px;border:1px solid var(--border)}
-.map-container .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(1.2)}
-[data-theme="light"] .map-container .leaflet-tile-pane{filter:none}
+[data-theme="amoled"] .map-container .leaflet-tile-pane,[data-theme="deep-dark"] .map-container .leaflet-tile-pane,[data-theme="ocean"] .map-container .leaflet-tile-pane,[data-theme="forest"] .map-container .leaflet-tile-pane,[data-theme="royal"] .map-container .leaflet-tile-pane,[data-theme="sunset"] .map-container .leaflet-tile-pane,[data-theme="neon"] .map-container .leaflet-tile-pane,[data-theme="minimal"] .map-container .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.85) contrast(1.2)}
 .timeline{position:relative;padding-left:24px;margin:16px 0}
 .timeline::before{content:'';position:absolute;left:8px;top:0;bottom:0;width:2px;background:var(--border)}
 .timeline-item{position:relative;margin-bottom:16px}
@@ -231,13 +258,13 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:16px;overflow-x:auto}
 .tab{padding:10px 16px;font-size:.85rem;font-weight:500;color:var(--text-muted);background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all var(--transition);white-space:nowrap}
 .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.google-btn:disabled{opacity:.5;cursor:not-allowed}
 @media(min-width:600px){.action-grid{grid-template-columns:repeat(4,1fr)}.prop-card{display:flex;flex-direction:row}.prop-img{width:220px;height:auto;min-height:160px}}
 </style>
 </head>
 <body>
 <div class="toast-c" id="toastC"></div>
 <div class="modal-overlay" id="modalO"><div class="modal" id="modalC"></div></div>
+<div class="install-prompt hidden" id="installPrompt"><div class="ip-text">&#127968; <strong>Kotha Khali Chha</strong><br><span style="font-size:.78rem;color:var(--text-muted)">Install as app</span></div><button class="btn btn-primary btn-sm" onclick="installApp()">Install</button><button class="btn-icon" onclick="$('installPrompt').classList.add('hidden')" style="width:32px;height:32px;font-size:.8rem">&#10005;</button></div>
 
 <div class="screen active" id="splash">
   <div class="splash-bg"></div>
@@ -252,13 +279,14 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
     <div class="splash-cta"><button class="btn btn-primary btn-full" onclick="showScreen('auth')">Get Started</button></div>
     <p class="splash-skip" onclick="showScreen('auth')">Skip intro</p>
   </div>
-  <p class="splash-ver">v3.0 Kathmandu Valley</p>
+  <p class="splash-ver">v5.0 Kathmandu Valley</p>
 </div>
 
 <div class="screen" id="auth">
   <div class="auth-card">
-    <h2>Welcome</h2>
-    <p class="sub">Choose your role to continue</p>
+    <div class="lang-sel"><button class="lang-btn active" data-lang="en" onclick="setLang('en')">English</button><button class="lang-btn" data-lang="ne" onclick="setLang('ne')">नेपाली</button></div>
+    <h2 id="authTitle">Welcome</h2>
+    <p class="sub" id="authSub">Choose your role to continue</p>
     <div class="role-sel">
       <div class="role-opt" data-role="landlord" onclick="selectRole(this)"><div class="ri">&#127970;</div><div class="rn">Gharbeti</div><div class="rd">Landlord</div></div>
       <div class="role-opt" data-role="tenant" onclick="selectRole(this)"><div class="ri">&#128716;</div><div class="rn">Kirayadar</div><div class="rd">Tenant</div></div>
@@ -267,9 +295,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
       <p style="font-size:.7rem;color:var(--text-muted);margin-bottom:8px">Only accessible to Developer</p>
       <div class="role-opt" data-role="developer" onclick="selectRole(this)" style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;max-width:200px;margin:0 auto"><span style="font-size:1rem">&#128736;</span><div><div style="font-weight:600;font-size:.78rem">Developer</div><div style="font-size:.65rem;color:var(--text-muted)">Authorized only</div></div></div>
     </div>
-    <div style="margin-top:24px">
-      <button class="google-btn" onclick="signInWithGoogle()" id="googleBtn"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Sign in with Google</button>
-    </div>
+    <div style="margin-top:24px"><button class="google-btn" onclick="signInWithGoogle()" id="googleBtn"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg><span id="signInText">Sign in with Google</span></button></div>
     <p style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--text-muted)" id="authError"></p>
   </div>
 </div>
@@ -278,10 +304,7 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
   <div class="dev-badge hidden" id="devBadge">DEV MODE</div>
   <div class="top-bar">
     <div class="top-bar-l"><div class="top-bar-logo">&#127968;</div><span class="top-bar-title">Kotha Khali Chha</span></div>
-    <div class="top-bar-r">
-      <button class="btn-icon notif-btn" onclick="showNotifs()">&#128276;<div class="notif-dot hidden" id="nDot"></div></button>
-      <button class="btn-icon" onclick="navigate('settings')">&#9881;</button>
-    </div>
+    <div class="top-bar-r"><button class="btn-icon notif-btn" onclick="showNotifs()">&#128276;<div class="notif-dot hidden" id="nDot"></div></button><button class="btn-icon" onclick="navigate('settings')">&#9881;</button></div>
   </div>
   <div class="main-c" id="mainC"></div>
   <div class="bottom-nav" id="bNav"></div>
@@ -291,132 +314,241 @@ select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='ht
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-messaging-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 <script>
-try{var firebaseConfig={apiKey:"AIzaSyD1ly92hKDn2CthbAxd8t14Qb1deFFd_qI",authDomain:"kotha-khali-chha-6ca55.firebaseapp.com",projectId:"kotha-khali-chha-6ca55",storageBucket:"kotha-khali-chha-6ca55.firebasestorage.app",messagingSenderId:"246577028104",appId:"1:246577028104:web:61ca30f70d8079d4b9c5bd"};firebase.initializeApp(firebaseConfig);var auth=firebase.auth(),db=firebase.firestore(),provider=new firebase.auth.GoogleAuthProvider();console.log('Firebase initialized');}catch(e){console.error('Firebase init error:',e);}
-var CLOUD_NAME='demo',UPLOAD_PRESET='demo',DEV_PHONE="+9779800000000",DEV_EMAIL="kotha.khalichha05@gmail.com";
-var APP={user:null,profile:null,role:null,currentNav:'dashboard',unsubscribers:[],properties:[],messages:[],notifications:[],favorites:[],reviews:[],bookings:[],visits:[],_f:{type:'all',district:'all'},compareList:[],banList:[]};
+// ===== FIREBASE CONFIG =====
+try{var firebaseConfig={apiKey:"AIzaSyD1ly92hKDn2CthbAxd8t14Qb1deFFd_qI",authDomain:"kotha-khali-chha-6ca55.firebaseapp.com",projectId:"kotha-khali-chha-6ca55",storageBucket:"kotha-khali-chha-6ca55.firebasestorage.app",messagingSenderId:"246577028104",appId:"1:246577028104:web:61ca30f70d8079d4b9c5bd"};firebase.initializeApp(firebaseConfig);var auth=firebase.auth(),db=firebase.firestore(),provider=new firebase.auth.GoogleAuthProvider();}catch(e){console.error(e);}
 
-// ============ UTILITIES ============
+// ===== CONFIG =====
+var DEV_EMAIL="kotha.khalichha05@gmail.com";
+var EMAILJS_PUBLIC="YOUR_EMAILJS_KEY";
+var EMAILJS_SERVICE="YOUR_EMAILJS_SERVICE";
+var EMAILJS_TEMPLATE="YOUR_EMAILJS_TEMPLATE";
+var KHATLI_KEY="test_public_key_xxxxx";
+try{emailjs.init(EMAILJS_PUBLIC);}catch(e){}
+
+// ===== 10 THEMES =====
+var THEMES={
+'deep-dark':{name:'Deep Dark',icon:'&#127761;',vars:{'--bg-primary':'#0a0e27','--bg-secondary':'#111538','--bg-card':'#161a3e','--bg-input':'#1c2148','--bg-hover':'#1e2350','--accent':'#f0c75e','--accent-glow':'rgba(240,199,94,.25)','--text-primary':'#eee8ff','--text-secondary':'#a0a4c4','--text-muted':'#6b6f94','--border':'rgba(255,255,255,.06)','--success':'#00b894','--danger':'#e17055','--info':'#74b9ff','--warning':'#fdcb6e','--gradient-accent':'linear-gradient(135deg,#f0c75e,#e8a838)','--gradient-card':'linear-gradient(145deg,#161a3e,#1a1e48)','--overlay':'rgba(10,14,39,.85)'}},
+'amoled':{name:'AMOLED Deep',icon:'&#9899;',vars:{'--bg-primary':'#000000','--bg-secondary':'#0a0a0a','--bg-card':'#111111','--bg-input':'#1a1a1a','--bg-hover':'#222222','--accent':'#f0f0ff','--accent-glow':'rgba(240,240,255,.15)','--text-primary':'#f0f0ff','--text-secondary':'#c0c0d0','--text-muted':'#707088','--border':'rgba(240,240,255,.08)','--success':'#00e676','--danger':'#ff5252','--info':'#448aff','--warning':'#ffab40','--gradient-accent':'linear-gradient(135deg,#f0f0ff,#d0d0ff)','--gradient-card':'linear-gradient(145deg,#111,#1a1a1a)','--overlay':'rgba(0,0,0,.9)'}},
+'ocean':{name:'Ocean Blue',icon:'&#127754;',vars:{'--bg-primary':'#0a1628','--bg-secondary':'#0f2038','--bg-card':'#142848','--bg-input':'#1a3058','--bg-hover':'#1e3868','--accent':'#00bcd4','--accent-glow':'rgba(0,188,212,.2)','--text-primary':'#e0f0ff','--text-secondary':'#8cb4d8','--text-muted':'#5888aa','--border':'rgba(0,188,212,.1)','--success':'#00e676','--danger':'#ff6e6e','--info':'#40c4ff','--warning':'#ffd740','--gradient-accent':'linear-gradient(135deg,#00bcd4,#0097a7)','--gradient-card':'linear-gradient(145deg,#142848,#1a3058)','--overlay':'rgba(10,22,40,.88)'}},
+'forest':{name:'Forest Green',icon:'&#127795;',vars:{'--bg-primary':'#0a1a0f','--bg-secondary':'#0f2818','--bg-card':'#143020','--bg-input':'#1a3828','--bg-hover':'#1e4030','--accent':'#00c853','--accent-glow':'rgba(0,200,83,.2)','--text-primary':'#e0ffe8','--text-secondary':'#8cd8a0','--text-muted':'#58aa70','--border':'rgba(0,200,83,.1)','--success':'#69f0ae','--danger':'#ff6e6e','--info':'#64ffda','--warning':'#ffd740','--gradient-accent':'linear-gradient(135deg,#00c853,#009624)','--gradient-card':'linear-gradient(145deg,#143020,#1a3828)','--overlay':'rgba(10,26,15,.88)'}},
+'royal':{name:'Royal Purple',icon:'&#128081;',vars:{'--bg-primary':'#1a0a2e','--bg-secondary':'#220e3e','--bg-card':'#2a1248','--bg-input':'#321858','--bg-hover':'#3a1e68','--accent':'#b388ff','--accent-glow':'rgba(179,136,255,.2)','--text-primary':'#f0e0ff','--text-secondary':'#b8a0d8','--text-muted':'#8868aa','--border':'rgba(179,136,255,.1)','--success':'#69f0ae','--danger':'#ff6e6e','--info':'#82b1ff','--warning':'#ffd740','--gradient-accent':'linear-gradient(135deg,#b388ff,#7c4dff)','--gradient-card':'linear-gradient(145deg,#2a1248,#321858)','--overlay':'rgba(26,10,46,.88)'}},
+'sunset':{name:'Sunset',icon:'&#127749;',vars:{'--bg-primary':'#1a0e05','--bg-secondary':'#281508','--bg-card':'#301a0c','--bg-input':'#3a2010','--bg-hover':'#442814','--accent':'#ff6d00','--accent-glow':'rgba(255,109,0,.2)','--text-primary':'#fff0e0','--text-secondary':'#d8b088','--text-muted':'#aa8060','--border':'rgba(255,109,0,.1)','--success':'#00e676','--danger':'#ff5252','--info':'#40c4ff','--warning':'#ffd740','--gradient-accent':'linear-gradient(135deg,#ff6d00,#ff9100)','--gradient-card':'linear-gradient(145deg,#301a0c,#3a2010)','--overlay':'rgba(26,14,5,.88)'}},
+'light':{name:'Light Mode',icon:'&#9728;',vars:{'--bg-primary':'#f5f3ef','--bg-secondary':'#ffffff','--bg-card':'#ffffff','--bg-input':'#f0eee8','--bg-hover':'#eae7e0','--accent':'#b8860b','--accent-glow':'rgba(184,134,11,.15)','--text-primary':'#1a1a2e','--text-secondary':'#555577','--text-muted':'#8888aa','--border':'rgba(0,0,0,.08)','--success':'#00a884','--danger':'#d63031','--info':'#0984e3','--warning':'#e17055','--gradient-accent':'linear-gradient(135deg,#b8860b,#d4a03c)','--gradient-card':'linear-gradient(145deg,#fff,#faf8f5)','--overlay':'rgba(245,243,239,.9)'}},
+'sepia':{name:'Sepia Warm',icon:'&#128220;',vars:{'--bg-primary':'#1a150e','--bg-secondary':'#251e14','--bg-card':'#2e2418','--bg-input':'#382c1e','--bg-hover':'#403424','--accent':'#d4a056','--accent-glow':'rgba(212,160,86,.2)','--text-primary':'#f0e8d8','--text-secondary':'#c0a880','--text-muted':'#8a7860','--border':'rgba(212,160,86,.1)','--success':'#8bc34a','--danger':'#e17055','--info':'#64b5f6','--warning':'#ffa726','--gradient-accent':'linear-gradient(135deg,#d4a056,#b8860b)','--gradient-card':'linear-gradient(145deg,#2e2418,#382c1e)','--overlay':'rgba(26,21,14,.88)'}},
+'neon':{name:'Neon Cyber',icon:'&#128302;',vars:{'--bg-primary':'#0a0a1a','--bg-secondary':'#0e0e28','--bg-card':'#12123a','--bg-input':'#18184a','--bg-hover':'#1e1e58','--accent':'#00fff5','--accent-glow':'rgba(0,255,245,.2)','--text-primary':'#e0ffff','--text-secondary':'#80cccc','--text-muted':'#508888','--border':'rgba(0,255,245,.08)','--success':'#00ff88','--danger':'#ff006e','--info':'#7b61ff','--warning':'#ffff00','--gradient-accent':'linear-gradient(135deg,#00fff5,#ff006e)','--gradient-card':'linear-gradient(145deg,#12123a,#18184a)','--overlay':'rgba(10,10,26,.9)'}},
+'minimal':{name:'Minimal Grey',icon:'&#11036;',vars:{'--bg-primary':'#1a1a1a','--bg-secondary':'#222222','--bg-card':'#2a2a2a','--bg-input':'#333333','--bg-hover':'#3a3a3a','--accent':'#90a4ae','--accent-glow':'rgba(144,164,174,.2)','--text-primary':'#e0e0e0','--text-secondary':'#a0a0a0','--text-muted':'#707070','--border':'rgba(255,255,255,.06)','--success':'#81c784','--danger':'#e57373','--info':'#64b5f6','--warning':'#ffb74d','--gradient-accent':'linear-gradient(135deg,#90a4ae,#78909c)','--gradient-card':'linear-gradient(145deg,#2a2a2a,#333)','--overlay':'rgba(26,26,26,.9)'}}
+};
+
+// ===== 10 FONTS =====
+var FONTS=[
+{id:'poppins',name:'Poppins',family:"'Poppins',sans-serif",display:'Poppins'},
+{id:'lora',name:'Lora',family:"'Lora',serif",display:'Lora'},
+{id:'nunito',name:'Nunito',family:"'Nunito',sans-serif",display:'Nunito'},
+{id:'dm-sans',name:'DM Sans',family:"'DM Sans',sans-serif",display:'DM Sans'},
+{id:'quicksand',name:'Quicksand',family:"'Quicksand',sans-serif",display:'Quicksand'},
+{id:'crimson',name:'Crimson Pro',family:"'Crimson Pro',serif",display:'Crimson Pro'},
+{id:'space-mono',name:'Space Mono',family:"'Space Mono',monospace",display:'Space Mono'},
+{id:'roboto',name:'Roboto',family:"'Roboto',sans-serif",display:'Roboto'},
+{id:'source-sans',name:'Source Sans 3',family:"'Source Sans 3',sans-serif",display:'Source Sans 3'},
+{id:'work-sans',name:'Work Sans',family:"'Work Sans',sans-serif",display:'Work Sans'}
+];
+
+// ===== APP STATE =====
+var APP={user:null,profile:null,role:null,currentNav:'dashboard',unsubscribers:[],properties:[],messages:[],notifications:[],favorites:[],reviews:[],bookings:[],visits:[],_f:{type:'all',district:'all'},compareList:[],banList:[],devRequests:[]};
+var KTM_CENTER=[27.7172,85.3240],deferredPrompt=null;
+
+// ===== LANGUAGE =====
+var currentLang=localStorage.getItem('kkc_lang')||'en';
+
+// ===== UTILITIES =====
 function $(id){return document.getElementById(id);}
-function showScreen(id){var s=document.querySelectorAll('.screen');for(var i=0;i<s.length;i++)s[i].classList.remove('active');var el=$(id);if(el)el.classList.add('active');}
+function showScreen(id){document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});var el=$(id);if(el)el.classList.add('active');}
 function showToast(msg,type){type=type||'info';var c=$('toastC'),t=document.createElement('div');t.className='toast '+type;t.textContent=msg;c.appendChild(t);setTimeout(function(){t.remove();},3200);}
 function showModal(h){$('modalC').innerHTML=h;$('modalO').classList.add('active');}
 function closeModal(){$('modalO').classList.remove('active');}
 $('modalO').addEventListener('click',function(e){if(e.target===this)closeModal();});
 function timeAgo(ts){var d=Date.now()-ts;if(d<60000)return 'just now';if(d<3600000)return Math.floor(d/60000)+'m ago';if(d<86400000)return Math.floor(d/3600000)+'h ago';return Math.floor(d/86400000)+'d ago';}
 function formatNPR(n){return 'NPR '+Number(n).toLocaleString();}
-function isDev(){if(!APP.user)return false;return APP.user.email===DEV_EMAIL;}
-function showLoading(m){m=m||'Loading...';$('mainC').innerHTML='<div class="empty-state"><div class="spinner"></div><p style="color:var(--text-muted);margin-top:12px">'+m+'</p></div>';}
-function renderStars(rating,size){size=size||16;var h='';for(var i=1;i<=5;i++)h+='<span style="font-size:'+size+'px;color:'+(i<=Math.round(rating)?'var(--accent)':'var(--text-muted)')+';margin:0 1px">&#9733;</span>';return h;}
-function avgRating(propId){var rs=APP.reviews.filter(function(r){return r.propertyId===propId;});if(!rs.length)return 0;var sum=0;for(var i=0;i<rs.length;i++)sum+=rs[i].rating;return (sum/rs.length).toFixed(1);}
-function isFav(propId){return APP.favorites.some(function(f){return f.propertyId===propId;});}
+function isDev(){return APP.user&&APP.user.email===DEV_EMAIL;}
+function showLoading(m){$('mainC').innerHTML='<div class="empty-state"><div class="spinner"></div><p style="color:var(--text-muted);margin-top:12px">'+(m||'Loading...')+'</p></div>';}
+function renderStars(r,sz){sz=sz||16;var h='';for(var i=1;i<=5;i++)h+='<span style="font-size:'+sz+'px;color:'+(i<=Math.round(r)?'var(--accent)':'var(--text-muted)')+';margin:0 1px">&#9733;</span>';return h;}
+function avgRating(pid){var rs=APP.reviews.filter(function(r){return r.propertyId===pid;});if(!rs.length)return 0;var s=0;rs.forEach(function(r){s+=r.rating;});return(s/rs.length).toFixed(1);}
+function isFav(pid){return APP.favorites.some(function(f){return f.propertyId===pid;});}
 function isBanned(uid){return APP.banList.some(function(b){return b.userId===uid;});}
-var KTM_CENTER=[27.7172,85.3240];
+function extractYouTubeId(url){if(!url)return null;var m=url.match(/(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|embed\/))([^&?\/]+)/);return m?m[1]:null;}
+function getRole(){return APP.profile?APP.profile.role:'tenant';}
 
-// ============ AUTH ============
-function selectRole(el){var r=document.querySelectorAll('.role-opt');for(var i=0;i<r.length;i++)r[i].classList.remove('selected');el.classList.add('selected');APP.role=el.dataset.role;}
+// ===== IMAGE COMPRESSION =====
+function compressImage(file,callback){
+  var reader=new FileReader();
+  reader.onload=function(e){
+    var img=new Image();
+    img.onload=function(){
+      var canvas=document.createElement('canvas');
+      var maxSize=1200;
+      var w=img.width,h=img.height;
+      if(w>maxSize||h>maxSize){
+        if(w>h){h=Math.round(h*maxSize/w);w=maxSize;}
+        else{w=Math.round(w*maxSize/h);h=maxSize;}
+      }
+      canvas.width=w;canvas.height=h;
+      var ctx=canvas.getContext('2d');
+      ctx.drawImage(img,0,0,w,h);
+      callback(canvas.toDataURL('image/jpeg',0.7));
+    };
+    img.src=e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
 
+// ===== THEME & FONT MANAGEMENT =====
+function applyTheme(themeId){
+  var theme=THEMES[themeId];if(!theme)return;
+  var root=document.documentElement;
+  for(var key in theme.vars)root.style.setProperty(key,theme.vars[key]);
+  root.dataset.theme=themeId;
+  localStorage.setItem('kkc_theme',themeId);
+  var meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.content=theme.vars['--bg-primary'];
+}
+
+function applyFont(fontId){
+  var font=FONTS.find(function(f){return f.id===fontId;});if(!font)return;
+  document.documentElement.style.setProperty('--font-body',font.family);
+  localStorage.setItem('kkc_font',fontId);
+}
+
+// ===== EMAIL =====
+function sendEmail(toName,toEmail,subject,message){
+  try{emailjs.send(EMAILJS_SERVICE,EMAILJS_TEMPLATE,{to_name:toName,to_email:toEmail,subject:subject,message:message}).catch(function(){});}catch(e){}
+}
+
+// ===== KHATLI PAYMENT =====
+function initKhaltiPayment(pid,pname,amount,bookingId){
+  try{var checkout=new KhaltiCheckout({publicKey:KHATLI_KEY,productIdentity:'KKC-'+pid,productName:pname||'Property Booking',productUrl:window.location.href,eventHandler:{onSuccess:function(payload){
+    db.collection('bookings').doc(bookingId).update({paymentStatus:'paid',paymentId:payload.idx,amount:amount,paymentMethod:'khalti'}).then(function(){showToast('Payment successful!','success');sendEmail(APP.profile.name,APP.profile.email,'Payment Confirmed','Payment of NPR '+amount+' received. TXN: '+payload.idx);});
+  },onError:function(){showToast('Payment failed','error');},onClose:function(){showToast('Payment cancelled','info');}}});
+    checkout.show({amount:amount*100});}catch(e){showToast('Khalti not available','error');}
+}
+
+// ===== SOCIAL SHARING =====
+function shareProperty(pid){
+  var p=APP.properties.find(function(x){return x.id===pid;});if(!p)return;
+  var url=window.location.href.split('?')[0]+'?property='+pid;
+  var text='Check out "'+p.name+'" at '+p.location+', '+p.district+' - '+formatNPR(p.rent)+'/month on Kotha Khali Chha!';
+  if(navigator.share){navigator.share({title:p.name,text:text,url:url}).catch(function(){});}
+  else{showModal('<h3>Share Property</h3><div class="share-grid"><div class="share-opt" onclick="window.open(\'https://wa.me/?text=\'+encodeURIComponent(\''+text+' '+url+'\'),\'_blank\')"><span style="font-size:1.5rem">&#128172;</span><span style="font-size:.7rem;color:var(--text-muted)">WhatsApp</span></div><div class="share-opt" onclick="window.open(\'https://www.facebook.com/sharer/sharer.php?u=\'+encodeURIComponent(\''+url+'\'),\'_blank\')"><span style="font-size:1.5rem">&#128101;</span><span style="font-size:.7rem;color:var(--text-muted)">Facebook</span></div><div class="share-opt" onclick="window.open(\'https://twitter.com/intent/tweet?text=\'+encodeURIComponent(\''+text+' '+url+'\'),\'_blank\')"><span style="font-size:1.5rem">&#128172;</span><span style="font-size:.7rem;color:var(--text-muted)">Twitter</span></div><div class="share-opt" onclick="navigator.clipboard.writeText(\''+url+'\');showToast(\'Link copied!\',\'success\');closeModal()"><span style="font-size:1.5rem">&#128203;</span><span style="font-size:.7rem;color:var(--text-muted)">Copy Link</span></div></div><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button>');}
+}
+
+// ===== AUTH =====
+function selectRole(el){document.querySelectorAll('.role-opt').forEach(function(r){r.classList.remove('selected');});el.classList.add('selected');APP.role=el.dataset.role;}
 function signInWithGoogle(){
   if(!APP.role){showToast('Please select a role first','error');return;}
-  $('googleBtn').disabled=true;
-  $('authError').textContent='';
+  $('googleBtn').disabled=true;$('authError').textContent='';
   auth.signInWithPopup(provider).then(function(result){
     var user=result.user;
-    if(isBanned(user.uid)){auth.signOut();showToast('Your account has been suspended.','error');$('googleBtn').disabled=false;return;}
-    if(APP.role==='developer'&&user.email!==DEV_EMAIL){auth.signOut();showToast('Access denied. Not authorized developer.','error');$('googleBtn').disabled=false;return;}
+    if(isBanned(user.uid)){auth.signOut();showToast('Account suspended.','error');$('googleBtn').disabled=false;return;}
+    if(APP.role==='developer'&&user.email!==DEV_EMAIL){auth.signOut();showToast('Access denied.','error');$('googleBtn').disabled=false;return;}
     onAuthSuccess(user);
   }).catch(function(e){
     if(e.code!=='auth/popup-closed-by-user'){$('authError').textContent=e.message;showToast('Sign-in failed','error');}
     $('googleBtn').disabled=false;
   });
 }
-
 function onAuthSuccess(user){
-  if(!user)user=auth.currentUser;if(!user){showToast('Auth failed','error');showScreen('auth');return;}
+  if(!user)user=auth.currentUser;if(!user){return;}
   APP.user=user;var role=APP.role;if(user.email===DEV_EMAIL)role='developer';
   db.collection('users').doc(user.uid).get().then(function(doc){
-    if(!doc.exists){
-      var p={name:role==='developer'?'Developer':(user.displayName||(role==='landlord'?'Gharbeti':'Kirayadar')),phone:user.phoneNumber||'',email:user.email||'',role:role,photoURL:user.photoURL||'',createdAt:firebase.firestore.FieldValue.serverTimestamp()};
-      return db.collection('users').doc(user.uid).set(p).then(function(){APP.profile=Object.assign({},p,{id:user.uid});});
-    }else{APP.profile=Object.assign({id:user.uid},doc.data());if(user.email===DEV_EMAIL){APP.profile.role='developer';db.collection('users').doc(user.uid).update({role:'developer'});}}
-  }).then(function(){enterApp();}).catch(function(e){console.error(e);enterApp();});
+    if(!doc.exists){var p={name:role==='developer'?'Developer':(user.displayName||(role==='landlord'?'Gharbeti':'Kirayadar')),phone:'',email:user.email||'',role:role,photoURL:user.photoURL||'',bio:'',createdAt:firebase.firestore.FieldValue.serverTimestamp()};return db.collection('users').doc(user.uid).set(p).then(function(){APP.profile=Object.assign({},p,{id:user.uid});});}
+    else{APP.profile=Object.assign({id:user.uid},doc.data());if(user.email===DEV_EMAIL){APP.profile.role='developer';db.collection('users').doc(user.uid).update({role:'developer'});}}
+  }).then(function(){enterApp();}).catch(function(){enterApp();});
 }
-
 function enterApp(){
-  var user=firebase.auth().currentUser;if(!user){showToast('Sign in first','error');showScreen('auth');return;}
+  var user=auth.currentUser;if(!user){showScreen('auth');return;}
   APP.user=user;$('splash').classList.remove('active');$('auth').classList.remove('active');$('app').classList.add('active');
   if(isDev())$('devBadge').classList.remove('hidden');else $('devBadge').classList.add('hidden');
   buildNav();navigate('dashboard');startListeners();
   showToast('Welcome, '+(APP.profile?APP.profile.name:'User')+'!','success');
 }
-
 auth.onAuthStateChanged(function(user){
-  if(user){APP.user=user;db.collection('users').doc(user.uid).get().then(function(doc){
-    if(doc.exists){APP.profile=Object.assign({id:user.uid},doc.data());if(user.email===DEV_EMAIL)APP.profile.role='developer';enterApp();}
-  }).catch(function(e){console.error(e);});}
+  if(user){APP.user=user;db.collection('users').doc(user.uid).get().then(function(doc){if(doc.exists){APP.profile=Object.assign({id:user.uid},doc.data());if(user.email===DEV_EMAIL)APP.profile.role='developer';enterApp();}}).catch(function(){});}
   else{$('splash').classList.add('active');$('app').classList.remove('active');}
 });
 
-// ============ LISTENERS ============
+// ===== PWA =====
+window.addEventListener('beforeinstallprompt',function(e){e.preventDefault();deferredPrompt=e;$('installPrompt').classList.remove('hidden');});
+function installApp(){if(!deferredPrompt)return;deferredPrompt.prompt();deferredPrompt.userChoice.then(function(r){if(r.outcome==='accepted')showToast('App installed!','success');$('installPrompt').classList.add('hidden');deferredPrompt=null;});}
+if('serviceWorker' in navigator){navigator.serviceWorker.register('sw.js').catch(function(){});}
+
+// ===== LISTENERS =====
 function startListeners(){
   APP.unsubscribers.forEach(function(u){u();});APP.unsubscribers=[];
   APP.unsubscribers.push(db.collection('properties').orderBy('createdAt','desc').onSnapshot(function(s){APP.properties=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});if(['dashboard','my-properties','search'].indexOf(APP.currentNav)>=0)navigate(APP.currentNav);}));
-  APP.unsubscribers.push(db.collection('messages').where('toId','==',APP.user.uid).onSnapshot(function(s){APP.messages=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});var u=false;for(var i=0;i<APP.messages.length;i++)if(!APP.messages[i].read){u=true;break;}var dot=$('nDot');if(dot)dot.classList.toggle('hidden',!u);if(APP.currentNav==='messages')navigate('messages');}));
+  APP.unsubscribers.push(db.collection('messages').where('toId','==',APP.user.uid).onSnapshot(function(s){APP.messages=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});var u=APP.messages.some(function(m){return !m.read;});var dot=$('nDot');if(dot)dot.classList.toggle('hidden',!u);if(APP.currentNav==='messages')navigate('messages');}));
   APP.unsubscribers.push(db.collection('favorites').where('userId','==',APP.user.uid).onSnapshot(function(s){APP.favorites=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});if(APP.currentNav==='favorites')navigate('favorites');}));
   APP.unsubscribers.push(db.collection('reviews').onSnapshot(function(s){APP.reviews=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});}));
   APP.unsubscribers.push(db.collection('bookings').where('userId','==',APP.user.uid).onSnapshot(function(s){APP.bookings=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});}));
-  APP.unsubscribers.push(db.collection('visits').where('userId','==',APP.user.uid).onSnapshot(function(s){APP.visits=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});if(APP.currentNav==='my-visits')navigate('my-visits');}));
+  APP.unsubscribers.push(db.collection('visits').where('userId','==',APP.user.uid).onSnapshot(function(s){APP.visits=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});}));
   APP.unsubscribers.push(db.collection('notifications').where('toId','==',APP.user.uid).orderBy('timestamp','desc').onSnapshot(function(s){APP.notifications=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});var u=APP.notifications.some(function(n){return !n.read;});var dot=$('nDot');if(dot)dot.classList.toggle('hidden',!u);}));
-  if(isDev()){APP.unsubscribers.push(db.collection('banned').onSnapshot(function(s){APP.banList=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});}));}
+  if(isDev()){
+    APP.unsubscribers.push(db.collection('banned').onSnapshot(function(s){APP.banList=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});}));
+    APP.unsubscribers.push(db.collection('devRequests').orderBy('timestamp','desc').onSnapshot(function(s){APP.devRequests=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});}));
+  }
 }
 
-// ============ NAV ============
+// ===== NAV — ROLE SEPARATION =====
 function buildNav(){
-  var nav=$('bNav'),r=APP.profile?APP.profile.role:'tenant';
+  var nav=$('bNav'),r=getRole();
   var items;
-  if(r==='landlord'||r==='developer'){
+  if(r==='landlord'){
+    items=[{id:'dashboard',icon:'&#127968;',label:'Home'},{id:'my-properties',icon:'&#128203;',label:'Properties'},{id:'add-property',icon:'&#10133;',label:'Add'},{id:'messages',icon:'&#128172;',label:'Messages'},{id:'settings',icon:'&#9881;',label:'Settings'}];
+  }else if(r==='developer'){
     items=[{id:'dashboard',icon:'&#127968;',label:'Home'},{id:'my-properties',icon:'&#128203;',label:'Properties'},{id:'add-property',icon:'&#10133;',label:'Add'},{id:'messages',icon:'&#128172;',label:'Messages'},{id:'settings',icon:'&#9881;',label:'Settings'}];
   }else{
     items=[{id:'dashboard',icon:'&#127968;',label:'Home'},{id:'search',icon:'&#128269;',label:'Search'},{id:'favorites',icon:'&#10084;',label:'Saved'},{id:'messages',icon:'&#128172;',label:'Messages'},{id:'settings',icon:'&#9881;',label:'Settings'}];
   }
-  var h='';for(var i=0;i<items.length;i++)h+='<button class="nav-item'+(items[i].id==='dashboard'?' active':'')+'" data-nav="'+items[i].id+'" onclick="navigate(\''+items[i].id+'\')"><span class="ni">'+items[i].icon+'</span><span>'+items[i].label+'</span></button>';
+  var h='';items.forEach(function(item){h+='<button class="nav-item'+(item.id==='dashboard'?' active':'')+'" data-nav="'+item.id+'" onclick="navigate(\''+item.id+'\')"><span class="ni">'+item.icon+'</span><span>'+item.label+'</span></button>';});
   nav.innerHTML=h;
 }
 
 function navigate(page){
-  APP.currentNav=page;var n=document.querySelectorAll('.nav-item');for(var i=0;i<n.length;i++)n[i].classList.toggle('active',n[i].dataset.nav===page);
+  APP.currentNav=page;document.querySelectorAll('.nav-item').forEach(function(n){n.classList.toggle('active',n.dataset.nav===page);});
   var c=$('mainC');c.className='main-c page-enter';setTimeout(function(){c.className='main-c';},300);
   switch(page){
-    case 'dashboard':APP.profile&&APP.profile.role==='tenant'?renderTenantDash():renderLandlordDash();break;
-    case 'my-properties':renderMyProps();break;
-    case 'add-property':renderAddProp();break;
-    case 'messages':renderMessages();break;
-    case 'settings':renderSettings();break;
-    case 'search':renderSearch();break;
-    case 'favorites':renderFavs();break;
-    case 'compare':renderCompare();break;
-    case 'my-bookings':renderMyBookings();break;
-    case 'my-visits':renderMyVisits();break;
-    case 'analytics':renderAnalytics();break;
+    case 'dashboard':var r=getRole();if(r==='tenant')renderTenantDash();else renderLandlordDash();break;
+    case 'my-properties':renderMyProps();break;case 'add-property':renderAddProp();break;
+    case 'messages':renderMessages();break;case 'settings':renderSettings();break;
+    case 'search':renderSearch();break;case 'favorites':renderFavs();break;
+    case 'compare':renderCompare();break;case 'my-bookings':renderMyBookings();break;
+    case 'my-visits':renderMyVisits();break;case 'analytics':renderAnalytics();break;
     default:renderLandlordDash();
   }
 }
 
-// ============ LANDLORD DASHBOARD ============
+// ===== LANDLORD DASHBOARD =====
 function renderLandlordDash(){
-  var c=$('mainC'),myP=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});
-  var av=myP.filter(function(p){return p.status==='available';}).length,re=myP.filter(function(p){return p.status==='rented';}).length;
-  var totalBookings=APP.bookings.length,totalMsgs=APP.messages.filter(function(m){return m.toId===APP.user.uid;}).length;
+  var c=$('mainC'),r=getRole(),myP=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});
+  var av=myP.filter(function(p){return p.status==='available';}).length,totalMsgs=APP.messages.filter(function(m){return m.toId===APP.user.uid;}).length;
   var h='<div class="dash-greet"><p class="gt">Namaste,</p><h2 class="gn"><span>'+(APP.profile?APP.profile.name:'User')+'</span></h2></div>';
   if(isDev()){
-    h+='<div class="dev-panel"><h3>Developer Control Panel</h3><p style="font-size:.82rem;color:var(--text-secondary);margin-bottom:12px">Full access to all features and data.</p>';
+    var pendingReqs=APP.devRequests.filter(function(x){return x.status==='pending';}).length;
+    h+='<div class="dev-panel"><h3>&#128736; Developer Control Panel</h3>';
+    h+='<p style="font-size:.82rem;color:var(--text-secondary);margin-bottom:12px">Full system access. '+pendingReqs+' pending listing requests.</p>';
     h+='<div style="display:flex;gap:8px;flex-wrap:wrap">';
     h+='<button class="btn btn-sm btn-outline" onclick="devAllUsers()">Manage Users</button>';
     h+='<button class="btn btn-sm btn-outline" onclick="devAllProps()">Manage Properties</button>';
     h+='<button class="btn btn-sm btn-outline" onclick="navigate(\'analytics\')">Analytics</button>';
     h+='<button class="btn btn-sm btn-outline" onclick="devBroadcast()">Broadcast</button>';
     h+='<button class="btn btn-sm btn-outline" onclick="devBanUser()">Ban User</button>';
+    h+='<button class="btn btn-sm btn-outline" onclick="devRequests()">Listing Requests ('+pendingReqs+')</button>';
+    h+='<button class="btn btn-sm btn-outline" onclick="devThemeManager()">Theme Manager</button>';
+    h+='<button class="btn btn-sm btn-outline" onclick="devFontManager()">Font Manager</button>';
+    h+='<button class="btn btn-sm btn-outline" onclick="devExportData()">Export Data</button>';
+    h+='<button class="btn btn-sm btn-outline" onclick="devMaintenance()">Maintenance</button>';
+    h+='<button class="btn btn-sm btn-outline" onclick="devFeatured()">Featured Listings</button>';
+    h+='<button class="btn btn-sm btn-outline" onclick="devVerify()">Verify Properties</button>';
     h+='</div></div>';
   }
   h+='<div class="stats-row"><div class="stat-card"><div class="stat-n">'+myP.length+'</div><div class="stat-l">Total</div></div><div class="stat-card"><div class="stat-n">'+av+'</div><div class="stat-l">Available</div></div><div class="stat-card"><div class="stat-n">'+totalMsgs+'</div><div class="stat-l">Messages</div></div></div>';
@@ -424,14 +556,17 @@ function renderLandlordDash(){
   h+='<div class="action-card" onclick="navigate(\'add-property\')"><div class="ai">&#10133;</div><div class="at">Add Property</div><div class="ad">List new</div></div>';
   h+='<div class="action-card" onclick="navigate(\'my-properties\')"><div class="ai">&#128203;</div><div class="at">My Listings</div><div class="ad">Manage</div></div>';
   h+='<div class="action-card" onclick="navigate(\'messages\')"><div class="ai">&#128172;</div><div class="at">Messages</div><div class="ad">Inquiries</div></div>';
-  h+='<div class="action-card" onclick="navigate(\'my-bookings\')"><div class="ai">&#128197;</div><div class="at">Bookings</div><div class="ad">'+totalBookings+' requests</div></div></div>';
+  h+='<div class="action-card" onclick="navigate(\'my-bookings\')"><div class="ai">&#128197;</div><div class="at">Bookings</div><div class="ad">'+APP.bookings.length+' requests</div></div>';
+  h+='<div class="action-card" onclick="contactDeveloper()"><div class="ai">&#128231;</div><div class="at">Contact Dev</div><div class="ad">List via dev</div></div>';
+  h+='<div class="action-card" onclick="navigate(\'my-visits\')"><div class="ai">&#128198;</div><div class="at">Visits</div><div class="ad">'+APP.visits.length+' scheduled</div></div>';
+  h+='</div>';
   h+='<h3 class="section-title">Recent Listings</h3>';
-  if(myP.length===0)h+='<div class="empty-state"><div class="empty-icon">&#127968;</div><h3>No properties yet</h3><p>Add your first listing</p></div>';
-  else for(var i=0;i<Math.min(myP.length,5);i++)h+=propCard(myP[i]);
+  if(!myP.length)h+='<div class="empty-state"><div class="empty-icon">&#127968;</div><h3>No properties yet</h3><p>Add your first listing</p></div>';
+  else myP.slice(0,5).forEach(function(p){h+=propCard(p);});
   c.innerHTML=h;
 }
 
-// ============ TENANT DASHBOARD ============
+// ===== TENANT DASHBOARD =====
 function renderTenantDash(){
   var c=$('mainC'),av=APP.properties.filter(function(p){return p.status==='available';});
   var h='<div class="dash-greet"><p class="gt">Namaste,</p><h2 class="gn"><span>'+(APP.profile?APP.profile.name:'User')+'</span></h2></div>';
@@ -440,27 +575,31 @@ function renderTenantDash(){
   h+='<div class="filter-chips" style="margin-top:-8px" id="distFilters"><span class="chip selected" onclick="setDistF(this,\'all\')">All</span><span class="chip" onclick="setDistF(this,\'Kathmandu\')">Kathmandu</span><span class="chip" onclick="setDistF(this,\'Lalitpur\')">Lalitpur</span><span class="chip" onclick="setDistF(this,\'Bhaktapur\')">Bhaktapur</span></div>';
   h+='<div style="display:flex;justify-content:space-between;align-items:center;margin:16px 0 12px"><h3 class="section-title" style="margin:0">Available Properties</h3><span class="badge badge-accent" id="resultCount">'+av.length+' found</span></div>';
   h+='<div id="propList">';
-  if(av.length===0)h+='<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No properties available</h3><p>Check back later</p></div>';
-  else for(var i=0;i<av.length;i++)h+=propCard(av[i],true);
+  if(!av.length)h+='<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No properties available</h3></div>';
+  else av.forEach(function(p){h+=propCard(p,true);});
   h+='</div>';
   if(APP.compareList.length>0)h+='<div style="position:fixed;bottom:70px;left:50%;transform:translateX(-50%);z-index:50"><button class="btn btn-primary btn-sm" onclick="navigate(\'compare\')">&#128203; Compare ('+APP.compareList.length+')</button></div>';
   c.innerHTML=h;
 }
 
-function setTypeF(el,t){var ch=document.querySelectorAll('#typeFilters .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');APP._f.type=t;applyFilters();}
-function setDistF(el,d){var ch=document.querySelectorAll('#distFilters .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');APP._f.district=d;applyFilters();}
-function applyFilters(){var se=$('dSearch'),q=se?se.value.toLowerCase():'';var ps=APP.properties.filter(function(p){return p.status==='available';});if(APP._f.type!=='all')ps=ps.filter(function(p){return p.type===APP._f.type;});if(APP._f.district!=='all')ps=ps.filter(function(p){return p.district===APP._f.district;});if(q)ps=ps.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0||(p.district||'').toLowerCase().indexOf(q)>=0;});var list=$('propList'),cnt=$('resultCount');if(cnt)cnt.textContent=ps.length+' found';if(list){if(ps.length===0)list.innerHTML='<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No results</h3></div>';else{var h='';for(var i=0;i<ps.length;i++)h+=propCard(ps[i],true);list.innerHTML=h;}}}
+function setTypeF(el,t){document.querySelectorAll('#typeFilters .chip').forEach(function(c){c.classList.remove('selected');});el.classList.add('selected');APP._f.type=t;applyFilters();}
+function setDistF(el,d){document.querySelectorAll('#distFilters .chip').forEach(function(c){c.classList.remove('selected');});el.classList.add('selected');APP._f.district=d;applyFilters();}
+function applyFilters(){var se=$('dSearch'),q=se?se.value.toLowerCase():'';var ps=APP.properties.filter(function(p){return p.status==='available';});if(APP._f.type!=='all')ps=ps.filter(function(p){return p.type===APP._f.type;});if(APP._f.district!=='all')ps=ps.filter(function(p){return p.district===APP._f.district;});if(q)ps=ps.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0||(p.district||'').toLowerCase().indexOf(q)>=0;});var list=$('propList'),cnt=$('resultCount');if(cnt)cnt.textContent=ps.length+' found';if(list){if(!ps.length)list.innerHTML='<div class="empty-state"><h3>No results</h3></div>';else{var h='';ps.forEach(function(p){h+=propCard(p,true);});list.innerHTML=h;}}}
 
-// ============ PROPERTY CARD ============
-function propCard(p,tenantView){
+// ===== PROPERTY CARD =====
+function propCard(p,tv){
   var icons={room:'&#128716;',flat:'&#127968;',office:'&#127970;',building:'&#127969;'};
-  var img=(p.images&&p.images.length>0)?'<img src="'+p.images[0]+'" alt="" loading="lazy">':'<span>'+(icons[p.type]||'&#127968;')+'</span>';
+  var img=(p.images&&p.images.length)?'<img src="'+p.images[0]+'" alt="" loading="lazy">':'<span>'+(icons[p.type]||'&#127968;')+'</span>';
   var r=avgRating(p.id),fav=isFav(p.id);
-  var h='<div class="prop-card" onclick="viewProp(\''+p.id+'\','+(tenantView?'true':'false')+')">';
+  var h='<div class="prop-card" onclick="viewProp(\''+p.id+'\','+(tv?'true':'false')+')">';
   h+='<div class="prop-img">'+img;
-  h+='<span class="prop-badge badge '+(p.status==='available'?'badge-success':'badge-danger')+'">'+(p.status==='available'?'Available':'Rented')+'</span>';
+  h+='<span class="prop-badge badge '+(p.status==='available'?'badge-success':'badge-danger')+'">'+p.status+'</span>';
   h+='<span class="prop-type-badge badge badge-info">'+(p.type||'')+'</span>';
-  if(tenantView)h+='<span class="prop-fav'+(fav?' active':'')+'" onclick="event.stopPropagation();toggleFav(\''+p.id+'\')">'+(fav?'&#10084;':'&#9825;')+'</span>';
+  if(p.verified)h+='<span class="prop-badges-row badge badge-verified">&#10003; Verified</span>';
+  if(p.featured)h+='<span class="prop-badges-row badge badge-featured" style="left:'+(p.verified?'80px':'12px')+'">&#9733; Featured</span>';
+  if(tv)h+='<span class="prop-fav'+(fav?' active':'')+'" onclick="event.stopPropagation();toggleFav(\''+p.id+'\')">'+(fav?'&#10084;':'&#9825;')+'</span>';
+  if(p.videoUrl)h+='<span class="prop-video-badge badge badge-accent">&#9654; Video</span>';
+  if(p.views)h+='<span class="prop-views">'+p.views+' views</span>';
   h+='</div><div class="prop-info"><h3>'+(p.name||'Property')+'</h3>';
   h+='<div class="prop-loc">&#128205; '+(p.location||'')+', '+(p.district||'')+'</div>';
   h+='<div class="prop-price">'+formatNPR(p.rent||0)+'<small>/mo '+(p.negotiable?'(Neg.)':'')+'</small></div>';
@@ -469,477 +608,352 @@ function propCard(p,tenantView){
   return h;
 }
 
-// ============ PROPERTY DETAIL ============
-function viewProp(id,tenantView){
-  var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===id){p=APP.properties[i];break;}}if(!p)return;
+// ===== VIEW PROPERTY =====
+function viewProp(id,tv){
+  var p=APP.properties.find(function(x){return x.id===id;});if(!p)return;
+  // Increment view count
+  if(tv)db.collection('properties').doc(id).update({views:firebase.firestore.FieldValue.increment(1)}).catch(function(){});
   var c=$('mainC'),canEdit=isDev()||p.landlordId===APP.user.uid;
   var r=avgRating(id),revs=APP.reviews.filter(function(rv){return rv.propertyId===id;});
   var h='<div style="background:var(--bg-input);height:200px;display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--text-muted);border-radius:var(--radius);margin:-20px -20px 0;position:relative">';
-  if(p.images&&p.images.length>0)h='<div style="height:200px;overflow:hidden;border-radius:var(--radius);margin:-20px -20px 0;position:relative"><img src="'+p.images[0]+'" style="width:100%;height:100%;object-fit:cover">';
+  if(p.images&&p.images.length)h='<div style="height:200px;overflow:hidden;border-radius:var(--radius);margin:-20px -20px 0;position:relative"><img src="'+p.images[0]+'" style="width:100%;height:100%;object-fit:cover">';
   else h+='&#127968;';
-  h+='<button class="btn-icon" style="position:absolute;top:12px;left:12px" onclick="navigate(\''+(tenantView?'dashboard':'my-properties')+'\')">&#8592;</button>';
-  if(tenantView){h+='<button class="btn-icon" style="position:absolute;top:12px;right:12px" onclick="toggleCompare(\''+id+'\')">&#128203;</button>';}
+  h+='<button class="btn-icon" style="position:absolute;top:12px;left:12px" onclick="navigate(\''+(tv?'dashboard':'my-properties')+'\')">&#8592;</button>';
+  h+='<button class="btn-icon" style="position:absolute;top:12px;right:56px" onclick="shareProperty(\''+id+'\')">&#128279;</button>';
+  if(tv)h+='<button class="btn-icon" style="position:absolute;top:12px;right:12px" onclick="toggleCompare(\''+id+'\')">&#128203;</button>';
   h+='</div>';
   h+='<div style="padding:20px 0">';
-  h+='<span class="badge '+(p.status==='available'?'badge-success':'badge-danger')+'">'+(p.status==='available'?'Available':'Rented')+'</span>';
+  h+='<span class="badge '+(p.status==='available'?'badge-success':'badge-danger')+'">'+p.status+'</span>';
+  if(p.verified)h+=' <span class="badge badge-verified">&#10003; Verified</span>';
+  if(p.featured)h+=' <span class="badge badge-featured">&#9733; Featured</span>';
   h+='<h2 style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;margin:8px 0 4px">'+(p.name||'Property')+'</h2>';
   h+='<p class="prop-loc">&#128205; '+(p.location||'')+', '+(p.district||'')+'</p>';
+  if(p.views)h+='<p style="font-size:.78rem;color:var(--text-muted);margin-top:4px">'+p.views+' views</p>';
   h+='<div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--accent);margin:12px 0">'+formatNPR(p.rent||0)+' <small style="font-size:.75rem;color:var(--text-muted)">/month</small> '+(p.negotiable?'<span class="badge badge-accent">Negotiable</span>':'')+'</div>';
-  if(r>0)h+='<div class="prop-rating" style="font-size:1rem">'+renderStars(r,18)+'<span style="color:var(--text-muted);font-size:.85rem;margin-left:4px">'+r+' ('+revs.length+' reviews)</span></div>';
-
-  if(p.facilities&&p.facilities.length){h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Facilities</h4><div class="prop-facs">';for(var i=0;i<p.facilities.length;i++)h+='<span class="badge badge-accent">'+p.facilities[i]+'</span>';h+='</div></div>';}
-  h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Description</h4><p style="color:var(--text-secondary);font-size:.9rem;line-height:1.6">'+(p.description||'No description.')+'</p></div>';
-  h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Contact</h4><p style="font-size:1.1rem;font-weight:600;color:var(--accent)">'+(p.contact||'Not provided')+'</p></div>';
-
-  // Map
-  if(p.lat&&p.lng){
-    h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Location on Map</h4><div class="map-container" id="propMap"></div></div>';
-  }
-
-  // Actions
-  h+='<div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">';
-  if(tenantView&&p.status==='available'){
+  if(r>0)h+='<div class="prop-rating" style="font-size:1rem">'+renderStars(r,18)+'<span style="color:var(--text-muted);font-size:.85rem;margin-left:4px">'+r+' ('+revs.length+')</span></div>';
+  if(p.videoUrl){var ytId=extractYouTubeId(p.videoUrl);if(ytId)h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">&#9654; Video Tour</h4><div class="video-embed"><iframe src="https://www.youtube.com/embed/'+ytId+'" allowfullscreen loading="lazy"></iframe></div></div>';}
+  if(p.facilities&&p.facilities.length){h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Facilities</h4><div class="prop-facs">';p.facilities.forEach(function(f){h+='<span class="badge badge-accent">'+f+'</span>';});h+='</div></div>';}
+  h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Description</h4><p style="color:var(--text-secondary);font-size:.9rem;line-height:1.6">'+(p.description||'')+'</p></div>';
+  h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Contact</h4><p style="font-size:1.1rem;font-weight:600;color:var(--accent)">'+(p.contact||'')+'</p></div>';
+  if(p.lat&&p.lng)h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Map</h4><div class="map-container" id="propMap"></div></div>';
+  // TENANT ACTIONS
+  if(tv&&p.status==='available'){
+    h+='<div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">';
     h+='<button class="btn btn-primary" style="flex:1" onclick="contactLandlord(\''+id+'\')">Message</button>';
     h+='<button class="btn btn-secondary" style="flex:1" onclick="window.open(\'tel:'+(p.contact||'')+'\')">Call</button>';
     h+='<button class="btn btn-outline" style="flex:1" onclick="bookVisit(\''+id+'\')">Book Visit</button>';
     h+='<button class="btn btn-outline" style="flex:1" onclick="bookProperty(\''+id+'\')">Book Now</button>';
+    h+='</div>';
   }
+  // LANDLORD/DEV ACTIONS
   if(canEdit){
+    h+='<div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">';
     h+='<button class="btn btn-outline btn-sm" onclick="editProp(\''+id+'\')">Edit</button>';
     h+='<button class="btn btn-danger btn-sm" onclick="delProp(\''+id+'\')">Delete</button>';
     h+='<button class="btn btn-sm '+(p.status==='available'?'btn-secondary':'btn-outline')+'" onclick="toggleStatus(\''+id+'\')">'+(p.status==='available'?'Mark Rented':'Mark Available')+'</button>';
-  }
-  h+='</div>';
-
-  // Reviews section
-  h+='<div style="margin-top:24px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:12px">Reviews ('+revs.length+')</h4>';
-  if(revs.length===0)h+='<p style="font-size:.85rem;color:var(--text-muted)">No reviews yet.</p>';
-  else{for(var i=0;i<revs.length;i++){var rv=revs[i];h+='<div style="padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600;font-size:.88rem">'+(rv.userName||'User')+'</span>'+renderStars(rv.rating,14)+'</div><p style="font-size:.85rem;color:var(--text-secondary);margin-top:6px">'+(rv.text||'')+'</p><p style="font-size:.7rem;color:var(--text-muted);margin-top:4px">'+(rv.timestamp?timeAgo(rv.timestamp.seconds*1000):'')+'</p></div>';}}
-  if(tenantView)h+='<button class="btn btn-outline btn-sm btn-full" style="margin-top:8px" onclick="writeReview(\''+id+'\')">Write a Review</button>';
-  h+='</div>';
-
-  h+='</div>';
-  c.innerHTML=h;c.scrollTop=0;
-
-  // Initialize map if lat/lng exists
-  if(p.lat&&p.lng)setTimeout(function(){initPropMap(p.lat,p.lng,p.name);},300);
-}
-
-function initPropMap(lat,lng,name){
-  var el=$('propMap');if(!el)return;
-  var map=L.map(el).setView([lat,lng],15);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  L.marker([lat,lng]).addTo(map).bindPopup(name||'Property').openPopup();
-  setTimeout(function(){map.invalidateSize();},100);
-}
-
-// ============ REVIEWS ============
-function writeReview(propId){
-  var h='<h3>Write a Review</h3>';
-  h+='<div class="rating-stars" id="rStars">';
-  for(var i=1;i<=5;i++)h+='<button class="star" onclick="setReviewRating('+i+')">&#9733;</button>';
-  h+='</div><input type="hidden" id="rRating" value="0">';
-  h+='<div class="form-group" style="margin-top:16px"><textarea id="rText" rows="4" placeholder="Share your experience..."></textarea></div>';
-  h+='<div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitReview(\''+propId+'\')">Submit</button></div>';
-  showModal(h);
-}
-
-function setReviewRating(n){
-  $('rRating').value=n;
-  var stars=document.querySelectorAll('#rStars .star');
-  for(var i=0;i<stars.length;i++)stars[i].classList.toggle('active',i<n);
-}
-
-function submitReview(propId){
-  var rating=parseInt($('rRating').value),text=$('rText').value.trim();
-  if(!rating){showToast('Please select a rating','error');return;}
-  if(!text){showToast('Please write a review','error');return;}
-  db.collection('reviews').add({propertyId:propId,userId:APP.user.uid,userName:APP.profile?APP.profile.name:'User',rating:rating,text:text,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){closeModal();showToast('Review submitted!','success');viewProp(propId,true);}).catch(function(e){showToast('Error: '+e.message,'error');});
-}
-
-// ============ FAVORITES ============
-function toggleFav(propId){
-  var existing=APP.favorites.find(function(f){return f.propertyId===propId;});
-  if(existing){db.collection('favorites').doc(existing.id).delete().then(function(){showToast('Removed from saved','info');}).catch(function(e){showToast('Error','error');});}
-  else{db.collection('favorites').add({userId:APP.user.uid,propertyId:propId,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){showToast('Saved!','success');}).catch(function(e){showToast('Error','error');});}
-}
-
-function renderFavs(){
-  var c=$('mainC');
-  var favProps=APP.favorites.map(function(f){return APP.properties.find(function(p){return p.id===f.propertyId;});}).filter(Boolean);
-  var h='<h2 class="section-title" style="font-size:1.4rem">Saved Properties</h2>';
-  if(favProps.length===0)h+='<div class="empty-state"><div class="empty-icon">&#10084;</div><h3>No saved properties</h3><p>Tap the heart icon to save properties</p></div>';
-  else for(var i=0;i<favProps.length;i++)h+=propCard(favProps[i],true);
-  c.innerHTML=h;
-}
-
-// ============ COMPARE ============
-function toggleCompare(propId){
-  var idx=APP.compareList.indexOf(propId);
-  if(idx>=0){APP.compareList.splice(idx,1);showToast('Removed from compare','info');}
-  else{if(APP.compareList.length>=3){showToast('Max 3 properties for comparison','error');return;}APP.compareList.push(propId);showToast('Added to compare','success');}
-}
-
-function renderCompare(){
-  var c=$('mainC'),props=APP.compareList.map(function(id){return APP.properties.find(function(p){return p.id===id;});}).filter(Boolean);
-  var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><button class="btn-icon" onclick="navigate(\'dashboard\')">&#8592;</button><h2 class="section-title" style="margin:0">Compare Properties</h2></div>';
-  if(props.length<2){h+='<div class="empty-state"><div class="empty-icon">&#128203;</div><h3>Add at least 2 properties</h3><p>Use the compare button on property details</p></div>';}
-  else{
-    var rows=[{l:'Type',k:'type'},{l:'Rent',k:'rent',f:function(v){return formatNPR(v);},s:'/mo'},{l:'District',k:'district'},{l:'Location',k:'location'},{l:'Status',k:'status'},{l:'Negotiable',k:'negotiable',f:function(v){return v?'Yes':'No';}},{l:'Rating',k:'id',f:function(v){var r=avgRating(v);return r>0?renderStars(r,12)+' '+r:'No reviews';}}];
-    for(var i=0;i<props.length;i++){
-      var p=props[i];
-      h+='<div class="compare-card"><h4>'+(p.name||'Property')+'</h4>';
-      for(var j=0;j<rows.length;j++){var val=p[rows[j].k];if(rows[j].f)val=rows[j].f(val);else val=val||'N/A';h+='<div class="row"><span class="lbl">'+rows[j].l+'</span><span class="val">'+val+(rows[j].s||'')+'</span></div>';}
-      h+='</div>';
+    if(isDev()){
+      h+='<button class="btn btn-sm '+(p.verified?'btn-success':'btn-outline')+'" onclick="toggleVerify(\''+id+'\')">'+(p.verified?'Verified':'Verify')+'</button>';
+      h+='<button class="btn btn-sm '+(p.featured?'btn-success':'btn-outline')+'" onclick="toggleFeatured(\''+id+'\')">'+(p.featured?'Featured':'Feature')+'</button>';
     }
-    h+='<button class="btn btn-outline btn-full" onclick="APP.compareList=[];navigate(\'dashboard\')">Clear Comparison</button>';
+    h+='</div>';
   }
-  c.innerHTML=h;
+  // Reviews
+  h+='<div style="margin-top:24px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:12px">Reviews ('+revs.length+')</h4>';
+  if(!revs.length)h+='<p style="font-size:.85rem;color:var(--text-muted)">No reviews yet.</p>';
+  else revs.forEach(function(rv){h+='<div style="padding:12px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600;font-size:.88rem">'+(rv.userName||'User')+'</span>'+renderStars(rv.rating,14)+'</div><p style="font-size:.85rem;color:var(--text-secondary);margin-top:6px">'+(rv.text||'')+'</p><p style="font-size:.7rem;color:var(--text-muted);margin-top:4px">'+(rv.timestamp?timeAgo(rv.timestamp.seconds*1000):'')+'</p></div>';});
+  if(tv)h+='<button class="btn btn-outline btn-sm btn-full" style="margin-top:8px" onclick="writeReview(\''+id+'\')">Write Review</button>';
+  h+='</div></div>';
+  c.innerHTML=h;c.scrollTop=0;
+  if(p.lat&&p.lng)setTimeout(function(){var el=$('propMap');if(!el)return;var map=L.map(el).setView([p.lat,p.lng],15);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'OSM'}).addTo(map);L.marker([p.lat,p.lng]).addTo(map).bindPopup(p.name||'').openPopup();setTimeout(function(){map.invalidateSize();},100);},300);
 }
 
-// ============ BOOKING ============
-function bookProperty(propId){
-  var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===propId){p=APP.properties[i];break;}}if(!p)return;
-  var h='<h3>Book This Property</h3><p>'+(p.name||'Property')+'</p>';
-  h+='<div class="form-group" style="margin-top:12px"><label>Move-in Date</label><input type="date" id="bDate"></div>';
-  h+='<div class="form-group"><label>Message to Landlord</label><textarea id="bMsg" rows="3" placeholder="I would like to book this property..."></textarea></div>';
-  h+='<div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitBooking(\''+propId+'\',\''+p.landlordId+'\')">Send Request</button></div>';
-  showModal(h);
-}
+function toggleVerify(id){var p=APP.properties.find(function(x){return x.id===id;});db.collection('properties').doc(id).update({verified:!p.verified}).then(function(){showToast(p.verified?'Verification removed':'Property verified','success');viewProp(id);}).catch(function(){});}
+function toggleFeatured(id){var p=APP.properties.find(function(x){return x.id===id;});db.collection('properties').doc(id).update({featured:!p.featured}).then(function(){showToast(p.featured?'Unfeatured':'Property featured','success');viewProp(id);}).catch(function(){});}
 
-function submitBooking(propId,landlordId){
-  var date=$('bDate').value,msg=$('bMsg').value.trim();
-  if(!date){showToast('Select a date','error');return;}
-  db.collection('bookings').add({propertyId:propId,userId:APP.user.uid,userName:APP.profile?APP.profile.name:'User',landlordId:landlordId,moveInDate:date,message:msg,status:'pending',timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){
-    db.collection('notifications').add({toId:landlordId,fromName:APP.profile?APP.profile.name:'User',text:'New booking request for your property',type:'booking',read:false,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
-    closeModal();showToast('Booking request sent!','success');
+// ===== CONTACT DEVELOPER (Landlord) =====
+function contactDeveloper(){
+  showModal('<h3>Contact Developer for Listing</h3><p>Send your property details to the developer for professional listing assistance.</p><div class="form-group" style="margin-top:12px"><label>Property Name</label><input type="text" id="cdName" placeholder="e.g., Sita Ghar"></div><div class="form-group"><label>Location</label><input type="text" id="cdLoc" placeholder="e.g., Baneshwor, Kathmandu"></div><div class="form-group"><label>Property Type</label><select id="cdType"><option value="room">Room</option><option value="flat">Flat</option><option value="office">Office</option><option value="building">Building</option></select></div><div class="form-group"><label>Monthly Rent (NPR)</label><input type="number" id="cdRent" placeholder="10000"></div><div class="form-group"><label>Your Phone</label><input type="tel" id="cdPhone" placeholder="98XXXXXXXX"></div><div class="form-group"><label>Additional Details</label><textarea id="cdMsg" rows="3" placeholder="Describe your property..."></textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitDevRequest()">Send Request</button></div>');
+}
+function submitDevRequest(){
+  var name=$('cdName').value.trim(),loc=$('cdLoc').value.trim(),type=$('cdType').value,rent=$('cdRent').value,phone=$('cdPhone').value.trim(),msg=$('cdMsg').value.trim();
+  if(!name||!loc){showToast('Fill required fields','error');return;}
+  db.collection('devRequests').add({userId:APP.user.uid,userName:APP.profile?APP.profile.name:'',userEmail:APP.profile?APP.profile.email:'',userPhone:phone,propertyName:name,location:loc,type:type,rent:parseInt(rent)||0,message:msg,status:'pending',timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){
+    closeModal();showToast('Request sent to developer!','success');
   }).catch(function(e){showToast('Error: '+e.message,'error');});
 }
 
-function bookVisit(propId){
-  var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===propId){p=APP.properties[i];break;}}if(!p)return;
-  var h='<h3>Schedule a Visit</h3><p>'+(p.name||'Property')+'</p>';
-  h+='<div class="form-group" style="margin-top:12px"><label>Visit Date</label><input type="date" id="vDate"></div>';
-  h+='<div class="form-group"><label>Preferred Time</label><select id="vTime"><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>12:00 PM</option><option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option></select></div>';
-  h+='<div class="form-group"><label>Note</label><textarea id="vNote" rows="2" placeholder="Any special request..."></textarea></div>';
-  h+='<div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitVisit(\''+propId+'\',\''+p.landlordId+'\')">Schedule</button></div>';
-  showModal(h);
+// ===== REVIEWS =====
+function writeReview(pid){
+  showModal('<h3>Write Review</h3><div class="rating-stars" id="rStars">'+[1,2,3,4,5].map(function(i){return '<button class="star" onclick="setReviewRating('+i+')">&#9733;</button>';}).join('')+'</div><input type="hidden" id="rRating" value="0"><div class="form-group" style="margin-top:16px"><textarea id="rText" rows="4" placeholder="Share your experience..."></textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitReview(\''+pid+'\')">Submit</button></div>');
 }
+function setReviewRating(n){$('rRating').value=n;document.querySelectorAll('#rStars .star').forEach(function(s,i){s.classList.toggle('active',i<n);});}
+function submitReview(pid){var rating=parseInt($('rRating').value),text=$('rText').value.trim();if(!rating){showToast('Select a rating','error');return;}if(!text){showToast('Write a review','error');return;}db.collection('reviews').add({propertyId:pid,userId:APP.user.uid,userName:APP.profile?APP.profile.name:'User',rating:rating,text:text,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){closeModal();showToast('Review submitted!','success');viewProp(pid,true);}).catch(function(){});}
 
-function submitVisit(propId,landlordId){
-  var date=$('vDate').value,time=$('vTime').value,note=$('vNote').value.trim();
+// ===== FAVORITES =====
+function toggleFav(pid){var ex=APP.favorites.find(function(f){return f.propertyId===pid;});if(ex)db.collection('favorites').doc(ex.id).delete().then(function(){showToast('Removed','info');}).catch(function(){});
+  else db.collection('favorites').add({userId:APP.user.uid,propertyId:pid,createdAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){showToast('Saved!','success');}).catch(function(){});}
+function renderFavs(){var c=$('mainC'),fp=APP.favorites.map(function(f){return APP.properties.find(function(p){return p.id===f.propertyId;});}).filter(Boolean);var h='<h2 class="section-title" style="font-size:1.4rem">Saved Properties</h2>';if(!fp.length)h+='<div class="empty-state"><div class="empty-icon">&#10084;</div><h3>No saved properties</h3></div>';else fp.forEach(function(p){h+=propCard(p,true);});c.innerHTML=h;}
+
+// ===== COMPARE =====
+function toggleCompare(pid){var idx=APP.compareList.indexOf(pid);if(idx>=0){APP.compareList.splice(idx,1);showToast('Removed','info');}else{if(APP.compareList.length>=3){showToast('Max 3','error');return;}APP.compareList.push(pid);showToast('Added','success');}}
+function renderCompare(){var c=$('mainC'),props=APP.compareList.map(function(id){return APP.properties.find(function(p){return p.id===id;});}).filter(Boolean);var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><button class="btn-icon" onclick="navigate(\'dashboard\')">&#8592;</button><h2 class="section-title" style="margin:0">Compare</h2></div>';if(props.length<2)h+='<div class="empty-state"><h3>Add at least 2 properties</h3></div>';
+  else{var rows=[{l:'Type',k:'type'},{l:'Rent',k:'rent',f:function(v){return formatNPR(v);},s:'/mo'},{l:'District',k:'district'},{l:'Location',k:'location'},{l:'Rating',k:'id',f:function(v){var r=avgRating(v);return r>0?r:'N/A';}},{l:'Verified',k:'verified',f:function(v){return v?'Yes':'No';}}];
+    props.forEach(function(p){h+='<div class="compare-card"><h4>'+(p.name||'Property')+'</h4>';rows.forEach(function(row){var val=p[row.k];if(row.f)val=row.f(val);else val=val||'N/A';h+='<div class="row"><span class="lbl">'+row.l+'</span><span class="val">'+val+(row.s||'')+'</span></div>';});h+='</div>';});h+='<button class="btn btn-outline btn-full" onclick="APP.compareList=[];navigate(\'dashboard\')">Clear</button>';}
+  c.innerHTML=h;}
+
+// ===== BOOKING & PAYMENT =====
+function bookProperty(pid){
+  var p=APP.properties.find(function(x){return x.id===pid;});if(!p)return;
+  showModal('<h3>Book Property</h3><p>'+(p.name||'')+'</p><div class="form-group" style="margin-top:12px"><label>Move-in Date</label><input type="date" id="bDate"></div><div class="form-group"><label>Message</label><textarea id="bMsg" rows="3" placeholder="I am interested..."></textarea></div><div class="form-group"><label>Pay With</label><div class="payment-opts"><div class="payment-opt selected" onclick="selectPay(this,\'khalti\')"><span style="font-size:1.5rem">&#128179;</span><div><div style="font-weight:600">Khalti</div><div style="font-size:.75rem;color:var(--text-muted)">Digital wallet</div></div></div><div class="payment-opt" onclick="selectPay(this,\'cash\')"><span style="font-size:1.5rem">&#128181;</span><div><div style="font-weight:600">Cash on Visit</div><div style="font-size:.75rem;color:var(--text-muted)">Pay during visit</div></div></div></div></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitBooking(\''+pid+'\',\''+p.landlordId+'\')">Send Request</button></div>');
+}
+function selectPay(el,m){document.querySelectorAll('.payment-opt').forEach(function(o){o.classList.remove('selected');});el.classList.add('selected');}
+function submitBooking(pid,landlordId){
+  var date=$('bDate').value,msg=$('bMsg').value.trim(),payEl=document.querySelector('.payment-opt.selected'),payMethod=payEl?payEl.textContent.indexOf('Khalti')>=0?'khalti':'cash':'cash';
   if(!date){showToast('Select a date','error');return;}
-  db.collection('visits').add({propertyId:propId,userId:APP.user.uid,userName:APP.profile?APP.profile.name:'User',landlordId:landlordId,visitDate:date,visitTime:time,note:note,status:'pending',timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){
-    db.collection('notifications').add({toId:landlordId,fromName:APP.profile?APP.profile.name:'User',text:'New visit request for your property',type:'visit',read:false,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
-    closeModal();showToast('Visit scheduled!','success');
-  }).catch(function(e){showToast('Error: '+e.message,'error');});
+  var p=APP.properties.find(function(x){return x.id===pid;});
+  var data={propertyId:pid,userId:APP.user.uid,userName:APP.profile?APP.profile.name:'',userEmail:APP.profile?APP.profile.email:'',landlordId:landlordId,moveInDate:date,message:msg,paymentMethod:payMethod,paymentStatus:'initiated',amount:p?p.rent:0,timestamp:firebase.firestore.FieldValue.serverTimestamp()};
+  db.collection('bookings').add(data).then(function(ref){
+    db.collection('notifications').add({toId:landlordId,fromName:APP.profile?APP.profile.name:'',text:'New booking for '+(p?p.name:'property'),type:'booking',read:false,timestamp:firebase.firestore.FieldValue.serverTimestamp()});
+    if(payMethod==='khalti'){closeModal();initKhaltiPayment(pid,p?p.name:'',p?p.rent,ref.id);}
+    else{closeModal();showToast('Booking request sent!','success');}
+  }).catch(function(e){showToast('Error','error');});
 }
-
-function renderMyBookings(){
-  var c=$('mainC');
-  var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><button class="btn-icon" onclick="navigate(\'dashboard\')">&#8592;</button><h2 class="section-title" style="margin:0">Bookings</h2></div>';
-  h+='<div class="tabs"><button class="tab active" onclick="showBookingTab(this,\'my\')">My Requests</button><button class="tab" onclick="showBookingTab(this,\'received\')">Received</button></div>';
-  h+='<div id="bookingContent">';
-  var myBookings=APP.bookings.filter(function(b){return b.userId===APP.user.uid;});
-  if(myBookings.length===0)h+='<div class="empty-state"><div class="empty-icon">&#128197;</div><h3>No bookings yet</h3></div>';
-  else{for(var i=0;i<myBookings.length;i++){var b=myBookings[i];var pp=APP.properties.find(function(p){return p.id===b.propertyId;});h+='<div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600">'+(pp?pp.name:'Property')+'</span><span class="badge badge-'+(b.status==='pending'?'warning':b.status==='approved'?'success':'danger')+'">'+b.status+'</span></div><p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">Move-in: '+(b.moveInDate||'')+'</p></div>';}}
-  h+='</div>';
+function bookVisit(pid){
+  var p=APP.properties.find(function(x){return x.id===pid;});if(!p)return;
+  showModal('<h3>Schedule Visit</h3><p>'+(p.name||'')+'</p><div class="form-group" style="margin-top:12px"><label>Visit Date</label><input type="date" id="vDate"></div><div class="form-group"><label>Time</label><select id="vTime"><option>9:00 AM</option><option>10:00 AM</option><option>11:00 AM</option><option>12:00 PM</option><option>2:00 PM</option><option>3:00 PM</option><option>4:00 PM</option><option>5:00 PM</option></select></div><div class="form-group"><label>Note</label><textarea id="vNote" rows="2"></textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="submitVisit(\''+pid+'\',\''+p.landlordId+'\')">Schedule</button></div>');
+}
+function submitVisit(pid,landlordId){var date=$('vDate').value,time=$('vTime').value,note=$('vNote').value.trim();if(!date){showToast('Select date','error');return;}db.collection('visits').add({propertyId:pid,userId:APP.user.uid,userName:APP.profile?APP.profile.name:'',landlordId:landlordId,visitDate:date,visitTime:time,note:note,status:'pending',timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){db.collection('notifications').add({toId:landlordId,fromName:APP.profile?APP.profile.name:'',text:'New visit request',type:'visit',read:false,timestamp:firebase.firestore.FieldValue.serverTimestamp()});closeModal();showToast('Visit scheduled!','success');}).catch(function(){});}
+function renderMyBookings(){var c=$('mainC'),my=APP.bookings.filter(function(b){return b.userId===APP.user.uid;});var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><button class="btn-icon" onclick="navigate(\'dashboard\')">&#8592;</button><h2 class="section-title" style="margin:0">My Bookings</h2></div>';if(!my.length)h+='<div class="empty-state"><div class="empty-icon">&#128197;</div><h3>No bookings yet</h3></div>';
+  else my.forEach(function(b){var pp=APP.properties.find(function(p){return p.id===b.propertyId;});h+='<div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600">'+(pp?pp.name:'Property')+'</span><div><span class="badge badge-'+(b.status==='pending'?'warning':b.status==='approved'?'success':'danger')+'">'+b.status+'</span>'+(b.paymentStatus==='paid'?'<span class="badge badge-success" style="margin-left:4px">Paid</span>':'')+'</div></div><p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">Move-in: '+b.moveInDate+'</p></div>';});
+  // Received bookings for landlord
+  if(getRole()==='landlord'||isDev()){
+    h+='<h3 style="margin-top:24px;margin-bottom:12px;font-size:1rem;color:var(--text-secondary)">Received Bookings</h3><div id="receivedBookings"><div class="spinner"></div></div>';
+    c.innerHTML=h;
+    db.collection('bookings').where('landlordId','==',APP.user.uid).get().then(function(snap){var el=$('receivedBookings');if(!el)return;var h2='';snap.forEach(function(d){var b=Object.assign({id:d.id},d.data());h2+='<div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600">'+(b.userName||'User')+'</span><span class="badge badge-'+(b.status==='pending'?'warning':b.status==='approved'?'success':'danger')+'">'+b.status+'</span></div><p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">Move-in: '+b.moveInDate+'</p><div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-sm btn-success" onclick="updateBooking(\''+b.id+'\',\'approved\')">Approve</button><button class="btn btn-sm btn-danger" onclick="updateBooking(\''+b.id+'\',\'rejected\')">Reject</button></div></div>';});el.innerHTML=h2||'<p style="font-size:.85rem;color:var(--text-muted)">No received bookings</p>';});return;}
   c.innerHTML=h;
 }
+function updateBooking(id,status){db.collection('bookings').doc(id).update({status:status}).then(function(){showToast('Booking '+status,'success');renderMyBookings();}).catch(function(){});}
+function renderMyVisits(){var c=$('mainC');var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><button class="btn-icon" onclick="navigate(\'dashboard\')">&#8592;</button><h2 class="section-title" style="margin:0">My Visits</h2></div>';if(!APP.visits.length)h+='<div class="empty-state"><div class="empty-icon">&#128198;</div><h3>No visits</h3></div>';
+  else APP.visits.forEach(function(v){var pp=APP.properties.find(function(p){return p.id===v.propertyId;});h+='<div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600">'+(pp?pp.name:'Property')+'</span><span class="badge badge-'+(v.status==='pending'?'warning':v.status==='confirmed'?'success':'danger')+'">'+v.status+'</span></div><p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">'+v.visitDate+' at '+v.visitTime+'</p></div>';});c.innerHTML=h;}
 
-function showBookingTab(el,type){
-  var tabs=el.parentElement.querySelectorAll('.tab');for(var i=0;i<tabs.length;i++)tabs[i].classList.remove('active');el.classList.add('active');
-  var c=$('bookingContent');var h='';
-  if(type==='my'){var my=APP.bookings.filter(function(b){return b.userId===APP.user.uid;});if(my.length===0)h='<div class="empty-state"><h3>No bookings</h3></div>';else for(var i=0;i<my.length;i++){var b=my[i];var pp=APP.properties.find(function(p){return p.id===b.propertyId;});h+='<div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600">'+(pp?pp.name:'Property')+'</span><span class="badge badge-'+(b.status==='pending'?'warning':b.status==='approved'?'success':'danger')+'">'+b.status+'</span></div><p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">Move-in: '+b.moveInDate+'</p></div>';}}
-  else{var received=[];db.collection('bookings').where('landlordId','==',APP.user.uid).get().then(function(snap){var h2='';snap.forEach(function(d){var b=Object.assign({id:d.id},d.data());h2+='<div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600">'+(b.userName||'User')+'</span><span class="badge badge-'+(b.status==='pending'?'warning':b.status==='approved'?'success':'danger')+'">'+b.status+'</span></div><p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">Move-in: '+b.moveInDate+'</p><div style="display:flex;gap:8px;margin-top:8px"><button class="btn btn-sm btn-success" onclick="updateBooking(\''+b.id+'\',\'approved\')">Approve</button><button class="btn btn-sm btn-danger" onclick="updateBooking(\''+b.id+'\',\'rejected\')">Reject</button></div></div>';});c.innerHTML=h2||'<div class="empty-state"><h3>No received bookings</h3></div>';});return;}
-  c.innerHTML=h;
-}
-
-function updateBooking(id,status){db.collection('bookings').doc(id).update({status:status}).then(function(){showToast('Booking '+status,'success');showBookingTab(document.querySelector('.tab:last-child'),'received');}).catch(function(e){showToast('Error','error');});}
-
-function renderMyVisits(){
-  var c=$('mainC');
-  var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><button class="btn-icon" onclick="navigate(\'dashboard\')">&#8592;</button><h2 class="section-title" style="margin:0">Scheduled Visits</h2></div>';
-  if(APP.visits.length===0)h+='<div class="empty-state"><div class="empty-icon">&#128197;</div><h3>No visits scheduled</h3></div>';
-  else{for(var i=0;i<APP.visits.length;i++){var v=APP.visits[i];var pp=APP.properties.find(function(p){return p.id===v.propertyId;});h+='<div style="padding:14px;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:center"><span style="font-weight:600">'+(pp?pp.name:'Property')+'</span><span class="badge badge-'+(v.status==='pending'?'warning':v.status==='confirmed'?'success':'danger')+'">'+v.status+'</span></div><p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">Date: '+v.visitDate+' at '+v.visitTime+'</p></div>';}}
-  c.innerHTML=h;
-}
-
-// ============ ADD PROPERTY ============
+// ===== ADD PROPERTY (with compression) =====
 var FACILITIES=['Peaceful Environment','24hr Water','Parking','WiFi Available','Security Guard','Lift','Generator','Garden','Balcony','Furnished','Semi-Furnished','Attached Bathroom','Kitchen'];
 var DISTRICTS=['Kathmandu','Bhaktapur','Lalitpur'];
 var TYPES=[{v:'room',l:'Room',i:'&#128716;'},{v:'flat',l:'Flat',i:'&#127968;'},{v:'office',l:'Office',i:'&#127970;'},{v:'building',l:'Building',i:'&#127969;'}];
 var editId=null,formImgs=[];
-
 function renderAddProp(eid){
-  editId=eid||null;var c=$('mainC');var p={};
-  if(eid){for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===eid){p=APP.properties[i];break;}}formImgs=p.images?p.images.slice():[];}else formImgs=[];
+  editId=eid||null;var c=$('mainC'),p={};
+  if(eid){p=APP.properties.find(function(x){return x.id===eid;})||{};formImgs=p.images?p.images.slice():[];}else formImgs=[];
   var h='<h2 class="section-title" style="font-size:1.4rem">'+(editId?'Edit Property':'Add New Property')+'</h2>';
   h+='<div class="form-group"><label>Property Name</label><input type="text" id="fName" placeholder="e.g., Sita Ghar" value="'+(p.name||'')+'"></div>';
-  h+='<div class="form-group"><label>Property Type</label><div class="chip-group" id="fType">';
-  for(var i=0;i<TYPES.length;i++)h+='<span class="chip'+(p.type===TYPES[i].v?' selected':'')+'" data-val="'+TYPES[i].v+'" onclick="pickChip(this,\'fType\')">'+TYPES[i].i+' '+TYPES[i].l+'</span>';
-  h+='</div></div>';
-  h+='<div class="form-row"><div class="form-group"><label>Monthly Rent (NPR)</label><input type="number" id="fRent" placeholder="10000" value="'+(p.rent||'')+'"></div>';
-  h+='<div class="form-group"><label>No. of Units</label><input type="number" id="fCount" min="1" value="'+(p.count||1)+'"></div></div>';
-  h+='<div class="form-group"><label>Price Type</label><div class="chip-group" id="fNeg">';
-  h+='<span class="chip'+(p.negotiable!==false?' selected':'')+'" data-val="true" onclick="pickChip(this,\'fNeg\')">Negotiable</span>';
-  h+='<span class="chip" data-val="false" onclick="pickChip(this,\'fNeg\')">Non-Negotiable</span></div></div>';
-  h+='<div class="form-group"><label>District</label><select id="fDist">';
-  for(var i=0;i<DISTRICTS.length;i++)h+='<option value="'+DISTRICTS[i]+'"'+(p.district===DISTRICTS[i]?' selected':'')+'>'+DISTRICTS[i]+'</option>';
-  h+='</select></div>';
+  h+='<div class="form-group"><label>Property Type</label><div class="chip-group" id="fType">';TYPES.forEach(function(tp){h+='<span class="chip'+(p.type===tp.v?' selected':'')+'" data-val="'+tp.v+'" onclick="pickChip(this,\'fType\')">'+tp.i+' '+tp.l+'</span>';});h+='</div></div>';
+  h+='<div class="form-row"><div class="form-group"><label>Monthly Rent (NPR)</label><input type="number" id="fRent" placeholder="10000" value="'+(p.rent||'')+'"></div><div class="form-group"><label>Units</label><input type="number" id="fCount" min="1" value="'+(p.count||1)+'"></div></div>';
+  h+='<div class="form-group"><label>Price Type</label><div class="chip-group" id="fNeg"><span class="chip'+(p.negotiable!==false?' selected':'')+'" data-val="true" onclick="pickChip(this,\'fNeg\')">Negotiable</span><span class="chip" data-val="false" onclick="pickChip(this,\'fNeg\')">Non-Negotiable</span></div></div>';
+  h+='<div class="form-group"><label>District</label><select id="fDist">';DISTRICTS.forEach(function(d){h+='<option value="'+d+'"'+(p.district===d?' selected':'')+'>'+d+'</option>';});h+='</select></div>';
   h+='<div class="form-group"><label>Location / Area</label><input type="text" id="fLoc" placeholder="e.g., Baneshwor" value="'+(p.location||'')+'"></div>';
-  h+='<div class="form-row"><div class="form-group"><label>Latitude (optional)</label><input type="number" id="fLat" step="any" placeholder="27.7172" value="'+(p.lat||'')+'"></div>';
-  h+='<div class="form-group"><label>Longitude (optional)</label><input type="number" id="fLng" step="any" placeholder="85.3240" value="'+(p.lng||'')+'"></div></div>';
-  h+='<div class="form-group"><label>Facilities</label><div class="chip-group" id="fFacs">';
-  for(var i=0;i<FACILITIES.length;i++){var sel=p.facilities&&p.facilities.indexOf(FACILITIES[i])>=0?' selected':'';h+='<span class="chip'+sel+'" data-val="'+FACILITIES[i]+'" onclick="this.classList.toggle(\'selected\')">'+FACILITIES[i]+'</span>';}
-  h+='</div></div>';
-  h+='<div class="form-group"><label>Property Images (max 5)</label>';
-  h+='<div class="img-upload" onclick="$(\'imgUp\').click()"><div class="ui">&#128247;</div><p style="font-size:.85rem;color:var(--text-muted)">Tap to upload</p></div>';
-  h+='<input type="file" id="imgUp" accept="image/*" multiple style="display:none" onchange="handleImgUp(this)">';
-  h+='<div class="img-preview" id="imgGrid"></div></div>';
+  h+='<div class="form-row"><div class="form-group"><label>Latitude</label><input type="number" id="fLat" step="any" placeholder="27.7172" value="'+(p.lat||'')+'"></div><div class="form-group"><label>Longitude</label><input type="number" id="fLng" step="any" placeholder="85.3240" value="'+(p.lng||'')+'"></div></div>';
+  h+='<div class="form-group"><label>Facilities</label><div class="chip-group" id="fFacs">';FACILITIES.forEach(function(f){var sel=p.facilities&&p.facilities.indexOf(f)>=0?' selected':'';h+='<span class="chip'+sel+'" data-val="'+f+'" onclick="this.classList.toggle(\'selected\')">'+f+'</span>';});h+='</div></div>';
+  h+='<div class="form-group"><label>&#9654; Video Tour (YouTube URL)</label><input type="text" id="fVideo" placeholder="https://youtube.com/watch?v=..." value="'+(p.videoUrl||'')+'"></div>';
+  h+='<div class="form-group"><label>Property Images (max 5, auto-compressed for large files)</label><div class="img-upload" onclick="$(\'imgUp\').click()"><div class="ui">&#128247;</div><p style="font-size:.85rem;color:var(--text-muted)">Tap to upload (any size)</p><p style="font-size:.7rem;color:var(--text-muted);margin-top:4px">Large images auto-compressed</p></div><input type="file" id="imgUp" accept="image/*" multiple style="display:none" onchange="handleImgUp(this)"><div class="img-preview" id="imgGrid"></div></div>';
   h+='<div class="form-group"><label>Contact Number</label><input type="tel" id="fContact" placeholder="98XXXXXXXX" value="'+(p.contact||'')+'"></div>';
-  h+='<div class="form-group"><label>Description</label><textarea id="fDesc" rows="5" placeholder="Write a description...">'+(p.description||'')+'</textarea></div>';
-  h+='<div class="form-group"><label>Status</label><div class="chip-group" id="fStatus">';
-  h+='<span class="chip selected" data-val="available" onclick="pickChip(this,\'fStatus\')">Available</span>';
-  h+='<span class="chip" data-val="rented" onclick="pickChip(this,\'fStatus\')">Rented</span></div></div>';
-  h+='<button class="btn btn-primary btn-full" onclick="saveProp()">'+(editId?'Update':'Add Property')+'</button>';
+  h+='<div class="form-group"><label>Description</label><textarea id="fDesc" rows="5" placeholder="Describe your property...">'+(p.description||'')+'</textarea></div>';
+  h+='<div class="form-group"><label>Status</label><div class="chip-group" id="fStatus"><span class="chip selected" data-val="available" onclick="pickChip(this,\'fStatus\')">Available</span><span class="chip" data-val="rented" onclick="pickChip(this,\'fStatus\')">Rented</span></div></div>';
+  h+='<button class="btn btn-primary btn-full" onclick="saveProp()">'+(editId?'Update Property':'Add Property')+'</button>';
   if(editId)h+='<button class="btn btn-secondary btn-full" style="margin-top:8px" onclick="navigate(\'my-properties\')">Cancel</button>';
-  c.innerHTML=h;
-  updateImgGrid();
+  c.innerHTML=h;updateImgGrid();
 }
-
-function pickChip(el,gid){var ch=document.querySelectorAll('#'+gid+' .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');}
-function handleImgUp(input){var files=input.files;if(!files.length)return;for(var j=0;j<files.length;j++){if(formImgs.length>=5)break;var idx=formImgs.length;formImgs.push('loading');(function(file,index){var reader=new FileReader();reader.onload=function(e){formImgs[index]=e.target.result;updateImgGrid();};reader.readAsDataURL(file);})(files[j],idx);}updateImgGrid();}
-function updateImgGrid(){var g=$('imgGrid');if(!g)return;var h='';for(var i=0;i<formImgs.length;i++){if(formImgs[i]&&formImgs[i]!=='loading')h+='<div class="img-pv"><img src="'+formImgs[i]+'"><span class="rm" onclick="rmImg('+i+')">&#10005;</span></div>';}g.innerHTML=h;}
+function pickChip(el,gid){document.querySelectorAll('#'+gid+' .chip').forEach(function(c){c.classList.remove('selected');});el.classList.add('selected');}
+function handleImgUp(input){var files=input.files;if(!files.length)return;var remaining=5-formImgs.length;if(remaining<=0){showToast('Max 5 images','error');return;}var toProcess=Math.min(files.length,remaining);showToast('Compressing '+toProcess+' image(s)...','info');var processed=0;for(var j=0;j<toProcess;j++){var idx=formImgs.length;formImgs.push('loading');(function(file,index){compressImage(file,function(dataUrl){formImgs[index]=dataUrl;processed++;updateImgGrid();if(processed===toProcess)showToast('Images ready!','success');});})(files[j],idx);}}
+function updateImgGrid(){var g=$('imgGrid');if(!g)return;var h='';formImgs.forEach(function(img,i){if(img&&img!=='loading')h+='<div class="img-pv"><img src="'+img+'"><span class="rm" onclick="rmImg('+i+')">&#10005;</span></div>';});g.innerHTML=h;}
 function rmImg(i){formImgs.splice(i,1);updateImgGrid();}
 function getVal(gid){var s=document.querySelector('#'+gid+' .chip.selected');return s?s.dataset.val:'';}
-function getVals(gid){var sel=document.querySelectorAll('#'+gid+' .chip.selected'),a=[];for(var i=0;i<sel.length;i++)a.push(sel[i].dataset.val);return a;}
-
+function getVals(gid){var a=[];document.querySelectorAll('#'+gid+' .chip.selected').forEach(function(c){a.push(c.dataset.val);});return a;}
 function saveProp(){
-  var name=$('fName').value.trim(),type=getVal('fType'),count=parseInt($('fCount').value)||1,rent=parseInt($('fRent').value),negotiable=getVal('fNeg')==='true',district=$('fDist').value,location=$('fLoc').value.trim(),facilities=getVals('fFacs'),contact=$('fContact').value.trim(),description=$('fDesc').value.trim(),status=getVal('fStatus')||'available',images=formImgs.filter(function(i){return i&&i!=='loading';});
+  var name=$('fName').value.trim(),type=getVal('fType'),count=parseInt($('fCount').value)||1,rent=parseInt($('fRent').value),negotiable=getVal('fNeg')==='true',district=$('fDist').value,location=$('fLoc').value.trim(),facilities=getVals('fFacs'),videoUrl=$('fVideo').value.trim(),contact=$('fContact').value.trim(),description=$('fDesc').value.trim(),status=getVal('fStatus')||'available',images=formImgs.filter(function(i){return i&&i!=='loading';});
   var lat=parseFloat($('fLat').value)||null,lng=parseFloat($('fLng').value)||null;
   if(!name){showToast('Enter name','error');return;}if(!type){showToast('Select type','error');return;}if(!rent){showToast('Enter rent','error');return;}if(!location){showToast('Enter location','error');return;}if(!contact){showToast('Enter contact','error');return;}
-  var data={name:name,type:type,count:count,rent:rent,negotiable:negotiable,district:district,location:location,facilities:facilities,contact:contact,description:description,status:status,images:images,lat:lat,lng:lng,landlordId:APP.user.uid,landlordName:APP.profile?APP.profile.name:'Landlord',updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
+  var data={name:name,type:type,count:count,rent:rent,negotiable:negotiable,district:district,location:location,facilities:facilities,videoUrl:videoUrl,contact:contact,description:description,status:status,images:images,lat:lat,lng:lng,landlordId:APP.user.uid,landlordName:APP.profile?APP.profile.name:'',updatedAt:firebase.firestore.FieldValue.serverTimestamp()};
   showLoading(editId?'Updating...':'Saving...');
-  if(editId){db.collection('properties').doc(editId).update(data).then(function(){showToast('Updated!','success');editId=null;formImgs=[];navigate('my-properties');}).catch(function(e){showToast('Error: '+e.message,'error');});}
-  else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();db.collection('properties').add(data).then(function(){showToast('Listed!','success');formImgs=[];navigate('my-properties');}).catch(function(e){showToast('Error: '+e.message,'error');});}
+  if(editId)db.collection('properties').doc(editId).update(data).then(function(){showToast('Updated!','success');editId=null;formImgs=[];navigate('my-properties');}).catch(function(){showToast('Error','error');});
+  else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();data.views=0;data.verified=false;data.featured=false;db.collection('properties').add(data).then(function(){showToast('Listed!','success');formImgs=[];navigate('my-properties');}).catch(function(){showToast('Error','error');});}
 }
-
-function renderMyProps(){var c=$('mainC');var props=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});var h='<h2 class="section-title" style="font-size:1.4rem">My Properties</h2>';h+='<div class="search-bar"><span class="si">&#128269;</span><input type="text" placeholder="Search..." oninput="searchMyP(this.value)"></div>';h+='<div id="myPList">';if(props.length===0)h+='<div class="empty-state"><div class="empty-icon">&#128203;</div><h3>No properties listed</h3></div>';else for(var i=0;i<props.length;i++)h+=propCard(props[i]);h+='</div>';c.innerHTML=h;}
-function searchMyP(q){var props=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});if(q){q=q.toLowerCase();props=props.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0;});}var el=$('myPList');if(el){if(props.length===0)el.innerHTML='<div class="empty-state"><h3>No results</h3></div>';else{var h='';for(var i=0;i<props.length;i++)h+=propCard(props[i]);el.innerHTML=h;}}}
+function renderMyProps(){var c=$('mainC'),props=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});var h='<h2 class="section-title" style="font-size:1.4rem">My Properties</h2>';h+='<div class="search-bar"><span class="si">&#128269;</span><input type="text" placeholder="Search..." oninput="searchMyP(this.value)"></div>';h+='<div id="myPList">';if(!props.length)h+='<div class="empty-state"><div class="empty-icon">&#128203;</div><h3>No properties</h3></div>';else props.forEach(function(p){h+=propCard(p);});h+='</div>';c.innerHTML=h;}
+function searchMyP(q){var props=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});if(q){q=q.toLowerCase();props=props.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0;});}var el=$('myPList');if(el){if(!props.length)el.innerHTML='<div class="empty-state"><h3>No results</h3></div>';else{var h='';props.forEach(function(p){h+=propCard(p);});el.innerHTML=h;}}}
 function editProp(id){renderAddProp(id);}
 function delProp(id){showModal('<h3>Delete?</h3><p>Cannot be undone.</p><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="confirmDel(\''+id+'\')">Delete</button></div>');}
-function confirmDel(id){db.collection('properties').doc(id).delete().then(function(){closeModal();showToast('Deleted','success');navigate('my-properties');}).catch(function(e){showToast('Error','error');});}
-function toggleStatus(id){var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===id){p=APP.properties[i];break;}}if(!p)return;var ns=p.status==='available'?'rented':'available';db.collection('properties').doc(id).update({status:ns}).then(function(){showToast('Marked '+ns,'success');viewProp(id);}).catch(function(e){showToast('Error','error');});}
+function confirmDel(id){db.collection('properties').doc(id).delete().then(function(){closeModal();showToast('Deleted','success');navigate('my-properties');}).catch(function(){});}
+function toggleStatus(id){var p=APP.properties.find(function(x){return x.id===id;});if(!p)return;var ns=p.status==='available'?'rented':'available';db.collection('properties').doc(id).update({status:ns}).then(function(){showToast('Marked '+ns,'success');viewProp(id);}).catch(function(){});}
 
-function contactLandlord(pid){var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===pid){p=APP.properties[i];break;}}if(!p)return;showModal('<h3>Send Message</h3><p>To: '+(p.name||'Landlord')+'</p><div class="form-group" style="margin-top:12px"><textarea id="cMsg" rows="4" placeholder="Hi, I am interested..."></textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="sendMsg(\''+pid+'\')">Send</button></div>');}
-function sendMsg(pid){var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===pid){p=APP.properties[i];break;}}var text=$('cMsg').value.trim();if(!text){showToast('Write a message','error');return;}db.collection('messages').add({fromId:APP.user.uid,fromName:APP.profile?APP.profile.name:'User',toId:p.landlordId,toName:p.landlordName||'Landlord',propertyId:pid,propertyName:p.name||'',text:text,timestamp:firebase.firestore.FieldValue.serverTimestamp(),read:false}).then(function(){closeModal();showToast('Sent!','success');}).catch(function(e){showToast('Error','error');});}
+// ===== MESSAGING WITH IMAGE =====
+function contactLandlord(pid){var p=APP.properties.find(function(x){return x.id===pid;});if(!p)return;showModal('<h3>Send Message</h3><p>To: '+(p.name||'')+'</p><div class="form-group" style="margin-top:12px"><textarea id="cMsg" rows="4" placeholder="Hi, I am interested..."></textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="sendMsg(\''+pid+'\')">Send</button></div>');}
+function sendMsg(pid){var p=APP.properties.find(function(x){return x.id===pid;});var text=$('cMsg').value.trim();if(!text){showToast('Write a message','error');return;}db.collection('messages').add({fromId:APP.user.uid,fromName:APP.profile?APP.profile.name:'',toId:p.landlordId,toName:p.landlordName||'',propertyId:pid,propertyName:p.name||'',text:text,imageUrl:'',timestamp:firebase.firestore.FieldValue.serverTimestamp(),read:false}).then(function(){closeModal();showToast('Sent!','success');}).catch(function(){});}
+function renderMessages(){var c=$('mainC'),uid=APP.user.uid;Promise.all([db.collection('messages').where('fromId','==',uid).get(),db.collection('messages').where('toId','==',uid).get()]).then(function(res){var all=[];res.forEach(function(r){r.docs.forEach(function(d){all.push(Object.assign({id:d.id},d.data()));});});all.sort(function(a,b){return((b.timestamp&&b.timestamp.seconds)||0)-((a.timestamp&&a.timestamp.seconds)||0);});var convos={};all.forEach(function(m){var oid=m.fromId===uid?m.toId:m.fromId,oname=m.fromId===uid?m.toName:m.fromName,key=oid+'_'+m.propertyId;if(!convos[key]||((m.timestamp&&m.timestamp.seconds)||0)>((convos[key].lastMsg&&convos[key].lastMsg.timestamp&&convos[key].lastMsg.timestamp.seconds)||0))convos[key]={otherId:oid,otherName:oname,propertyId:m.propertyId,propertyName:m.propertyName,lastMsg:m,unread:(m.toId===uid&&!m.read)?1:0};else if(m.toId===uid&&!m.read)convos[key].unread++;});var list=[];for(var k in convos)list.push(convos[k]);list.sort(function(a,b){return((b.lastMsg.timestamp&&b.lastMsg.timestamp.seconds)||0)-((a.lastMsg.timestamp&&a.lastMsg.timestamp.seconds)||0);});var h='<h2 class="section-title" style="font-size:1.4rem">Messages</h2>';if(!list.length)h+='<div class="empty-state"><div class="empty-icon">&#128172;</div><h3>No messages</h3></div>';
+  else{h+='<div class="msg-list">';list.forEach(function(co){h+='<div class="msg-item'+(co.unread?' unread':'')+'" onclick="openChat(\''+co.otherId+'\',\''+co.propertyId+'\')"><div class="msg-av">'+(co.otherName?co.otherName.charAt(0):'U')+'</div><div class="msg-c"><div class="mn">'+(co.otherName||'User')+'</div><div class="mp">'+(co.propertyName?co.propertyName+': ':'')+(co.lastMsg.imageUrl?'[Image] ':(co.lastMsg.text||''))+'</div></div><div class="msg-t">'+(co.lastMsg.timestamp&&co.lastMsg.timestamp.seconds?timeAgo(co.lastMsg.timestamp.seconds*1000):'')+'</div></div>';});h+='</div>';}c.innerHTML=h;}).catch(function(e){c.innerHTML='<div class="empty-state"><h3>Error</h3><p>'+e.message+'</p></div>';});}
+function openChat(oid,pid){var c=$('mainC'),uid=APP.user.uid;db.collection('messages').where('fromId','==',oid).where('toId','==',uid).where('propertyId','==',pid).where('read','==',false).get().then(function(s){var b=db.batch();s.docs.forEach(function(d){b.update(d.ref,{read:true});});return b.commit();}).then(function(){return Promise.all([db.collection('messages').where('fromId','==',uid).where('toId','==',oid).where('propertyId','==',pid).get(),db.collection('messages').where('fromId','==',oid).where('toId','==',uid).where('propertyId','==',pid).get()]);}).then(function(res){var msgs=[];res.forEach(function(r){r.docs.forEach(function(d){msgs.push(d.data());});});msgs.sort(function(a,b){return((a.timestamp&&a.timestamp.seconds)||0)-((b.timestamp&&b.timestamp.seconds)||0);});var oname=msgs.length?(msgs[0].fromId===uid?msgs[0].toName:msgs[0].fromName):'User';var pname=msgs.length?msgs[0].propertyName:'';var h='<div class="chat-view" style="margin:-20px;height:calc(100vh - 56px)"><div class="chat-hdr"><button class="bb" onclick="navigate(\'messages\')">&#8592;</button><div><div style="font-weight:600;font-size:.95rem">'+(oname||'User')+'</div>'+(pname?'<div style="font-size:.72rem;color:var(--text-muted)">Re: '+pname+'</div>':'')+'</div></div><div class="chat-msgs" id="chatMsgs">';msgs.forEach(function(m){h+='<div class="bubble '+(m.fromId===uid?'sent':'recv')+'">'+(m.text||'')+(m.imageUrl?'<br><img src="'+m.imageUrl+'" onclick="window.open(this.src)">':'')+'<div class="bt">'+(m.timestamp&&m.timestamp.seconds?timeAgo(m.timestamp.seconds*1000):'')+'</div></div>';});h+='</div><div class="chat-in"><input type="text" id="chatIn" placeholder="Type message..." onkeydown="if(event.key===\'Enter\')sendChat(\''+oid+'\',\''+pid+'\')"><button class="btn-icon" onclick="chatImgUp(\''+oid+'\',\''+pid+'\')">&#128247;</button><button class="btn btn-primary btn-sm" onclick="sendChat(\''+oid+'\',\''+pid+'\')">Send</button></div></div>';c.innerHTML=h;setTimeout(function(){var m=$('chatMsgs');if(m)m.scrollTop=m.scrollHeight;},100);});}
+function sendChat(oid,pid){var inp=$('chatIn'),text=inp.value.trim();if(!text)return;var prop=APP.properties.find(function(p){return p.id===pid;});db.collection('users').doc(oid).get().then(function(d){var on=d.exists?d.data().name:'User';return db.collection('messages').add({fromId:APP.user.uid,fromName:APP.profile?APP.profile.name:'',toId:oid,toName:on,propertyId:pid,propertyName:prop?prop.name:'',text:text,imageUrl:'',timestamp:firebase.firestore.FieldValue.serverTimestamp(),read:false});}).then(function(){inp.value='';openChat(oid,pid);}).catch(function(){});}
+function chatImgUp(oid,pid){var input=document.createElement('input');input.type='file';input.accept='image/*';input.onchange=function(){var file=input.files[0];if(!file)return;showToast('Compressing...','info');compressImage(file,function(imgData){var prop=APP.properties.find(function(p){return p.id===pid;});db.collection('users').doc(oid).get().then(function(d){var on=d.exists?d.data().name:'User';return db.collection('messages').add({fromId:APP.user.uid,fromName:APP.profile?APP.profile.name:'',toId:oid,toName:on,propertyId:pid,propertyName:prop?prop.name:'',text:'',imageUrl:imgData,timestamp:firebase.firestore.FieldValue.serverTimestamp(),read:false});}).then(function(){openChat(oid,pid);}).catch(function(){});});};input.click();}
 
-// ============ MESSAGES ============
-function renderMessages(){var c=$('mainC'),uid=APP.user.uid;Promise.all([db.collection('messages').where('fromId','==',uid).get(),db.collection('messages').where('toId','==',uid).get()]).then(function(res){var all=[];for(var r=0;r<res.length;r++)for(var d=0;d<res[r].docs.length;d++)all.push(Object.assign({id:res[r].docs[d].id},res[r].docs[d].data()));all.sort(function(a,b){return((b.timestamp&&b.timestamp.seconds)||0)-((a.timestamp&&a.timestamp.seconds)||0);});var convos={};for(var i=0;i<all.length;i++){var m=all[i],oid=m.fromId===uid?m.toId:m.fromId,oname=m.fromId===uid?m.toName:m.fromName,key=oid+'_'+m.propertyId;if(!convos[key]||((m.timestamp&&m.timestamp.seconds)||0)>((convos[key].lastMsg&&convos[key].lastMsg.timestamp&&convos[key].lastMsg.timestamp.seconds)||0))convos[key]={otherId:oid,otherName:oname,propertyId:m.propertyId,propertyName:m.propertyName,lastMsg:m,unread:(m.toId===uid&&!m.read)?1:0};else if(m.toId===uid&&!m.read)convos[key].unread++;}var list=[];for(var k in convos)list.push(convos[k]);list.sort(function(a,b){return((b.lastMsg.timestamp&&b.lastMsg.timestamp.seconds)||0)-((a.lastMsg.timestamp&&a.lastMsg.timestamp.seconds)||0);});var h='<h2 class="section-title" style="font-size:1.4rem">Messages</h2>';if(list.length===0)h+='<div class="empty-state"><div class="empty-icon">&#128172;</div><h3>No messages yet</h3></div>';else{h+='<div class="msg-list">';for(var i=0;i<list.length;i++){var co=list[i];h+='<div class="msg-item'+(co.unread?' unread':'')+'" onclick="openChat(\''+co.otherId+'\',\''+co.propertyId+'\')">';h+='<div class="msg-av">'+(co.otherName?co.otherName.charAt(0):'U')+'</div>';h+='<div class="msg-c"><div class="mn">'+(co.otherName||'User')+'</div><div class="mp">'+(co.propertyName?co.propertyName+': ':'')+(co.lastMsg.text||'')+'</div></div>';h+='<div class="msg-t">'+(co.lastMsg.timestamp&&co.lastMsg.timestamp.seconds?timeAgo(co.lastMsg.timestamp.seconds*1000):'')+'</div></div>';}h+='</div>';}c.innerHTML=h;}).catch(function(e){c.innerHTML='<div class="empty-state"><h3>Error</h3><p>'+e.message+'</p></div>';});}
-
-function openChat(oid,pid){var c=$('mainC'),uid=APP.user.uid;db.collection('messages').where('fromId','==',oid).where('toId','==',uid).where('propertyId','==',pid).where('read','==',false).get().then(function(s){var b=db.batch();for(var i=0;i<s.docs.length;i++)b.update(s.docs[i].ref,{read:true});return b.commit();}).then(function(){return Promise.all([db.collection('messages').where('fromId','==',uid).where('toId','==',oid).where('propertyId','==',pid).get(),db.collection('messages').where('fromId','==',oid).where('toId','==',uid).where('propertyId','==',pid).get()]);}).then(function(res){var msgs=[];for(var r=0;r<res.length;r++)for(var d=0;d<res[r].docs.length;d++)msgs.push(res[r].docs[d].data());msgs.sort(function(a,b){return((a.timestamp&&a.timestamp.seconds)||0)-((b.timestamp&&b.timestamp.seconds)||0);});var oname=msgs.length>0?(msgs[0].fromId===uid?msgs[0].toName:msgs[0].fromName):'User';var pname=msgs.length>0?msgs[0].propertyName:'';var h='<div class="chat-view" style="margin:-20px;height:calc(100vh - 56px)"><div class="chat-hdr"><button class="bb" onclick="navigate(\'messages\')">&#8592;</button><div><div style="font-weight:600;font-size:.95rem">'+(oname||'User')+'</div>';if(pname)h+='<div style="font-size:.72rem;color:var(--text-muted)">Re: '+pname+'</div>';h+='</div></div><div class="chat-msgs" id="chatMsgs">';for(var i=0;i<msgs.length;i++)h+='<div class="bubble '+(msgs[i].fromId===uid?'sent':'recv')+'">'+(msgs[i].text||'')+'<div class="bt">'+(msgs[i].timestamp&&msgs[i].timestamp.seconds?timeAgo(msgs[i].timestamp.seconds*1000):'')+'</div></div>';h+='</div><div class="chat-in"><input type="text" id="chatIn" placeholder="Type a message..." onkeydown="if(event.key===\'Enter\')sendChat(\''+oid+'\',\''+pid+'\')"><button class="btn btn-primary btn-sm" onclick="sendChat(\''+oid+'\',\''+pid+'\')">Send</button></div></div>';c.innerHTML=h;setTimeout(function(){var m=$('chatMsgs');if(m)m.scrollTop=m.scrollHeight;},100);});}
-function sendChat(oid,pid){var inp=$('chatIn'),text=inp.value.trim();if(!text)return;var prop=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===pid){prop=APP.properties[i];break;}}db.collection('users').doc(oid).get().then(function(d){var on=d.exists?d.data().name:'User';return db.collection('messages').add({fromId:APP.user.uid,fromName:APP.profile?APP.profile.name:'User',toId:oid,toName:on,propertyId:pid,propertyName:prop?prop.name:'',text:text,timestamp:firebase.firestore.FieldValue.serverTimestamp(),read:false});}).then(function(){inp.value='';openChat(oid,pid);}).catch(function(e){showToast('Error','error');});}
-
-// ============ SEARCH ============
-function renderSearch(){var c=$('mainC'),av=APP.properties.filter(function(p){return p.status==='available';});var h='<h2 class="section-title" style="font-size:1.4rem">Search Properties</h2>';h+='<div class="search-bar"><span class="si">&#128269;</span><input type="text" id="sInput" placeholder="Search..." oninput="doSearch()"></div>';h+='<div class="filter-chips" id="sfType"><span class="chip selected" onclick="sfType(this,\'all\')">All</span><span class="chip" onclick="sfType(this,\'room\')">Rooms</span><span class="chip" onclick="sfType(this,\'flat\')">Flats</span><span class="chip" onclick="sfType(this,\'office\')">Offices</span><span class="chip" onclick="sfType(this,\'building\')">Buildings</span></div>';h+='<div class="filter-chips" style="margin-top:-4px" id="sfDist"><span class="chip selected" onclick="sfDist(this,\'all\')">All</span><span class="chip" onclick="sfDist(this,\'Kathmandu\')">Kathmandu</span><span class="chip" onclick="sfDist(this,\'Lalitpur\')">Lalitpur</span><span class="chip" onclick="sfDist(this,\'Bhaktapur\')">Bhaktapur</span></div>';h+='<div class="filter-chips" style="margin-top:-4px"><span class="chip" onclick="sortProps(\'price-low\')">&#8595; Price Low</span><span class="chip" onclick="sortProps(\'price-high\')">&#8593; Price High</span><span class="chip" onclick="sortProps(\'rating\')">&#11088; Top Rated</span><span class="chip" onclick="sortProps(\'newest\')">&#128308; Newest</span></div>';
+// ===== SEARCH =====
+function renderSearch(){var c=$('mainC'),av=APP.properties.filter(function(p){return p.status==='available';});var h='<h2 class="section-title" style="font-size:1.4rem">Search</h2>';h+='<div class="search-bar"><span class="si">&#128269;</span><input type="text" id="sInput" placeholder="Search..." oninput="doSearch()"></div>';h+='<div class="filter-chips" id="sfType"><span class="chip selected" onclick="sfType(this,\'all\')">All</span><span class="chip" onclick="sfType(this,\'room\')">Rooms</span><span class="chip" onclick="sfType(this,\'flat\')">Flats</span><span class="chip" onclick="sfType(this,\'office\')">Offices</span><span class="chip" onclick="sfType(this,\'building\')">Buildings</span></div>';h+='<div class="filter-chips" style="margin-top:-4px" id="sfDist"><span class="chip selected" onclick="sfDist(this,\'all\')">All</span><span class="chip" onclick="sfDist(this,\'Kathmandu\')">Kathmandu</span><span class="chip" onclick="sfDist(this,\'Lalitpur\')">Lalitpur</span><span class="chip" onclick="sfDist(this,\'Bhaktapur\')">Bhaktapur</span></div>';h+='<div class="filter-chips" style="margin-top:-4px"><span class="chip" onclick="sortProps(\'price-low\')">&#8595; Price Low</span><span class="chip" onclick="sortProps(\'price-high\')">&#8593; Price High</span><span class="chip" onclick="sortProps(\'rating\')">&#11088; Top Rated</span><span class="chip" onclick="sortProps(\'newest\')">&#128308; Newest</span></div>';
   h+='<div style="margin-top:8px"><div class="map-container" id="searchMap"></div></div>';
-  h+='<div id="sResults">';for(var i=0;i<av.length;i++)h+=propCard(av[i],true);h+='</div>';c.innerHTML=h;
-  setTimeout(function(){initSearchMap(av);},300);
-}
-var sf={type:'all',district:'all'};
-function sfType(el,t){var ch=document.querySelectorAll('#sfType .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');sf.type=t;doSearch();}
-function sfDist(el,d){var ch=document.querySelectorAll('#sfDist .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');sf.district=d;doSearch();}
-function doSearch(){var se=$('sInput'),q=se?se.value.toLowerCase():'';var ps=APP.properties.filter(function(p){return p.status==='available';});if(sf.type!=='all')ps=ps.filter(function(p){return p.type===sf.type;});if(sf.district!=='all')ps=ps.filter(function(p){return p.district===sf.district;});if(q)ps=ps.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0;});var el=$('sResults');if(el){if(ps.length===0)el.innerHTML='<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No results</h3></div>';else{var h='';for(var i=0;i<ps.length;i++)h+=propCard(ps[i],true);el.innerHTML=h;}}}
+  h+='<div id="sResults">';av.forEach(function(p){h+=propCard(p,true);});h+='</div>';c.innerHTML=h;setTimeout(function(){var el=$('searchMap');if(!el)return;var map=L.map(el).setView(KTM_CENTER,12);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'OSM'}).addTo(map);av.forEach(function(p){if(p.lat&&p.lng)L.marker([p.lat,p.lng]).addTo(map).bindPopup('<b>'+(p.name||'')+'</b><br>'+formatNPR(p.rent||0));});setTimeout(function(){map.invalidateSize();},100);},300);}
+var sf={type:'all',district:'all'};function sfType(el,t){document.querySelectorAll('#sfType .chip').forEach(function(c){c.classList.remove('selected');});el.classList.add('selected');sf.type=t;doSearch();}function sfDist(el,d){document.querySelectorAll('#sfDist .chip').forEach(function(c){c.classList.remove('selected');});el.classList.add('selected');sf.district=d;doSearch();}
+function doSearch(){var se=$('sInput'),q=se?se.value.toLowerCase():'';var ps=APP.properties.filter(function(p){return p.status==='available';});if(sf.type!=='all')ps=ps.filter(function(p){return p.type===sf.type;});if(sf.district!=='all')ps=ps.filter(function(p){return p.district===sf.district;});if(q)ps=ps.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0;});var el=$('sResults');if(el){if(!ps.length)el.innerHTML='<div class="empty-state"><h3>No results</h3></div>';else{var h='';ps.forEach(function(p){h+=propCard(p,true);});el.innerHTML=h;}}}
+function sortProps(by){var ps=APP.properties.filter(function(p){return p.status==='available';});if(sf.type!=='all')ps=ps.filter(function(p){return p.type===sf.type;});if(sf.district!=='all')ps=ps.filter(function(p){return p.district===sf.district;});if(by==='price-low')ps.sort(function(a,b){return(a.rent||0)-(b.rent||0);});else if(by==='price-high')ps.sort(function(a,b){return(b.rent||0)-(a.rent||0);});else if(by==='rating')ps.sort(function(a,b){return parseFloat(avgRating(b.id))-parseFloat(avgRating(a.id));});else if(by==='newest')ps.sort(function(a,b){return((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0);});var el=$('sResults');if(el){var h='';ps.forEach(function(p){h+=propCard(p,true);});el.innerHTML=h||'<div class="empty-state"><h3>No results</h3></div>';}}
 
-function sortProps(by){
-  var ps=APP.properties.filter(function(p){return p.status==='available';});
-  if(sf.type!=='all')ps=ps.filter(function(p){return p.type===sf.type;});
-  if(sf.district!=='all')ps=ps.filter(function(p){return p.district===sf.district;});
-  if(by==='price-low')ps.sort(function(a,b){return(a.rent||0)-(b.rent||0);});
-  else if(by==='price-high')ps.sort(function(a,b){return(b.rent||0)-(a.rent||0);});
-  else if(by==='rating')ps.sort(function(a,b){return parseFloat(avgRating(b.id))-parseFloat(avgRating(a.id));});
-  else if(by==='newest')ps.sort(function(a,b){return((b.createdAt&&b.createdAt.seconds)||0)-((a.createdAt&&a.createdAt.seconds)||0);});
-  var el=$('sResults');if(el){var h='';for(var i=0;i<ps.length;i++)h+=propCard(ps[i],true);el.innerHTML=h||'<div class="empty-state"><h3>No results</h3></div>';}
-}
+// ===== NOTIFICATIONS =====
+function showNotifs(){var n=APP.notifications;var h='<h3>Notifications</h3>';if(!n.length)h+='<p style="text-align:center;color:var(--text-muted)">No notifications</p>';else{h+='<div style="max-height:300px;overflow-y:auto;margin-top:12px">';n.forEach(function(x){h+='<div style="padding:10px;border-bottom:1px solid var(--border);font-size:.85rem;'+(x.read?'':'background:var(--accent-glow)')+'"><div>'+(x.text||'')+'</div><div style="font-size:.7rem;color:var(--text-muted);margin-top:4px">'+(x.timestamp&&x.timestamp.seconds?timeAgo(x.timestamp.seconds*1000):'')+'</div></div>';});h+='</div>';}h+='<div class="modal-acts" style="margin-top:16px"><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button></div>';showModal(h);n.filter(function(x){return !x.read;}).forEach(function(x){db.collection('notifications').doc(x.id).update({read:true}).catch(function(){});});var dot=$('nDot');if(dot)dot.classList.add('hidden');}
 
-function initSearchMap(props){
-  var el=$('searchMap');if(!el)return;
-  var map=L.map(el).setView(KTM_CENTER,12);
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap'}).addTo(map);
-  for(var i=0;i<props.length;i++){if(props[i].lat&&props[i].lng){L.marker([props[i].lat,props[i].lng]).addTo(map).bindPopup('<b>'+(props[i].name||'')+'</b><br>'+formatNPR(props[i].rent||0));}}
-  setTimeout(function(){map.invalidateSize();},100);
-}
+// ===== ANALYTICS =====
+function renderAnalytics(){var c=$('mainC');db.collection('users').get().then(function(s){var totalUsers=s.size,totalProps=APP.properties.length,available=APP.properties.filter(function(p){return p.status==='available';}).length,verified=APP.properties.filter(function(p){return p.verified;}).length,featured=APP.properties.filter(function(p){return p.featured;}).length;var propsByType={room:0,flat:0,office:0,building:0};APP.properties.forEach(function(p){if(propsByType[p.type]!==undefined)propsByType[p.type]++;});var propsByDist={Kathmandu:0,Bhaktapur:0,Lalitpur:0};APP.properties.forEach(function(p){if(propsByDist[p.district]!==undefined)propsByDist[p.district]++;});var totalViews=0;APP.properties.forEach(function(p){totalViews+=(p.views||0);});
+  var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><button class="btn-icon" onclick="navigate(\'dashboard\')">&#8592;</button><h2 class="section-title" style="margin:0">Analytics</h2></div>';
+  h+='<div class="stats-row"><div class="stat-card"><div class="stat-n">'+totalUsers+'</div><div class="stat-l">Users</div></div><div class="stat-card"><div class="stat-n">'+totalProps+'</div><div class="stat-l">Properties</div></div><div class="stat-card"><div class="stat-n">'+totalViews+'</div><div class="stat-l">Total Views</div></div></div>';
+  h+='<div class="stats-row" style="grid-template-columns:1fr 1fr"><div class="stat-card"><div class="stat-n">'+verified+'</div><div class="stat-l">Verified</div></div><div class="stat-card"><div class="stat-n">'+featured+'</div><div class="stat-l">Featured</div></div></div>';
+  h+='<h3 class="section-title">By Type</h3>';var maxT=Math.max(propsByType.room,propsByType.flat,propsByType.office,propsByType.building,1);for(var k in propsByType)h+='<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>'+k+'</span><span>'+propsByType[k]+'</span></div><div class="progress-bar"><div class="fill" style="width:'+Math.round(propsByType[k]/maxT*100)+'%"></div></div></div>';
+  h+='<h3 class="section-title">By District</h3>';var maxD=Math.max(propsByDist.Kathmandu,propsByDist.Bhaktapur,propsByDist.Lalitpur,1);for(var k in propsByDist)h+='<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>'+k+'</span><span>'+propsByDist[k]+'</span></div><div class="progress-bar"><div class="fill" style="width:'+Math.round(propsByDist[k]/maxD*100)+'%"></div></div></div>';
+  h+='<h3 class="section-title">Recent Activity</h3><div class="timeline">';APP.properties.slice(0,5).forEach(function(p){h+='<div class="timeline-item"><div class="ti-time">'+(p.createdAt?timeAgo(p.createdAt.seconds*1000):'')+'</div><div class="ti-text">'+(p.name||'')+' by '+(p.landlordName||'')+'</div></div>';});h+='</div>';c.innerHTML=h;});}
 
-// ============ NOTIFICATIONS ============
-function showNotifs(){
-  var n=APP.notifications;
-  var h='<h3>Notifications</h3>';
-  if(n.length===0)h+='<p style="text-align:center;color:var(--text-muted)">No notifications</p>';
-  else{h+='<div style="max-height:300px;overflow-y:auto;margin-top:12px">';for(var i=0;i<n.length;i++)h+='<div style="padding:10px;border-bottom:1px solid var(--border);font-size:.85rem;'+(n[i].read?'':'background:var(--accent-glow)')+'"><div>'+(n[i].text||'')+'</div><div style="font-size:.7rem;color:var(--text-muted);margin-top:4px">'+(n[i].timestamp&&n[i].timestamp.seconds?timeAgo(n[i].timestamp.seconds*1000):'')+'</div></div>';h+='</div>';}
-  h+='<div class="modal-acts" style="margin-top:16px"><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button></div>';
-  showModal(h);
-  // Mark all as read
-  var unread=n.filter(function(x){return !x.read;});
-  for(var i=0;i<unread.length;i++){db.collection('notifications').doc(unread[i].id).update({read:true}).catch(function(){});}
-  var dot=$('nDot');if(dot)dot.classList.add('hidden');
-}
-
-// ============ ANALYTICS (Developer) ============
-function renderAnalytics(){
-  var c=$('mainC');
-  var totalUsers=0,totalProps=APP.properties.length,available=APP.properties.filter(function(p){return p.status==='available';}).length;
-  db.collection('users').get().then(function(s){totalUsers=s.size;
-    var propsByType={room:0,flat:0,office:0,building:0};
-    for(var i=0;i<APP.properties.length;i++){var t=APP.properties[i].type;if(propsByType[t]!==undefined)propsByType[t]++;}
-    var propsByDist={Kathmandu:0,Bhaktapur:0,Lalitpur:0};
-    for(var i=0;i<APP.properties.length;i++){var d=APP.properties[i].district;if(propsByDist[d]!==undefined)propsByDist[d]++;}
-
-    var h='<div style="display:flex;align-items:center;gap:12px;margin-bottom:16px"><button class="btn-icon" onclick="navigate(\'dashboard\')">&#8592;</button><h2 class="section-title" style="margin:0">Analytics Dashboard</h2></div>';
-    h+='<div class="stats-row"><div class="stat-card"><div class="stat-n">'+totalUsers+'</div><div class="stat-l">Users</div></div><div class="stat-card"><div class="stat-n">'+totalProps+'</div><div class="stat-l">Properties</div></div><div class="stat-card"><div class="stat-n">'+available+'</div><div class="stat-l">Available</div></div></div>';
-
-    h+='<h3 class="section-title">Properties by Type</h3>';
-    var maxT=Math.max(propsByType.room,propsByType.flat,propsByType.office,propsByType.building,1);
-    for(var k in propsByType){var pct=Math.round(propsByType[k]/maxT*100);h+='<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>'+k.charAt(0).toUpperCase()+k.slice(1)+'</span><span>'+propsByType[k]+'</span></div><div class="progress-bar"><div class="fill" style="width:'+pct+'%"></div></div></div>';}
-
-    h+='<h3 class="section-title">Properties by District</h3>';
-    var maxD=Math.max(propsByDist.Kathmandu,propsByDist.Bhaktapur,propsByDist.Lalitpur,1);
-    for(var k in propsByDist){var pct=Math.round(propsByDist[k]/maxD*100);h+='<div style="margin-bottom:12px"><div style="display:flex;justify-content:space-between;font-size:.85rem"><span>'+k+'</span><span>'+propsByDist[k]+'</span></div><div class="progress-bar"><div class="fill" style="width:'+pct+'%"></div></div></div>';}
-
-    h+='<h3 class="section-title">Activity Timeline</h3><div class="timeline">';
-    var recent=APP.properties.slice(0,5);
-    for(var i=0;i<recent.length;i++){h+='<div class="timeline-item"><div class="ti-time">'+(recent[i].createdAt?timeAgo(recent[i].createdAt.seconds*1000):'')+'</div><div class="ti-text">'+(recent[i].name||'')+' listed by '+(recent[i].landlordName||'')+'</div></div>';}
-    h+='</div>';
-    c.innerHTML=h;
-  });
-}
-
-// ============ SETTINGS ============
-function renderSettings(){
-  var c=$('mainC'),theme=document.documentElement.dataset.theme,devMode=isDev(),u=APP.profile||{};
-  var h='<h2 class="section-title" style="font-size:1.4rem">Settings</h2>';
+// ===== SETTINGS =====
+function renderSettings(){var c=$('mainC'),r=getRole(),devMode=isDev(),u=APP.profile||{},themeId=localStorage.getItem('kkc_theme')||'deep-dark';var h='<h2 class="section-title" style="font-size:1.4rem">Settings</h2>';
   h+='<div class="set-group"><div class="set-group-t">Account</div>';
   h+='<div class="set-item" onclick="editProfile()"><div class="set-il"><div class="si">&#128100;</div><div class="st"><div class="st-t">'+(u.name||'User')+'</div><div class="st-d">'+(u.role||'')+'</div></div></div><span class="set-ir">&#8250;</span></div>';
   h+='<div class="set-item"><div class="set-il"><div class="si">&#128222;</div><div class="st"><div class="st-t">'+(u.phone||'Not set')+'</div><div class="st-d">Phone</div></div></div></div>';
-  h+='<div class="set-item"><div class="set-il"><div class="si">&#9993;</div><div class="st"><div class="st-t">'+(u.email||'Not set')+'</div><div class="st-d">Email</div></div></div></div></div>';
+  h+='<div class="set-item"><div class="set-il"><div class="si">&#9993;</div><div class="st"><div class="st-t">'+(u.email||'')+'</div><div class="st-d">Email</div></div></div></div></div>';
 
+  // Landlord: Contact Developer
+  if(r==='landlord'){
+    h+='<div class="set-group"><div class="set-group-t">Support</div>';
+    h+='<div class="set-item" onclick="contactDeveloper()"><div class="set-il"><div class="si">&#128231;</div><div class="st"><div class="st-t">Contact Developer</div><div class="st-d">Request property listing help</div></div></div><span class="set-ir">&#8250;</span></div></div>';
+  }
+
+  // Activity (role-appropriate)
   h+='<div class="set-group"><div class="set-group-t">Activity</div>';
-  h+='<div class="set-item" onclick="navigate(\'my-bookings\')"><div class="set-il"><div class="si">&#128197;</div><div class="st"><div class="st-t">My Bookings</div><div class="st-d">'+APP.bookings.length+' bookings</div></div></div><span class="set-ir">&#8250;</span></div>';
-  h+='<div class="set-item" onclick="navigate(\'my-visits\')"><div class="set-il"><div class="si">&#128198;</div><div class="st"><div class="st-t">My Visits</div><div class="st-d">'+APP.visits.length+' scheduled</div></div></div><span class="set-ir">&#8250;</span></div></div>';
+  h+='<div class="set-item" onclick="navigate(\'my-bookings\')"><div class="set-il"><div class="si">&#128197;</div><div class="st"><div class="st-t">'+(r==='tenant'?'My Bookings':'Bookings')+'</div><div class="st-d">'+APP.bookings.length+' bookings</div></div></div><span class="set-ir">&#8250;</span></div>';
+  if(r==='tenant')h+='<div class="set-item" onclick="navigate(\'my-visits\')"><div class="set-il"><div class="si">&#128198;</div><div class="st"><div class="st-t">My Visits</div><div class="st-d">'+APP.visits.length+' scheduled</div></div></div><span class="set-ir">&#8250;</span></div>';
+  h+='</div>';
 
+  // Appearance
   h+='<div class="set-group"><div class="set-group-t">Appearance</div>';
-  h+='<div class="set-item" onclick="toggleTheme()"><div class="set-il"><div class="si">'+(theme==='dark'?'&#127769;':'&#9728;')+'</div><div class="st"><div class="st-t">Theme</div><div class="st-d">'+(theme==='dark'?'Dark':'Light')+'</div></div></div><div class="toggle '+(theme==='dark'?'active':'')+'"></div></div></div>';
+  var themeName=THEMES[themeId]?THEMES[themeId].name:'Deep Dark';
+  h+='<div class="set-item" onclick="'+(devMode?'devThemeManager()':'toggleThemeSimple()')+'"><div class="set-il"><div class="si">'+(THEMES[themeId]?THEMES[themeId].icon:'&#127769;')+'</div><div class="st"><div class="st-t">Theme</div><div class="st-d">'+themeName+'</div></div></div>'+(devMode?'<span class="set-ir">&#8250;</span>':'<div class="toggle '+(themeId!=='light'?'active':'')+'"></div>')+'</div>';
+  h+='<div class="set-item"><div class="set-il"><div class="si">&#127760;</div><div class="st"><div class="st-t">Language</div><div class="st-d">'+(currentLang==='en'?'English':'नेपाली')+'</div></div></div><div style="display:flex;gap:6px"><button class="btn btn-xs '+(currentLang==='en'?'btn-primary':'btn-secondary')+'" onclick="setLang(\'en\')">EN</button><button class="btn btn-xs '+(currentLang==='ne'?'btn-primary':'btn-secondary')+'" onclick="setLang(\'ne\')">NE</button></div></div>';
+  if(devMode){var fontId=localStorage.getItem('kkc_font')||'poppins';var fontName=FONTS.find(function(f){return f.id===fontId;});h+='<div class="set-item" onclick="devFontManager()"><div class="set-il"><div class="si">Aa</div><div class="st"><div class="st-t">Font Style</div><div class="st-d">'+(fontName?fontName.name:'Poppins')+'</div></div></div><span class="set-ir">&#8250;</span></div>';}
+  h+='</div>';
 
+  // App
   h+='<div class="set-group"><div class="set-group-t">App</div>';
-  h+='<div class="set-item" onclick="showSupport()"><div class="set-il"><div class="si">&#10084;</div><div class="st"><div class="st-t">Support Developer</div></div></div><span class="set-ir">&#8250;</span></div>';
-  h+='<div class="set-item" onclick="showAbout()"><div class="set-il"><div class="si">&#8505;</div><div class="st"><div class="st-t">About</div><div class="st-d">v3.0</div></div></div><span class="set-ir">&#8250;</span></div></div>';
+  h+='<div class="set-item" onclick="showAbout()"><div class="set-il"><div class="si">&#8505;</div><div class="st"><div class="st-t">About</div><div class="st-d">v5.0</div></div></div><span class="set-ir">&#8250;</span></div></div>';
 
+  // Developer Panel
   if(devMode){
-    h+='<div class="set-group"><div class="set-group-t">Developer</div><div class="dev-panel"><h3>Developer Options</h3>';
-    h+='<div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">';
+    var pendingReqs=APP.devRequests.filter(function(x){return x.status==='pending';}).length;
+    h+='<div class="set-group"><div class="set-group-t">Developer</div><div class="dev-panel"><h3>Developer Options</h3><div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">';
     h+='<div class="set-item" onclick="devAllUsers()"><div class="set-il"><div class="si">&#128101;</div><div class="st"><div class="st-t">Manage Users</div></div></div><span class="set-ir">&#8250;</span></div>';
     h+='<div class="set-item" onclick="devAllProps()"><div class="set-il"><div class="si">&#127970;</div><div class="st"><div class="st-t">Manage Properties</div></div></div><span class="set-ir">&#8250;</span></div>';
     h+='<div class="set-item" onclick="navigate(\'analytics\')"><div class="set-il"><div class="si">&#128202;</div><div class="st"><div class="st-t">Analytics</div></div></div><span class="set-ir">&#8250;</span></div>';
+    h+='<div class="set-item" onclick="devRequests()"><div class="set-il"><div class="si">&#128231;</div><div class="st"><div class="st-t">Listing Requests</div><div class="st-d">'+pendingReqs+' pending</div></div></div><span class="set-ir">&#8250;</span></div>';
+    h+='<div class="set-item" onclick="devThemeManager()"><div class="set-il"><div class="si">&#127912;</div><div class="st"><div class="st-t">Theme Manager</div><div class="st-d">10 themes available</div></div></div><span class="set-ir">&#8250;</span></div>';
+    h+='<div class="set-item" onclick="devFontManager()"><div class="set-il"><div class="si">Aa</div><div class="st"><div class="st-t">Font Manager</div><div class="st-d">10 font styles</div></div></div><span class="set-ir">&#8250;</span></div>';
+    h+='<div class="set-item" onclick="devFeatured()"><div class="set-il"><div class="si">&#9733;</div><div class="st"><div class="st-t">Featured Listings</div></div></div><span class="set-ir">&#8250;</span></div>';
+    h+='<div class="set-item" onclick="devVerify()"><div class="set-il"><div class="si">&#10003;</div><div class="st"><div class="st-t">Verify Properties</div></div></div><span class="set-ir">&#8250;</span></div>';
     h+='<div class="set-item" onclick="devBroadcast()"><div class="set-il"><div class="si">&#128227;</div><div class="st"><div class="st-t">Broadcast</div></div></div><span class="set-ir">&#8250;</span></div>';
     h+='<div class="set-item" onclick="devBanUser()"><div class="set-il"><div class="si">&#128683;</div><div class="st"><div class="st-t">Ban User</div></div></div><span class="set-ir">&#8250;</span></div>';
+    h+='<div class="set-item" onclick="devExportData()"><div class="set-il"><div class="si">&#128230;</div><div class="st"><div class="st-t">Export Data</div></div></div><span class="set-ir">&#8250;</span></div>';
+    h+='<div class="set-item" onclick="devMaintenance()"><div class="set-il"><div class="si">&#128295;</div><div class="st"><div class="st-t">Maintenance Mode</div></div></div><span class="set-ir">&#8250;</span></div>';
     h+='</div></div></div>';
   }
-
   h+='<button class="btn btn-danger btn-full" onclick="doLogout()" style="margin-top:12px">Sign Out</button>';
-  h+='<p style="text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:24px;padding-bottom:20px">Kotha Khali Chha v3.0</p>';
+  h+='<p style="text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:24px;padding-bottom:20px">Kotha Khali Chha v5.0</p>';
   c.innerHTML=h;
 }
 
-function editProfile(){
-  var u=APP.profile||{};
-  var h='<h3>Edit Profile</h3>';
-  h+='<div class="form-group" style="margin-top:12px"><label>Display Name</label><input type="text" id="epName" value="'+(u.name||'')+'"></div>';
-  h+='<div class="form-group"><label>Phone</label><input type="tel" id="epPhone" value="'+(u.phone||'')+'" placeholder="98XXXXXXXX"></div>';
-  h+='<div class="form-group"><label>Bio</label><textarea id="epBio" rows="3" placeholder="Tell us about yourself...">'+(u.bio||'')+'</textarea></div>';
-  h+='<div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveProfile()">Save</button></div>';
+function toggleThemeSimple(){var t=document.documentElement.dataset.theme==='light'?'deep-dark':'light';applyTheme(t);renderSettings();}
+function editProfile(){var u=APP.profile||{};showModal('<h3>Edit Profile</h3><div class="profile-avatar">'+(u.photoURL?'<img src="'+u.photoURL+'">':(u.name?u.name.charAt(0):'U'))+'</div><div class="form-group"><label>Name</label><input type="text" id="epName" value="'+(u.name||'')+'"></div><div class="form-group"><label>Phone</label><input type="tel" id="epPhone" value="'+(u.phone||'')+'" placeholder="98XXXXXXXX"></div><div class="form-group"><label>Bio</label><textarea id="epBio" rows="3">'+(u.bio||'')+'</textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveProfile()">Save</button></div>');}
+function saveProfile(){var name=$('epName').value.trim(),phone=$('epPhone').value.trim(),bio=$('epBio').value.trim();if(!name){showToast('Enter name','error');return;}db.collection('users').doc(APP.user.uid).update({name:name,phone:phone,bio:bio}).then(function(){APP.profile.name=name;APP.profile.phone=phone;APP.profile.bio=bio;closeModal();showToast('Updated!','success');renderSettings();}).catch(function(){});}
+function showAbout(){showModal('<h3>About</h3><div style="text-align:center;margin:16px 0"><div style="font-size:3rem;margin-bottom:8px">&#127968;</div><p style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--accent)">Kotha Khali Chha !?</p><p style="font-size:.82rem;color:var(--text-muted)">Version 5.0</p></div><p style="font-size:.85rem;color:var(--text-secondary);line-height:1.6;text-align:center">The ultimate room finding solution for Kathmandu Valley. Built with love in Nepal.</p><button class="btn btn-secondary btn-full" style="margin-top:16px" onclick="closeModal()">Close</button>');}
+
+// ===== DEVELOPER FUNCTIONS =====
+function devAllUsers(){showLoading('Loading...');db.collection('users').get().then(function(s){var users=[];s.forEach(function(d){users.push(Object.assign({id:d.id},d.data()));});var h='<h3>All Users ('+users.length+')</h3><div style="max-height:400px;overflow-y:auto;margin-top:12px">';users.forEach(function(u){var banned=isBanned(u.id);h+='<div style="padding:10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600;font-size:.9rem">'+(u.name||'')+' '+(banned?'<span class="badge badge-danger">BANNED</span>':'')+'</div><div style="font-size:.75rem;color:var(--text-muted)">'+(u.email||'')+'</div></div><div style="display:flex;gap:6px;align-items:center"><span class="badge badge-info">'+(u.role||'')+'</span>'+(banned?'<button class="btn btn-xs btn-success" onclick="unbanUser(\''+u.id+'\')">Unban</button>':'<button class="btn btn-xs btn-danger" onclick="banUser(\''+u.id+'\',\''+(u.name||'')+'\')">Ban</button>')+'</div></div>';});h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();navigate(\'dashboard\')">Close</button>';showModal(h);});}
+function devAllProps(){var h='<h3>All Properties ('+APP.properties.length+')</h3><div style="max-height:400px;overflow-y:auto;margin-top:12px">';APP.properties.forEach(function(p){h+='<div style="padding:10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600;font-size:.9rem">'+(p.name||'')+' <span class="badge badge-info">'+(p.type||'')+'</span>'+(p.verified?' <span class="badge badge-verified">&#10003;</span>':'')+(p.featured?' <span class="badge badge-featured">&#9733;</span>':'')+'</div><div style="font-size:.75rem;color:var(--text-muted)">'+(p.location||'')+' '+formatNPR(p.rent||0)+' | '+(p.views||0)+' views</div></div><div style="display:flex;gap:6px"><button class="btn btn-xs btn-outline" onclick="closeModal();editProp(\''+p.id+'\')">Edit</button><button class="btn btn-xs btn-danger" onclick="delProp(\''+p.id+'\')">Del</button></div></div>';});h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();navigate(\'dashboard\')">Close</button>';showModal(h);}
+
+// Developer Listing Requests
+function devRequests(){var h='<h3>Listing Requests ('+APP.devRequests.length+')</h3><div style="max-height:400px;overflow-y:auto;margin-top:12px">';if(!APP.devRequests.length)h+='<p style="text-align:center;color:var(--text-muted)">No requests</p>';
+  else APP.devRequests.forEach(function(r){h+='<div style="padding:12px;border-bottom:1px solid var(--border);background:'+(r.status==='pending'?'var(--accent-glow)':'var(--bg-card)')+';border-radius:var(--radius-sm);margin-bottom:4px"><div style="display:flex;justify-content:space-between"><span style="font-weight:600">'+(r.propertyName||'')+'</span><span class="badge badge-'+(r.status==='pending'?'warning':'success')+'">'+r.status+'</span></div><p style="font-size:.82rem;color:var(--text-muted);margin-top:4px">'+(r.location||'')+' | '+(r.type||'')+' | '+formatNPR(r.rent||0)+'</p><p style="font-size:.82rem;color:var(--text-muted)">By: '+(r.userName||'')+' | '+(r.userPhone||'')+'</p>'+(r.message?'<p style="font-size:.82rem;color:var(--text-secondary);margin-top:4px">"'+r.message+'"</p>':'')+'<div style="display:flex;gap:8px;margin-top:8px">'+(r.status==='pending'?'<button class="btn btn-xs btn-success" onclick="handleDevReq(\''+r.id+'\',\'approved\')">Approve & List</button><button class="btn btn-xs btn-danger" onclick="handleDevReq(\''+r.id+'\',\'rejected\')">Reject</button>':'<span style="font-size:.78rem;color:var(--text-muted)">'+r.status+'</span>')+'</div></div>';});
+  h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal()">Close</button>';showModal(h);}
+function handleDevReq(id,status){db.collection('devRequests').doc(id).update({status:status}).then(function(){if(status==='approved'){var req=APP.devRequests.find(function(r){return r.id===id;});if(req){db.collection('properties').add({name:req.propertyName,type:req.type||'room',rent:req.rent||0,negotiable:true,district:'Kathmandu',location:req.location||'',facilities:[],videoUrl:'',contact:req.userPhone||'',description:'Listed via developer request by '+(req.userName||''),status:'available',images:[],lat:null,lng:null,landlordId:req.userId,landlordName:req.userName||'',views:0,verified:true,featured:false,count:1,createdAt:firebase.firestore.FieldValue.serverTimestamp(),updatedAt:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){showToast('Property listed!','success');}).catch(function(){});if(req.userEmail)sendEmail(req.userName,req.userEmail,'Property Listed','Your property "'+req.propertyName+'" has been listed on Kotha Khali Chha!');}}}showToast('Request '+status,'success');devRequests();}).catch(function(){});}
+
+// Theme Manager (Developer)
+function devThemeManager(){
+  var current=localStorage.getItem('kkc_theme')||'deep-dark';
+  var h='<h3>Theme Manager</h3><p>Select a theme for the app</p><div class="theme-grid">';
+  for(var key in THEMES){
+    var th=THEMES[key];
+    var bg=th.vars['--bg-primary'],accent=th.vars['--accent'],card=th.vars['--bg-card'];
+    h+='<div class="theme-opt'+(key===current?' active':'')+'" onclick="applyTheme(\''+key+'\');devThemeManager()">';
+    h+='<div class="to-preview" style="background:linear-gradient(135deg,'+bg+','+card+');border:2px solid '+accent+';display:flex;align-items:center;justify-content:center;font-size:1.2rem">'+th.icon+'</div>';
+    h+='<div class="to-name">'+th.name+'</div></div>';
+  }
+  h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();renderSettings()">Close</button>';
   showModal(h);
 }
 
-function saveProfile(){
-  var name=$('epName').value.trim(),phone=$('epPhone').value.trim(),bio=$('epBio').value.trim();
-  if(!name){showToast('Enter your name','error');return;}
-  db.collection('users').doc(APP.user.uid).update({name:name,phone:phone,bio:bio}).then(function(){APP.profile.name=name;APP.profile.phone=phone;APP.profile.bio=bio;closeModal();showToast('Profile updated!','success');renderSettings();}).catch(function(e){showToast('Error','error');});
-}
-
-function toggleTheme(){var t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;localStorage.setItem('kkc_theme',t);renderSettings();}
-function showSupport(){showModal('<h3>Support the Developer</h3><p>Would you like to contribute?</p><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">No Thanks</button><button class="btn btn-primary" onclick="showDonate()">Yes!</button></div>');}
-function showDonate(){showModal('<h3>Thank You!</h3><div style="text-align:center;margin-top:16px"><div style="margin:16px 0"><p style="font-weight:600;color:var(--accent);margin-bottom:8px">Esewa ID</p><p style="font-size:.95rem">9800000000</p></div></div><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button>');}
-function showAbout(){showModal('<h3>About</h3><div style="text-align:center;margin:16px 0"><div style="font-size:3rem;margin-bottom:8px">&#127968;</div><p style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--accent)">Kotha Khali Chha !?</p><p style="font-size:.82rem;color:var(--text-muted)">Version 3.0</p></div><p style="font-size:.85rem;color:var(--text-secondary);line-height:1.6;text-align:center">The ultimate room finding solution for Kathmandu Valley. Built with love in Nepal.</p><div style="margin-top:16px"><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button></div>');}
-
-// ============ DEVELOPER FUNCTIONS ============
-function devAllUsers(){
-  showLoading('Loading users...');
-  db.collection('users').get().then(function(s){var users=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});
-    var h='<h3>All Users ('+users.length+')</h3><div style="max-height:400px;overflow-y:auto;margin-top:12px">';
-    for(var i=0;i<users.length;i++){var banned=isBanned(users[i].id);
-      h+='<div style="padding:10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600;font-size:.9rem">'+(users[i].name||'')+' '+(banned?'<span class="badge badge-danger">BANNED</span>':'')+'</div><div style="font-size:.75rem;color:var(--text-muted)">'+(users[i].email||'')+'</div></div><div style="display:flex;gap:6px;align-items:center"><span class="badge badge-info">'+(users[i].role||'')+'</span>'+(banned?'<button class="btn btn-xs btn-success" onclick="unbanUser(\''+users[i].id+'\')">Unban</button>':'<button class="btn btn-xs btn-danger" onclick="banUser(\''+users[i].id+'\',\''+(users[i].name||'')+'\')">Ban</button>')+'</div></div>';}
-    h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();navigate(\'dashboard\')">Close</button>';
-    showModal(h);
+// Font Manager (Developer)
+function devFontManager(){
+  var current=localStorage.getItem('kkc_font')||'poppins';
+  var h='<h3>Font Manager</h3><p>Select a font style</p><div class="font-grid">';
+  FONTS.forEach(function(f){
+    h+='<div class="font-opt'+(f.id===current?' active':'')+'" onclick="applyFont(\''+f.id+'\');devFontManager()">';
+    h+='<div style="font-family:'+f.family+';font-size:1.1rem;font-weight:600;margin-bottom:4px">'+f.display+'</div>';
+    h+='<div style="font-family:'+f.family+';font-size:.78rem;color:var(--text-muted)">The quick brown fox</div></div>';
   });
-}
-
-function devAllProps(){
-  var h='<h3>All Properties ('+APP.properties.length+')</h3><div style="max-height:400px;overflow-y:auto;margin-top:12px">';
-  for(var i=0;i<APP.properties.length;i++){var p=APP.properties[i];
-    h+='<div style="padding:10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600;font-size:.9rem">'+(p.name||'')+' <span class="badge badge-info">'+(p.type||'')+'</span></div><div style="font-size:.75rem;color:var(--text-muted)">'+(p.location||'')+' '+formatNPR(p.rent||0)+'</div></div><div style="display:flex;gap:6px"><button class="btn btn-xs btn-outline" onclick="closeModal();editProp(\''+p.id+'\')">Edit</button><button class="btn btn-xs btn-danger" onclick="delProp(\''+p.id+'\')">Delete</button></div></div>';}
-  h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();navigate(\'dashboard\')">Close</button>';
+  h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();renderSettings()">Close</button>';
   showModal(h);
 }
 
-function devBroadcast(){
-  var h='<h3>Broadcast Notification</h3>';
-  h+='<div class="form-group" style="margin-top:12px"><label>Message</label><textarea id="bcastMsg" rows="3" placeholder="Send announcement to all users..."></textarea></div>';
-  h+='<div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="sendBroadcast()">Send to All</button></div>';
-  showModal(h);
-}
+// Featured Listings
+function devFeatured(){var featured=APP.properties.filter(function(p){return p.featured;});var h='<h3>Featured Listings ('+featured.length+')</h3><div style="max-height:300px;overflow-y:auto;margin-top:12px">';
+  APP.properties.forEach(function(p){h+='<div style="padding:8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span style="font-size:.88rem">'+(p.name||'')+(p.featured?' <span class="badge badge-featured">Featured</span>':'')+'</span><button class="btn btn-xs '+(p.featured?'btn-danger':'btn-outline')+'" onclick="toggleFeatured(\''+p.id+'\');devFeatured()">'+(p.featured?'Remove':'Feature')+'</button></div>';});
+  h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal()">Close</button>';showModal(h);}
 
-function sendBroadcast(){
-  var text=$('bcastMsg').value.trim();if(!text){showToast('Enter a message','error');return;}
-  db.collection('users').get().then(function(snap){
-    var batch=db.batch();var count=0;
-    snap.forEach(function(d){if(d.id!==APP.user.uid){var ref=db.collection('notifications').doc();batch.set(ref,{toId:d.id,fromName:'Developer',text:text,type:'broadcast',read:false,timestamp:firebase.firestore.FieldValue.serverTimestamp()});count++;}});
-    return batch.commit().then(function(){closeModal();showToast('Sent to '+count+' users!','success');});
-  }).catch(function(e){showToast('Error: '+e.message,'error');});
-}
+// Verify Properties
+function devVerify(){var h='<h3>Verify Properties</h3><div style="max-height:300px;overflow-y:auto;margin-top:12px">';
+  APP.properties.forEach(function(p){h+='<div style="padding:8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span style="font-size:.88rem">'+(p.name||'')+(p.verified?' <span class="badge badge-verified">Verified</span>':'')+'</span><button class="btn btn-xs '+(p.verified?'btn-danger':'btn-outline')+'" onclick="toggleVerify(\''+p.id+'\');devVerify()">'+(p.verified?'Unverify':'Verify')+'</button></div>';});
+  h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal()">Close</button>';showModal(h);}
 
-function devBanUser(){
-  db.collection('users').get().then(function(snap){
-    var users=[];snap.forEach(function(d){var u=Object.assign({id:d.id},d.data());if(u.id!==APP.user.uid)users.push(u);});
-    var h='<h3>Ban User</h3><div style="max-height:300px;overflow-y:auto;margin-top:12px">';
-    for(var i=0;i<users.length;i++){var banned=isBanned(users[i].id);
-      h+='<div style="padding:8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span style="font-size:.88rem">'+(users[i].name||'')+' '+(banned?'<span class="badge badge-danger">BANNED</span>':'')+'</span>'+(banned?'<button class="btn btn-xs btn-success" onclick="unbanUser(\''+users[i].id+'\')">Unban</button>':'<button class="btn btn-xs btn-danger" onclick="banUser(\''+users[i].id+'\',\''+(users[i].name||'')+'\')">Ban</button>')+'</div>';}
-    h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal()">Close</button>';
-    showModal(h);
-  });
-}
+// Broadcast
+function devBroadcast(){showModal('<h3>Broadcast</h3><div class="form-group" style="margin-top:12px"><textarea id="bcastMsg" rows="3" placeholder="Send to all users..."></textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="sendBroadcast()">Send to All</button></div>');}
+function sendBroadcast(){var text=$('bcastMsg').value.trim();if(!text){showToast('Enter message','error');return;}db.collection('users').get().then(function(snap){var batch=db.batch(),count=0;snap.forEach(function(d){if(d.id!==APP.user.uid){var ref=db.collection('notifications').doc();batch.set(ref,{toId:d.id,fromName:'Developer',text:text,type:'broadcast',read:false,timestamp:firebase.firestore.FieldValue.serverTimestamp()});count++;}});return batch.commit().then(function(){closeModal();showToast('Sent to '+count+' users!','success');});}).catch(function(){});}
 
-function banUser(uid,name){
-  db.collection('banned').add({userId:uid,userName:name,bannedBy:APP.user.uid,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){showToast(name+' banned','success');closeModal();}).catch(function(e){showToast('Error','error');});
-}
+// Ban
+function devBanUser(){db.collection('users').get().then(function(snap){var users=[];snap.forEach(function(d){var u=Object.assign({id:d.id},d.data());if(u.id!==APP.user.uid)users.push(u);});var h='<h3>Ban User</h3><div style="max-height:300px;overflow-y:auto;margin-top:12px">';users.forEach(function(u){var banned=isBanned(u.id);h+='<div style="padding:8px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><span style="font-size:.88rem">'+(u.name||'')+' '+(banned?'<span class="badge badge-danger">BANNED</span>':'')+'</span>'+(banned?'<button class="btn btn-xs btn-success" onclick="unbanUser(\''+u.id+'\')">Unban</button>':'<button class="btn btn-xs btn-danger" onclick="banUser(\''+u.id+'\',\''+(u.name||'')+'\')">Ban</button>')+'</div>';});h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal()">Close</button>';showModal(h);});}
+function banUser(uid,name){db.collection('banned').add({userId:uid,userName:name,bannedBy:APP.user.uid,timestamp:firebase.firestore.FieldValue.serverTimestamp()}).then(function(){showToast(name+' banned','success');closeModal();}).catch(function(){});}
+function unbanUser(uid){var ban=APP.banList.find(function(b){return b.userId===uid;});if(ban)db.collection('banned').doc(ban.id).delete().then(function(){showToast('Unbanned','success');closeModal();}).catch(function(){});}
 
-function unbanUser(uid){
-  var ban=APP.banList.find(function(b){return b.userId===uid;});
-  if(ban)db.collection('banned').doc(ban.id).delete().then(function(){showToast('Unbanned','success');closeModal();}).catch(function(e){showToast('Error','error');});
+// Export Data
+function devExportData(){showModal('<h3>Export Data</h3><p>Download all data as JSON</p><div style="display:flex;flex-direction:column;gap:10px;margin-top:16px"><button class="btn btn-outline btn-full" onclick="exportJSON(\'users\')">Export Users ('+APP.profile?'+':'')+' )</button><button class="btn btn-outline btn-full" onclick="exportJSON(\'properties\')">Export Properties ('+APP.properties.length+')</button><button class="btn btn-outline btn-full" onclick="exportJSON(\'all\')">Export All Data</button></div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal()">Close</button>');}
+function exportJSON(type){
+  var data;
+  if(type==='users'){db.collection('users').get().then(function(s){var arr=[];s.forEach(function(d){arr.push(Object.assign({id:d.id},d.data()));});downloadJSON(arr,'users.json');});}
+  else if(type==='properties'){downloadJSON(APP.properties,'properties.json');}
+  else{Promise.all([db.collection('users').get(),db.collection('properties').get(),db.collection('messages').get(),db.collection('reviews').get()]).then(function(res){var all={};res.forEach(function(s,i){var arr=[];s.forEach(function(d){arr.push(Object.assign({id:d.id},d.data()));});all[['users','properties','messages','reviews'][i]]=arr;});downloadJSON(all,'kothakhali_export.json');});}
+  closeModal();
 }
+function downloadJSON(data,filename){var blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'});var url=URL.createObjectURL(blob);var a=document.createElement('a');a.href=url;a.download=filename;a.click();URL.revokeObjectURL(url);showToast('Downloaded '+filename,'success');}
 
-// ============ LOGOUT ============
-function doLogout(){
-  APP.unsubscribers.forEach(function(u){u();});APP.unsubscribers=[];APP.user=null;APP.profile=null;
-  auth.signOut().then(function(){
-    $('app').classList.remove('active');$('devBadge').classList.add('hidden');
-    showScreen('splash');
-    var rl=document.querySelectorAll('.role-opt');for(var i=0;i<rl.length;i++)rl[i].classList.remove('selected');
-    APP.role=null;APP.compareList=[];$('googleBtn').disabled=false;
-    showToast('Signed out','info');
-  });
-}
+// Maintenance Mode
+function devMaintenance(){var current=localStorage.getItem('kkc_maintenance')==='true';showModal('<h3>Maintenance Mode</h3><p>'+(current?'Currently ENABLED. Users see a maintenance banner.':'Currently disabled.')+'</p><div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn-full '+(current?'btn-secondary':'btn-danger')+'" onclick="toggleMaintenance('+(current?'false':'true')+')">'+(current?'Disable':'Enable')+' Maintenance</button></div><button class="btn btn-secondary btn-full" style="margin-top:8px" onclick="closeModal()">Close</button>');}
+function toggleMaintenance(val){localStorage.setItem('kkc_maintenance',val);showToast('Maintenance mode '+(val==='true'?'enabled':'disabled'),'success');closeModal();}
 
-(function(){var t=localStorage.getItem('kkc_theme')||'dark';document.documentElement.dataset.theme=t;})();
+// ===== LOGOUT =====
+function doLogout(){APP.unsubscribers.forEach(function(u){u();});APP.unsubscribers=[];APP.user=null;APP.profile=null;auth.signOut().then(function(){$('app').classList.remove('active');$('devBadge').classList.add('hidden');showScreen('splash');document.querySelectorAll('.role-opt').forEach(function(r){r.classList.remove('selected');});APP.role=null;APP.compareList=[];$('googleBtn').disabled=false;showToast('Signed out','info');});}
+
+// ===== INIT =====
+(function(){
+  var themeId=localStorage.getItem('kkc_theme')||'deep-dark';
+  applyTheme(themeId);
+  var fontId=localStorage.getItem('kkc_font')||'poppins';
+  applyFont(fontId);
+})();
 </script>
 </body>
 </html>
