@@ -1191,6 +1191,38 @@ select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmln
 
 <script>
 // ============================================================
+// FIREBASE CONFIG — REPLACE WITH YOUR REAL VALUES
+// ============================================================
+try {
+  var firebaseConfig = {
+    apiKey: "AIzaSyD1ly92hKDn2CthbAxd8t14Qb1deFFd_qI",
+    authDomain: "kotha-khali-chha-6ca55.firebaseapp.com",
+    projectId: "kotha-khali-chha-6ca55",
+    storageBucket: "kotha-khali-chha-6ca55.firebasestorage.app",
+    messagingSenderId: "246577028104",
+    appId: "1:246577028104:web:61ca30f70d8079d4b9c5bd"
+  };
+  firebase.initializeApp(firebaseConfig);
+  var auth = firebase.auth();
+  var db = firebase.firestore();
+  console.log('Firebase initialized');
+} catch(e) {
+  console.error('Firebase error:', e);
+}
+
+// ============================================================
+// CLOUDINARY CONFIG — REPLACE WITH YOUR VALUES
+// ============================================================
+var CLOUD_NAME = 'demo';
+var UPLOAD_PRESET = 'demo';
+
+// ============================================================
+// DEVELOPER CREDENTIALS — REPLACE WITH YOUR PHONE AND EMAIL
+// ============================================================
+var DEV_PHONE = "+9779813223142";
+var DEV_EMAIL = "kotha.khalichha05@.com";
+
+// ============================================================
 // STATE MANAGEMENT
 // ============================================================
 const APP = {
