@@ -80,10 +80,11 @@ textarea{resize:vertical;min-height:100px}
 .role-opt .rn{font-weight:600;font-size:.9rem}
 .role-opt .rd{font-size:.72rem;color:var(--text-muted);margin-top:4px}
 .role-opt[data-role="developer"]{border-color:rgba(108,92,231,.4);background:linear-gradient(135deg,rgba(108,92,231,.08),rgba(240,199,94,.08))}
-.verify-box{text-align:center;padding:40px 20px}
-.verify-box .vi{font-size:4rem;margin-bottom:16px;opacity:.8}
-.verify-box h3{font-family:var(--font-display);font-size:1.3rem;margin-bottom:8px}
-.verify-box p{font-size:.85rem;color:var(--text-muted);margin-bottom:24px;line-height:1.5}
+.google-btn{display:flex;align-items:center;justify-content:center;gap:12px;padding:14px 24px;background:#fff;border-radius:var(--radius);font-weight:600;font-size:.95rem;color:#333;cursor:pointer;transition:all var(--transition);box-shadow:0 2px 8px rgba(0,0,0,.1);width:100%;border:none;font-family:var(--font-body)}
+.google-btn:hover{box-shadow:0 4px 16px rgba(0,0,0,.2);transform:translateY(-2px)}
+.google-btn svg{width:20px;height:20px}
+.divider-or{display:flex;align-items:center;gap:12px;margin:20px 0;color:var(--text-muted);font-size:.82rem}
+.divider-or::before,.divider-or::after{content:'';flex:1;height:1px;background:var(--border)}
 #app{display:none}
 #app.active{display:flex;flex-direction:column;min-height:100vh}
 .top-bar{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;background:var(--bg-secondary);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
@@ -197,7 +198,6 @@ textarea{resize:vertical;min-height:100px}
 <div class="toast-c" id="toastC"></div>
 <div class="modal-overlay" id="modalO"><div class="modal" id="modalC"></div></div>
 
-<!-- SPLASH -->
 <div class="screen active" id="splash">
   <div class="splash-bg"></div>
   <div class="splash-content">
@@ -216,61 +216,38 @@ textarea{resize:vertical;min-height:100px}
   <p class="splash-ver">v2.0 Kathmandu Valley</p>
 </div>
 
-<!-- AUTH -->
 <div class="screen" id="auth">
   <div class="auth-card">
-    <!-- STEP 1: Role + Credentials -->
-    <div id="authStep1">
-      <h2>Welcome</h2>
-      <p class="sub">Choose your role to continue</p>
-      <div class="role-sel">
-        <div class="role-opt" data-role="landlord" onclick="selectRole(this)">
-          <div class="ri">&#127970;</div><div class="rn">Gharbeti</div><div class="rd">Landlord</div>
-        </div>
-        <div class="role-opt" data-role="tenant" onclick="selectRole(this)">
-          <div class="ri">&#128716;</div><div class="rn">Kirayadar</div><div class="rd">Tenant</div>
-        </div>
+    <h2>Welcome</h2>
+    <p class="sub">Choose your role to continue</p>
+    <div class="role-sel">
+      <div class="role-opt" data-role="landlord" onclick="selectRole(this)">
+        <div class="ri">&#127970;</div><div class="rn">Gharbeti</div><div class="rd">Landlord</div>
       </div>
-      <div style="text-align:center;margin-top:16px;padding-top:12px;border-top:1px solid var(--border)">
-        <p style="font-size:.7rem;color:var(--text-muted);margin-bottom:8px">Only accessible to Developer</p>
-        <div class="role-opt" data-role="developer" onclick="selectRole(this)" style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;max-width:200px;margin:0 auto">
-          <span style="font-size:1rem">&#128736;</span>
-          <div>
-            <div style="font-weight:600;font-size:.78rem">Developer</div>
-            <div style="font-size:.65rem;color:var(--text-muted)">Authorized only</div>
-          </div>
-        </div>
-      </div>
-      <div style="margin-top:24px">
-        <div class="form-group">
-          <label>Email Address</label>
-          <input type="email" id="authEmail" placeholder="your@email.com">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" id="authPass" placeholder="Min 6 characters" minlength="6">
-        </div>
-      </div>
-      <button class="btn btn-primary btn-full" onclick="doSignIn()" id="signInBtn">Sign In</button>
-      <p style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--text-muted)" id="authError"></p>
-    </div>
-    <!-- STEP 2: Email Verification Required -->
-    <div id="authStep2" class="hidden">
-      <div class="verify-box">
-        <div class="vi">&#9993;</div>
-        <h3>Verify Your Email</h3>
-        <p id="verifyMsg">We sent a verification link to your email. Please check your inbox and click the link to verify.</p>
-        <p style="font-size:.78rem;color:var(--text-muted);margin-bottom:20px" id="verifyEmail"></p>
-        <button class="btn btn-primary btn-full" onclick="checkVerification()" id="checkBtn">I Have Verified — Check Now</button>
-        <button class="btn btn-outline btn-full" style="margin-top:10px" onclick="resendVerification()" id="resendBtn">Resend Verification Email</button>
-        <p style="margin-top:16px"><button class="resend-btn" onclick="goBackToLogin()" style="background:none;color:var(--accent);font-size:.82rem;font-weight:500;cursor:pointer;border:none">Back to Login</button></p>
-        <p style="margin-top:12px;font-size:.78rem;color:var(--text-muted)" id="verifyError"></p>
+      <div class="role-opt" data-role="tenant" onclick="selectRole(this)">
+        <div class="ri">&#128716;</div><div class="rn">Kirayadar</div><div class="rd">Tenant</div>
       </div>
     </div>
+    <div style="text-align:center;padding-top:12px;border-top:1px solid var(--border)">
+      <p style="font-size:.7rem;color:var(--text-muted);margin-bottom:8px">Only accessible to Developer</p>
+      <div class="role-opt" data-role="developer" onclick="selectRole(this)" style="display:inline-flex;align-items:center;gap:8px;padding:8px 20px;max-width:200px;margin:0 auto">
+        <span style="font-size:1rem">&#128736;</span>
+        <div>
+          <div style="font-weight:600;font-size:.78rem">Developer</div>
+          <div style="font-size:.65rem;color:var(--text-muted)">Authorized only</div>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:24px">
+      <button class="google-btn" onclick="signInWithGoogle()" id="googleBtn">
+        <svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Sign in with Google
+      </button>
+    </div>
+    <p style="text-align:center;margin-top:12px;font-size:.78rem;color:var(--text-muted)" id="authError"></p>
   </div>
 </div>
 
-<!-- APP -->
 <div id="app">
   <div class="dev-badge hidden" id="devBadge">DEV MODE</div>
   <div class="top-bar">
@@ -304,6 +281,7 @@ try {
   firebase.initializeApp(firebaseConfig);
   var auth = firebase.auth();
   var db = firebase.firestore();
+  var provider = new firebase.auth.GoogleAuthProvider();
   console.log('Firebase initialized');
 } catch(e) { console.error('Firebase init error:', e); }
 
@@ -314,550 +292,194 @@ var DEV_EMAIL = "kotha.khalichha05@gmail.com";
 
 var APP = { user:null, profile:null, role:null, currentNav:'dashboard', unsubscribers:[], properties:[], messages:[], notifications:[], _f:{type:'all',district:'all'} };
 
-function showScreen(id) {
-  var s = document.querySelectorAll('.screen');
-  for (var i = 0; i < s.length; i++) s[i].classList.remove('active');
-  var el = document.getElementById(id);
-  if (el) el.classList.add('active');
-}
-function showToast(msg, type) {
-  type = type || 'info';
-  var c = document.getElementById('toastC'), t = document.createElement('div');
-  t.className = 'toast ' + type; t.textContent = msg; c.appendChild(t);
-  setTimeout(function() { t.remove(); }, 3200);
-}
-function showModal(h) { document.getElementById('modalC').innerHTML = h; document.getElementById('modalO').classList.add('active'); }
-function closeModal() { document.getElementById('modalO').classList.remove('active'); }
-document.getElementById('modalO').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
-function genId() { return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6); }
-function timeAgo(ts) { var d = Date.now() - ts; if (d < 60000) return 'just now'; if (d < 3600000) return Math.floor(d / 60000) + 'm ago'; if (d < 86400000) return Math.floor(d / 3600000) + 'h ago'; return Math.floor(d / 86400000) + 'd ago'; }
-function formatNPR(n) { return 'NPR ' + Number(n).toLocaleString(); }
-function isDev() { if (!APP.user) return false; return APP.user.email === DEV_EMAIL; }
-function showLoading(m) { m = m || 'Loading...'; document.getElementById('mainC').innerHTML = '<div class="empty-state"><div class="spinner"></div><p style="color:var(--text-muted);margin-top:12px">' + m + '</p></div>'; }
+function showScreen(id) { var s=document.querySelectorAll('.screen'); for(var i=0;i<s.length;i++) s[i].classList.remove('active'); var el=document.getElementById(id); if(el) el.classList.add('active'); }
+function showToast(msg,type) { type=type||'info'; var c=document.getElementById('toastC'),t=document.createElement('div'); t.className='toast '+type; t.textContent=msg; c.appendChild(t); setTimeout(function(){t.remove();},3200); }
+function showModal(h){document.getElementById('modalC').innerHTML=h;document.getElementById('modalO').classList.add('active');}
+function closeModal(){document.getElementById('modalO').classList.remove('active');}
+document.getElementById('modalO').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function genId(){return 'id_'+Date.now()+'_'+Math.random().toString(36).substr(2,6);}
+function timeAgo(ts){var d=Date.now()-ts;if(d<60000)return 'just now';if(d<3600000)return Math.floor(d/60000)+'m ago';if(d<86400000)return Math.floor(d/3600000)+'h ago';return Math.floor(d/86400000)+'d ago';}
+function formatNPR(n){return 'NPR '+Number(n).toLocaleString();}
+function isDev(){if(!APP.user)return false;return APP.user.email===DEV_EMAIL;}
+function showLoading(m){m=m||'Loading...';document.getElementById('mainC').innerHTML='<div class="empty-state"><div class="spinner"></div><p style="color:var(--text-muted);margin-top:12px">'+m+'</p></div>';}
 
 function selectRole(el) {
-  var r = document.querySelectorAll('.role-opt');
-  for (var i = 0; i < r.length; i++) r[i].classList.remove('selected');
+  var r=document.querySelectorAll('.role-opt');
+  for(var i=0;i<r.length;i++) r[i].classList.remove('selected');
   el.classList.add('selected');
-  APP.role = el.dataset.role;
+  APP.role=el.dataset.role;
 }
 
 // ============================================================
-// SIGN IN WITH EMAIL VERIFICATION
+// GOOGLE SIGN-IN
 // ============================================================
-function doSignIn() {
-  if (!APP.role) { showToast('Please select a role first', 'error'); return; }
-  document.getElementById('authError').textContent = '';
-  var email = document.getElementById('authEmail').value.trim();
-  var pass = document.getElementById('authPass').value;
-  if (!email || email.indexOf('@') < 0) { showToast('Enter a valid email', 'error'); return; }
-  if (pass.length < 6) { showToast('Password must be at least 6 characters', 'error'); return; }
-  document.getElementById('signInBtn').disabled = true;
-  document.getElementById('signInBtn').textContent = 'Signing in...';
+function signInWithGoogle() {
+  if(!APP.role) { showToast('Please select a role first','error'); return; }
+  document.getElementById('authError').textContent='';
+  document.getElementById('googleBtn').disabled=true;
 
-  auth.signInWithEmailAndPassword(email, pass)
+  auth.signInWithPopup(provider)
     .then(function(result) {
       var user = result.user;
-      if (!user.emailVerified) {
-        // Email NOT verified — send verification and block
-        user.sendEmailVerification();
-        showVerificationScreen(email);
-        document.getElementById('signInBtn').disabled = false;
-        document.getElementById('signInBtn').textContent = 'Sign In';
-      } else {
-        // Email IS verified — check if developer
-        checkDevAndProceed(user);
+      // Developer check
+      if(APP.role==='developer' && user.email!==DEV_EMAIL) {
+        auth.signOut();
+        showToast('Access denied. Not authorized developer.','error');
+        document.getElementById('googleBtn').disabled=false;
+        return;
       }
+      showToast('Signed in successfully!','success');
+      onAuthSuccess(user);
     })
     .catch(function(e) {
-      if (e.code === 'auth/user-not-found' || e.code === 'auth/invalid-credential' || e.code === 'auth/invalid-login-credentials') {
-        // New user — create account
-        auth.createUserWithEmailAndPassword(email, pass)
-          .then(function(result) {
-            var user = result.user;
-            // Always send verification for new accounts
-            user.sendEmailVerification();
-            showVerificationScreen(email);
-            document.getElementById('signInBtn').disabled = false;
-            document.getElementById('signInBtn').textContent = 'Sign In';
-          })
-          .catch(function(e2) {
-            document.getElementById('authError').textContent = e2.message;
-            showToast(e2.message, 'error');
-            document.getElementById('signInBtn').disabled = false;
-            document.getElementById('signInBtn').textContent = 'Sign In';
-          });
-      } else {
-        document.getElementById('authError').textContent = e.message;
-        showToast(e.message, 'error');
-        document.getElementById('signInBtn').disabled = false;
-        document.getElementById('signInBtn').textContent = 'Sign In';
+      console.error('Google Sign-In Error:', e);
+      if(e.code!=='auth/popup-closed-by-user') {
+        document.getElementById('authError').textContent=e.message;
+        showToast('Sign-in failed: '+e.message,'error');
       }
+      document.getElementById('googleBtn').disabled=false;
     });
 }
 
-function showVerificationScreen(email) {
-  document.getElementById('authStep1').classList.add('hidden');
-  document.getElementById('authStep2').classList.remove('hidden');
-  document.getElementById('verifyEmail').textContent = email;
-  document.getElementById('verifyError').textContent = '';
-  showToast('Verification email sent! Check your inbox.', 'info');
-}
-
-function checkVerification() {
-  var user = auth.currentUser;
-  if (!user) { showToast('Session expired. Please sign in again.', 'error'); goBackToLogin(); return; }
-  document.getElementById('checkBtn').disabled = true;
-  document.getElementById('checkBtn').textContent = 'Checking...';
-  document.getElementById('verifyError').textContent = '';
-
-  user.reload().then(function() {
-    if (auth.currentUser.emailVerified) {
-      showToast('Email verified! Welcome!', 'success');
-      document.getElementById('checkBtn').disabled = false;
-      document.getElementById('checkBtn').textContent = 'I Have Verified — Check Now';
-      checkDevAndProceed(auth.currentUser);
-    } else {
-      document.getElementById('verifyError').textContent = 'Not verified yet. Please check your email and click the verification link.';
-      showToast('Not verified yet. Check your email.', 'error');
-      document.getElementById('checkBtn').disabled = false;
-      document.getElementById('checkBtn').textContent = 'I Have Verified — Check Now';
-    }
-  }).catch(function(e) {
-    document.getElementById('verifyError').textContent = e.message;
-    document.getElementById('checkBtn').disabled = false;
-    document.getElementById('checkBtn').textContent = 'I Have Verified — Check Now';
-  });
-}
-
-function resendVerification() {
-  var user = auth.currentUser;
-  if (!user) { showToast('Session expired. Please sign in again.', 'error'); goBackToLogin(); return; }
-  user.sendEmailVerification().then(function() {
-    showToast('Verification email resent!', 'success');
-  }).catch(function(e) {
-    showToast('Error: ' + e.message, 'error');
-  });
-}
-
-function goBackToLogin() {
-  auth.signOut().then(function() {
-    document.getElementById('authStep1').classList.remove('hidden');
-    document.getElementById('authStep2').classList.add('hidden');
-    document.getElementById('signInBtn').disabled = false;
-    document.getElementById('signInBtn').textContent = 'Sign In';
-  });
-}
-
-function checkDevAndProceed(user) {
-  if (user.email === DEV_EMAIL) {
-    // Developer — must be verified AND match DEV_EMAIL
-    onAuthSuccess(user);
-  } else if (APP.role === 'developer') {
-    // Someone selected Developer but email doesn't match
-    auth.signOut();
-    showToast('Access denied. Not authorized developer.', 'error');
-    document.getElementById('authStep1').classList.remove('hidden');
-    document.getElementById('authStep2').classList.add('hidden');
-    document.getElementById('signInBtn').disabled = false;
-    document.getElementById('signInBtn').textContent = 'Sign In';
-  } else {
-    // Normal user — verified, proceed
-    onAuthSuccess(user);
-  }
-}
-
+// ============================================================
+// ON AUTH SUCCESS
+// ============================================================
 function onAuthSuccess(user) {
-  if (!user) user = auth.currentUser;
-  if (!user) { showToast('Authentication failed', 'error'); showScreen('auth'); return; }
-  if (!user.emailVerified) { showToast('Please verify your email first', 'error'); showVerificationScreen(user.email); return; }
-  APP.user = user;
-  var role = APP.role;
-  if (user.email === DEV_EMAIL) { role = 'developer'; }
+  if(!user) user=auth.currentUser;
+  if(!user) { showToast('Authentication failed','error'); showScreen('auth'); return; }
+  APP.user=user;
+  var role=APP.role;
+  if(user.email===DEV_EMAIL) role='developer';
+
   db.collection('users').doc(user.uid).get()
     .then(function(doc) {
-      if (!doc.exists) {
-        var p = { name: role === 'developer' ? 'Developer' : (role === 'landlord' ? 'Gharbeti' : 'Kirayadar'), phone: '', email: user.email || '', role: role, createdAt: firebase.firestore.FieldValue.serverTimestamp() };
-        return db.collection('users').doc(user.uid).set(p).then(function() { APP.profile = Object.assign({}, p, { id: user.uid }); });
+      if(!doc.exists) {
+        var p = { name: role==='developer' ? 'Developer' : (user.displayName || (role==='landlord'?'Gharbeti':'Kirayadar')), phone: user.phoneNumber||'', email: user.email||'', role: role, photoURL: user.photoURL||'', createdAt: firebase.firestore.FieldValue.serverTimestamp() };
+        return db.collection('users').doc(user.uid).set(p).then(function(){ APP.profile=Object.assign({},p,{id:user.uid}); });
       } else {
-        APP.profile = Object.assign({ id: user.uid }, doc.data());
-        if (user.email === DEV_EMAIL) { APP.profile.role = 'developer'; db.collection('users').doc(user.uid).update({ role: 'developer' }); }
+        APP.profile=Object.assign({id:user.uid},doc.data());
+        if(user.email===DEV_EMAIL) { APP.profile.role='developer'; db.collection('users').doc(user.uid).update({role:'developer'}); }
       }
     })
-    .then(function() { enterApp(); })
-    .catch(function(e) { console.error('Profile error:', e); enterApp(); });
+    .then(function(){ enterApp(); })
+    .catch(function(e){ console.error('Profile error:',e); enterApp(); });
 }
 
 function enterApp() {
-  var user = firebase.auth().currentUser;
-  if (!user) { showToast('Please sign in first', 'error'); showScreen('auth'); return; }
-  if (!user.emailVerified) { showToast('Please verify your email first', 'error'); showVerificationScreen(user.email); return; }
-  APP.user = user;
+  var user=firebase.auth().currentUser;
+  if(!user) { showToast('Please sign in first','error'); showScreen('auth'); return; }
+  APP.user=user;
   document.getElementById('splash').classList.remove('active');
   document.getElementById('auth').classList.remove('active');
   document.getElementById('app').classList.add('active');
-  if (isDev()) document.getElementById('devBadge').classList.remove('hidden');
+  if(isDev()) document.getElementById('devBadge').classList.remove('hidden');
   else document.getElementById('devBadge').classList.add('hidden');
   buildNav(); navigate('dashboard'); startListeners();
-  showToast('Welcome, ' + (APP.profile ? APP.profile.name : 'User') + '!', 'success');
+  showToast('Welcome, '+(APP.profile?APP.profile.name:'User')+'!','success');
 }
 
 auth.onAuthStateChanged(function(user) {
-  if (user && user.emailVerified) {
-    APP.user = user;
+  if(user) {
+    APP.user=user;
     db.collection('users').doc(user.uid).get()
       .then(function(doc) {
-        if (doc.exists) {
-          APP.profile = Object.assign({ id: user.uid }, doc.data());
-          if (user.email === DEV_EMAIL) APP.profile.role = 'developer';
+        if(doc.exists) {
+          APP.profile=Object.assign({id:user.uid},doc.data());
+          if(user.email===DEV_EMAIL) APP.profile.role='developer';
           enterApp();
         }
-      })
-      .catch(function(e) { console.error(e); });
-  } else if (user && !user.emailVerified) {
-    // Signed in but not verified — show verification screen
-    showScreen('auth');
-    showVerificationScreen(user.email);
+      }).catch(function(e){console.error(e);});
   } else {
     document.getElementById('splash').classList.add('active');
     document.getElementById('app').classList.remove('active');
   }
 });
 
-function startListeners() {
-  APP.unsubscribers.forEach(function(u) { u(); }); APP.unsubscribers = [];
-  APP.unsubscribers.push(db.collection('properties').orderBy('createdAt', 'desc').onSnapshot(function(s) {
-    APP.properties = s.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); });
-    if (APP.currentNav === 'dashboard' || APP.currentNav === 'my-properties' || APP.currentNav === 'search') navigate(APP.currentNav);
-  }));
-  APP.unsubscribers.push(db.collection('messages').where('toId', '==', APP.user.uid).onSnapshot(function(s) {
-    APP.messages = s.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); });
-    var u = false; for (var i = 0; i < APP.messages.length; i++) if (!APP.messages[i].read) { u = true; break; }
-    var dot = document.getElementById('nDot'); if (dot) dot.classList.toggle('hidden', !u);
-    if (APP.currentNav === 'messages') navigate('messages');
-  }));
+function startListeners(){
+  APP.unsubscribers.forEach(function(u){u();});APP.unsubscribers=[];
+  APP.unsubscribers.push(db.collection('properties').orderBy('createdAt','desc').onSnapshot(function(s){APP.properties=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});if(APP.currentNav==='dashboard'||APP.currentNav==='my-properties'||APP.currentNav==='search')navigate(APP.currentNav);}));
+  APP.unsubscribers.push(db.collection('messages').where('toId','==',APP.user.uid).onSnapshot(function(s){APP.messages=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});var u=false;for(var i=0;i<APP.messages.length;i++)if(!APP.messages[i].read){u=true;break;}var dot=document.getElementById('nDot');if(dot)dot.classList.toggle('hidden',!u);if(APP.currentNav==='messages')navigate('messages');}));
 }
 
-function buildNav() {
-  var nav = document.getElementById('bNav'), r = APP.profile ? APP.profile.role : 'tenant';
-  var items = (r === 'landlord' || r === 'developer') ?
-    [{ id: 'dashboard', icon: '&#127968;', label: 'Home' }, { id: 'my-properties', icon: '&#128203;', label: 'Properties' }, { id: 'add-property', icon: '&#10133;', label: 'Add' }, { id: 'messages', icon: '&#128172;', label: 'Messages' }, { id: 'settings', icon: '&#9881;', label: 'Settings' }] :
-    [{ id: 'dashboard', icon: '&#127968;', label: 'Home' }, { id: 'search', icon: '&#128269;', label: 'Search' }, { id: 'favorites', icon: '&#10084;', label: 'Saved' }, { id: 'messages', icon: '&#128172;', label: 'Messages' }, { id: 'settings', icon: '&#9881;', label: 'Settings' }];
-  var h = '';
-  for (var i = 0; i < items.length; i++) h += '<button class="nav-item' + (items[i].id === 'dashboard' ? ' active' : '') + '" data-nav="' + items[i].id + '" onclick="navigate(\'' + items[i].id + '\')"><span class="ni">' + items[i].icon + '</span><span>' + items[i].label + '</span></button>';
-  nav.innerHTML = h;
+function buildNav(){
+  var nav=document.getElementById('bNav'),r=APP.profile?APP.profile.role:'tenant';
+  var items=(r==='landlord'||r==='developer')?[{id:'dashboard',icon:'&#127968;',label:'Home'},{id:'my-properties',icon:'&#128203;',label:'Properties'},{id:'add-property',icon:'&#10133;',label:'Add'},{id:'messages',icon:'&#128172;',label:'Messages'},{id:'settings',icon:'&#9881;',label:'Settings'}]:[{id:'dashboard',icon:'&#127968;',label:'Home'},{id:'search',icon:'&#128269;',label:'Search'},{id:'favorites',icon:'&#10084;',label:'Saved'},{id:'messages',icon:'&#128172;',label:'Messages'},{id:'settings',icon:'&#9881;',label:'Settings'}];
+  var h='';for(var i=0;i<items.length;i++)h+='<button class="nav-item'+(items[i].id==='dashboard'?' active':'')+'" data-nav="'+items[i].id+'" onclick="navigate(\''+items[i].id+'\')"><span class="ni">'+items[i].icon+'</span><span>'+items[i].label+'</span></button>';
+  nav.innerHTML=h;
 }
 
-function navigate(page) {
-  APP.currentNav = page;
-  var n = document.querySelectorAll('.nav-item');
-  for (var i = 0; i < n.length; i++) n[i].classList.toggle('active', n[i].dataset.nav === page);
-  var c = document.getElementById('mainC'); c.className = 'main-c page-enter'; setTimeout(function() { c.className = 'main-c'; }, 300);
-  switch (page) {
-    case 'dashboard': APP.profile && APP.profile.role === 'tenant' ? renderTenantDash() : renderLandlordDash(); break;
-    case 'my-properties': renderMyProps(); break;
-    case 'add-property': renderAddProp(); break;
-    case 'messages': renderMessages(); break;
-    case 'settings': renderSettings(); break;
-    case 'search': renderSearch(); break;
-    case 'favorites': renderFavs(); break;
-    default: renderLandlordDash();
-  }
+function navigate(page){
+  APP.currentNav=page;var n=document.querySelectorAll('.nav-item');for(var i=0;i<n.length;i++)n[i].classList.toggle('active',n[i].dataset.nav===page);
+  var c=document.getElementById('mainC');c.className='main-c page-enter';setTimeout(function(){c.className='main-c';},300);
+  switch(page){case 'dashboard':APP.profile&&APP.profile.role==='tenant'?renderTenantDash():renderLandlordDash();break;case 'my-properties':renderMyProps();break;case 'add-property':renderAddProp();break;case 'messages':renderMessages();break;case 'settings':renderSettings();break;case 'search':renderSearch();break;case 'favorites':renderFavs();break;default:renderLandlordDash();}
 }
 
-function renderLandlordDash() {
-  var c = document.getElementById('mainC');
-  var myP = isDev() ? APP.properties : APP.properties.filter(function(p) { return p.landlordId === APP.user.uid; });
-  var av = myP.filter(function(p) { return p.status === 'available'; }).length, re = myP.filter(function(p) { return p.status === 'rented'; }).length;
-  var h = '<div class="dash-greet"><p class="gt">Namaste,</p><h2 class="gn"><span>' + (APP.profile ? APP.profile.name : 'User') + '</span></h2></div>';
-  if (isDev()) h += '<div class="dev-panel"><h3>Developer Control Panel</h3><p style="font-size:.82rem;color:var(--text-secondary);margin-bottom:12px">Full access to all features.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-sm btn-outline" onclick="devAllUsers()">Manage Users</button><button class="btn btn-sm btn-outline" onclick="devAllProps()">Manage Properties</button></div></div>';
-  h += '<div class="stats-row"><div class="stat-card"><div class="stat-n">' + myP.length + '</div><div class="stat-l">Total</div></div><div class="stat-card"><div class="stat-n">' + av + '</div><div class="stat-l">Available</div></div><div class="stat-card"><div class="stat-n">' + re + '</div><div class="stat-l">Rented</div></div></div>';
-  h += '<h3 class="section-title">Quick Actions</h3><div class="action-grid">';
-  h += '<div class="action-card" onclick="navigate(\'add-property\')"><div class="ai">&#10133;</div><div class="at">Add Property</div><div class="ad">List new property</div></div>';
-  h += '<div class="action-card" onclick="navigate(\'my-properties\')"><div class="ai">&#128203;</div><div class="at">My Listings</div><div class="ad">Manage properties</div></div>';
-  h += '<div class="action-card" onclick="navigate(\'messages\')"><div class="ai">&#128172;</div><div class="at">Messages</div><div class="ad">View inquiries</div></div>';
-  h += '<div class="action-card" onclick="showSupport()"><div class="ai">&#10084;</div><div class="at">Support</div><div class="ad">Help developer</div></div></div>';
-  h += '<h3 class="section-title">Recent Listings</h3>';
-  if (myP.length === 0) h += '<div class="empty-state"><div class="empty-icon">&#127968;</div><h3>No properties yet</h3></div>';
-  else for (var i = 0; i < Math.min(myP.length, 5); i++) h += propCard(myP[i]);
-  c.innerHTML = h;
-}
+function renderLandlordDash(){var c=document.getElementById('mainC');var myP=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});var av=myP.filter(function(p){return p.status==='available';}).length,re=myP.filter(function(p){return p.status==='rented';}).length;var h='<div class="dash-greet"><p class="gt">Namaste,</p><h2 class="gn"><span>'+(APP.profile?APP.profile.name:'User')+'</span></h2></div>';if(isDev())h+='<div class="dev-panel"><h3>Developer Control Panel</h3><p style="font-size:.82rem;color:var(--text-secondary);margin-bottom:12px">Full access.</p><div style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-sm btn-outline" onclick="devAllUsers()">Manage Users</button><button class="btn btn-sm btn-outline" onclick="devAllProps()">Manage Properties</button></div></div>';h+='<div class="stats-row"><div class="stat-card"><div class="stat-n">'+myP.length+'</div><div class="stat-l">Total</div></div><div class="stat-card"><div class="stat-n">'+av+'</div><div class="stat-l">Available</div></div><div class="stat-card"><div class="stat-n">'+re+'</div><div class="stat-l">Rented</div></div></div>';h+='<h3 class="section-title">Quick Actions</h3><div class="action-grid">';h+='<div class="action-card" onclick="navigate(\'add-property\')"><div class="ai">&#10133;</div><div class="at">Add Property</div><div class="ad">List new</div></div>';h+='<div class="action-card" onclick="navigate(\'my-properties\')"><div class="ai">&#128203;</div><div class="at">My Listings</div><div class="ad">Manage</div></div>';h+='<div class="action-card" onclick="navigate(\'messages\')"><div class="ai">&#128172;</div><div class="at">Messages</div><div class="ad">Inquiries</div></div>';h+='<div class="action-card" onclick="showSupport()"><div class="ai">&#10084;</div><div class="at">Support</div><div class="ad">Help dev</div></div></div>';h+='<h3 class="section-title">Recent Listings</h3>';if(myP.length===0)h+='<div class="empty-state"><div class="empty-icon">&#127968;</div><h3>No properties yet</h3></div>';else for(var i=0;i<Math.min(myP.length,5);i++)h+=propCard(myP[i]);c.innerHTML=h;}
 
-function renderTenantDash() {
-  var c = document.getElementById('mainC');
-  var av = APP.properties.filter(function(p) { return p.status === 'available'; });
-  var h = '<div class="dash-greet"><p class="gt">Namaste,</p><h2 class="gn"><span>' + (APP.profile ? APP.profile.name : 'User') + '</span></h2></div>';
-  h += '<div class="search-bar"><span class="si">&#128269;</span><input type="text" placeholder="Search location, type..." id="dSearch" oninput="applyFilters()"></div>';
-  h += '<div class="filter-chips" id="typeFilters"><span class="chip selected" onclick="setTypeF(this,\'all\')">All</span><span class="chip" onclick="setTypeF(this,\'room\')">Rooms</span><span class="chip" onclick="setTypeF(this,\'flat\')">Flats</span><span class="chip" onclick="setTypeF(this,\'office\')">Offices</span><span class="chip" onclick="setTypeF(this,\'building\')">Buildings</span></div>';
-  h += '<div class="filter-chips" style="margin-top:-8px" id="distFilters"><span class="chip selected" onclick="setDistF(this,\'all\')">All</span><span class="chip" onclick="setDistF(this,\'Kathmandu\')">Kathmandu</span><span class="chip" onclick="setDistF(this,\'Lalitpur\')">Lalitpur</span><span class="chip" onclick="setDistF(this,\'Bhaktapur\')">Bhaktapur</span></div>';
-  h += '<div style="display:flex;justify-content:space-between;align-items:center;margin:16px 0 12px"><h3 class="section-title" style="margin:0">Available Properties</h3><span class="badge badge-accent" id="resultCount">' + av.length + ' found</span></div>';
-  h += '<div id="propList">';
-  if (av.length === 0) h += '<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No properties available</h3></div>';
-  else for (var i = 0; i < av.length; i++) h += propCard(av[i], true);
-  h += '</div>';
-  c.innerHTML = h;
-}
+function renderTenantDash(){var c=document.getElementById('mainC');var av=APP.properties.filter(function(p){return p.status==='available';});var h='<div class="dash-greet"><p class="gt">Namaste,</p><h2 class="gn"><span>'+(APP.profile?APP.profile.name:'User')+'</span></h2></div>';h+='<div class="search-bar"><span class="si">&#128269;</span><input type="text" placeholder="Search..." id="dSearch" oninput="applyFilters()"></div>';h+='<div class="filter-chips" id="typeFilters"><span class="chip selected" onclick="setTypeF(this,\'all\')">All</span><span class="chip" onclick="setTypeF(this,\'room\')">Rooms</span><span class="chip" onclick="setTypeF(this,\'flat\')">Flats</span><span class="chip" onclick="setTypeF(this,\'office\')">Offices</span><span class="chip" onclick="setTypeF(this,\'building\')">Buildings</span></div>';h+='<div class="filter-chips" style="margin-top:-8px" id="distFilters"><span class="chip selected" onclick="setDistF(this,\'all\')">All</span><span class="chip" onclick="setDistF(this,\'Kathmandu\')">Kathmandu</span><span class="chip" onclick="setDistF(this,\'Lalitpur\')">Lalitpur</span><span class="chip" onclick="setDistF(this,\'Bhaktapur\')">Bhaktapur</span></div>';h+='<div style="display:flex;justify-content:space-between;align-items:center;margin:16px 0 12px"><h3 class="section-title" style="margin:0">Available Properties</h3><span class="badge badge-accent" id="resultCount">'+av.length+' found</span></div>';h+='<div id="propList">';if(av.length===0)h+='<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No properties</h3></div>';else for(var i=0;i<av.length;i++)h+=propCard(av[i],true);h+='</div>';c.innerHTML=h;}
 
-function setTypeF(el, t) { var ch = document.querySelectorAll('#typeFilters .chip'); for (var i = 0; i < ch.length; i++) ch[i].classList.remove('selected'); el.classList.add('selected'); APP._f.type = t; applyFilters(); }
-function setDistF(el, d) { var ch = document.querySelectorAll('#distFilters .chip'); for (var i = 0; i < ch.length; i++) ch[i].classList.remove('selected'); el.classList.add('selected'); APP._f.district = d; applyFilters(); }
-function applyFilters() {
-  var se = document.getElementById('dSearch'), q = se ? se.value.toLowerCase() : '';
-  var ps = APP.properties.filter(function(p) { return p.status === 'available'; });
-  if (APP._f.type !== 'all') ps = ps.filter(function(p) { return p.type === APP._f.type; });
-  if (APP._f.district !== 'all') ps = ps.filter(function(p) { return p.district === APP._f.district; });
-  if (q) ps = ps.filter(function(p) { return (p.name || '').toLowerCase().indexOf(q) >= 0 || (p.location || '').toLowerCase().indexOf(q) >= 0 || (p.district || '').toLowerCase().indexOf(q) >= 0; });
-  var list = document.getElementById('propList'), cnt = document.getElementById('resultCount');
-  if (cnt) cnt.textContent = ps.length + ' found';
-  if (list) { if (ps.length === 0) list.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No results</h3></div>'; else { var h = ''; for (var i = 0; i < ps.length; i++) h += propCard(ps[i], true); list.innerHTML = h; } }
-}
+function setTypeF(el,t){var ch=document.querySelectorAll('#typeFilters .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');APP._f.type=t;applyFilters();}
+function setDistF(el,d){var ch=document.querySelectorAll('#distFilters .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');APP._f.district=d;applyFilters();}
+function applyFilters(){var se=document.getElementById('dSearch'),q=se?se.value.toLowerCase():'';var ps=APP.properties.filter(function(p){return p.status==='available';});if(APP._f.type!=='all')ps=ps.filter(function(p){return p.type===APP._f.type;});if(APP._f.district!=='all')ps=ps.filter(function(p){return p.district===APP._f.district;});if(q)ps=ps.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0;});var list=document.getElementById('propList'),cnt=document.getElementById('resultCount');if(cnt)cnt.textContent=ps.length+' found';if(list){if(ps.length===0)list.innerHTML='<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No results</h3></div>';else{var h='';for(var i=0;i<ps.length;i++)h+=propCard(ps[i],true);list.innerHTML=h;}}}
 
-function propCard(p, tenantView) {
-  var icons = { room: '&#128716;', flat: '&#127968;', office: '&#127970;', building: '&#127969;' };
-  var img = (p.images && p.images.length > 0) ? '<img src="' + p.images[0] + '" alt="" loading="lazy">' : '<span>' + (icons[p.type] || '&#127968;') + '</span>';
-  return '<div class="prop-card" onclick="viewProp(\'' + p.id + '\',' + (tenantView ? 'true' : 'false') + ')"><div class="prop-img">' + img + '<span class="prop-badge badge ' + (p.status === 'available' ? 'badge-success' : 'badge-danger') + '">' + (p.status === 'available' ? 'Available' : 'Rented') + '</span><span class="prop-type-badge badge badge-info">' + (p.type || '') + '</span></div><div class="prop-info"><h3>' + (p.name || 'Property') + '</h3><div class="prop-loc">&#128205; ' + (p.location || '') + ', ' + (p.district || '') + '</div><div class="prop-price">' + formatNPR(p.rent || 0) + '<small>/mo ' + (p.negotiable ? '(Neg.)' : '') + '</small></div></div></div>';
-}
+function propCard(p,tenantView){var icons={room:'&#128716;',flat:'&#127968;',office:'&#127970;',building:'&#127969;'};var img=(p.images&&p.images.length>0)?'<img src="'+p.images[0]+'" alt="" loading="lazy">':'<span>'+(icons[p.type]||'&#127968;')+'</span>';return '<div class="prop-card" onclick="viewProp(\''+p.id+'\','+(tenantView?'true':'false')+')"><div class="prop-img">'+img+'<span class="prop-badge badge '+(p.status==='available'?'badge-success':'badge-danger')+'">'+(p.status==='available'?'Available':'Rented')+'</span><span class="prop-type-badge badge badge-info">'+(p.type||'')+'</span></div><div class="prop-info"><h3>'+(p.name||'Property')+'</h3><div class="prop-loc">&#128205; '+(p.location||'')+', '+(p.district||'')+'</div><div class="prop-price">'+formatNPR(p.rent||0)+'<small>/mo '+(p.negotiable?'(Neg.)':'')+'</small></div></div></div>';}
 
-function viewProp(id, tenantView) {
-  var p = null; for (var i = 0; i < APP.properties.length; i++) { if (APP.properties[i].id === id) { p = APP.properties[i]; break; } }
-  if (!p) return; var c = document.getElementById('mainC'); var canEdit = isDev() || p.landlordId === APP.user.uid;
-  var h = '<div style="background:var(--bg-input);height:200px;display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--text-muted);border-radius:var(--radius);margin:-20px -20px 0;position:relative">';
-  if (p.images && p.images.length > 0) h = '<div style="height:200px;overflow:hidden;border-radius:var(--radius);margin:-20px -20px 0;position:relative"><img src="' + p.images[0] + '" style="width:100%;height:100%;object-fit:cover">';
-  else h += '&#127968;';
-  h += '<button class="btn-icon" style="position:absolute;top:12px;left:12px" onclick="navigate(\'' + (tenantView ? 'dashboard' : 'my-properties') + '\')">&#8592;</button></div>';
-  h += '<div style="padding:20px 0"><span class="badge ' + (p.status === 'available' ? 'badge-success' : 'badge-danger') + '">' + (p.status === 'available' ? 'Available' : 'Rented') + '</span>';
-  h += '<h2 style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;margin:8px 0 4px">' + (p.name || 'Property') + '</h2>';
-  h += '<p class="prop-loc">&#128205; ' + (p.location || '') + ', ' + (p.district || '') + '</p>';
-  h += '<div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--accent);margin:12px 0">' + formatNPR(p.rent || 0) + ' <small style="font-size:.75rem;color:var(--text-muted)">/month</small> ' + (p.negotiable ? '<span class="badge badge-accent">Negotiable</span>' : '') + '</div>';
-  if (p.facilities && p.facilities.length) { h += '<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Facilities</h4><div class="prop-facs">'; for (var i = 0; i < p.facilities.length; i++) h += '<span class="badge badge-accent">' + p.facilities[i] + '</span>'; h += '</div></div>'; }
-  h += '<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Description</h4><p style="color:var(--text-secondary);font-size:.9rem;line-height:1.6">' + (p.description || 'No description.') + '</p></div>';
-  h += '<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Contact</h4><p style="font-size:1.1rem;font-weight:600;color:var(--accent)">' + (p.contact || 'Not provided') + '</p></div>';
-  h += '<div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">';
-  if (tenantView && p.status === 'available') { h += '<button class="btn btn-primary" style="flex:1" onclick="contactLandlord(\'' + p.id + '\')">Message</button>'; h += '<button class="btn btn-secondary" style="flex:1" onclick="window.open(\'tel:' + (p.contact || '') + '\')">Call</button>'; }
-  if (canEdit) { h += '<button class="btn btn-outline btn-sm" onclick="editProp(\'' + p.id + '\')">Edit</button>'; h += '<button class="btn btn-danger btn-sm" onclick="delProp(\'' + p.id + '\')">Delete</button>'; h += '<button class="btn btn-sm ' + (p.status === 'available' ? 'btn-secondary' : 'btn-outline') + '" onclick="toggleStatus(\'' + p.id + '\')">' + (p.status === 'available' ? 'Mark Rented' : 'Mark Available') + '</button>'; }
-  h += '</div></div>';
-  c.innerHTML = h; c.scrollTop = 0;
-}
+function viewProp(id,tenantView){var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===id){p=APP.properties[i];break;}}if(!p)return;var c=document.getElementById('mainC');var canEdit=isDev()||p.landlordId===APP.user.uid;var h='<div style="background:var(--bg-input);height:200px;display:flex;align-items:center;justify-content:center;font-size:4rem;color:var(--text-muted);border-radius:var(--radius);margin:-20px -20px 0;position:relative">';if(p.images&&p.images.length>0)h='<div style="height:200px;overflow:hidden;border-radius:var(--radius);margin:-20px -20px 0;position:relative"><img src="'+p.images[0]+'" style="width:100%;height:100%;object-fit:cover">';else h+='&#127968;';h+='<button class="btn-icon" style="position:absolute;top:12px;left:12px" onclick="navigate(\''+(tenantView?'dashboard':'my-properties')+'\')">&#8592;</button></div>';h+='<div style="padding:20px 0"><span class="badge '+(p.status==='available'?'badge-success':'badge-danger')+'">'+(p.status==='available'?'Available':'Rented')+'</span>';h+='<h2 style="font-family:var(--font-display);font-size:1.4rem;font-weight:700;margin:8px 0 4px">'+(p.name||'Property')+'</h2>';h+='<p class="prop-loc">&#128205; '+(p.location||'')+', '+(p.district||'')+'</p>';h+='<div style="font-family:var(--font-display);font-size:1.6rem;font-weight:800;color:var(--accent);margin:12px 0">'+formatNPR(p.rent||0)+' <small style="font-size:.75rem;color:var(--text-muted)">/month</small> '+(p.negotiable?'<span class="badge badge-accent">Negotiable</span>':'')+'</div>';if(p.facilities&&p.facilities.length){h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Facilities</h4><div class="prop-facs">';for(var i=0;i<p.facilities.length;i++)h+='<span class="badge badge-accent">'+p.facilities[i]+'</span>';h+='</div></div>';}h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Description</h4><p style="color:var(--text-secondary);font-size:.9rem;line-height:1.6">'+(p.description||'No description.')+'</p></div>';h+='<div style="margin-top:16px"><h4 style="font-size:.85rem;color:var(--text-muted);margin-bottom:8px">Contact</h4><p style="font-size:1.1rem;font-weight:600;color:var(--accent)">'+(p.contact||'Not provided')+'</p></div>';h+='<div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">';if(tenantView&&p.status==='available'){h+='<button class="btn btn-primary" style="flex:1" onclick="contactLandlord(\''+p.id+'\')">Message</button>';h+='<button class="btn btn-secondary" style="flex:1" onclick="window.open(\'tel:'+(p.contact||'')+'\')">Call</button>';}if(canEdit){h+='<button class="btn btn-outline btn-sm" onclick="editProp(\''+p.id+'\')">Edit</button>';h+='<button class="btn btn-danger btn-sm" onclick="delProp(\''+p.id+'\')">Delete</button>';h+='<button class="btn btn-sm '+(p.status==='available'?'btn-secondary':'btn-outline')+'" onclick="toggleStatus(\''+p.id+'\')">'+(p.status==='available'?'Mark Rented':'Mark Available')+'</button>';}h+='</div></div>';c.innerHTML=h;c.scrollTop=0;}
 
-var FACILITIES = ['Peaceful Environment','24hr Water','Parking','WiFi Available','Security Guard','Lift','Generator','Garden','Balcony','Furnished','Semi-Furnished','Attached Bathroom','Kitchen'];
-var DISTRICTS = ['Kathmandu', 'Bhaktapur', 'Lalitpur'];
-var TYPES = [{ v: 'room', l: 'Room', i: '&#128716;' }, { v: 'flat', l: 'Flat', i: '&#127968;' }, { v: 'office', l: 'Office', i: '&#127970;' }, { v: 'building', l: 'Building', i: '&#127969;' }];
-var editId = null, formImgs = [];
+var FACILITIES=['Peaceful Environment','24hr Water','Parking','WiFi Available','Security Guard','Lift','Generator','Garden','Balcony','Furnished','Semi-Furnished','Attached Bathroom','Kitchen'];
+var DISTRICTS=['Kathmandu','Bhaktapur','Lalitpur'];
+var TYPES=[{v:'room',l:'Room',i:'&#128716;'},{v:'flat',l:'Flat',i:'&#127968;'},{v:'office',l:'Office',i:'&#127970;'},{v:'building',l:'Building',i:'&#127969;'}];
+var editId=null,formImgs=[];
 
-function renderAddProp(eid) {
-  editId = eid || null; var c = document.getElementById('mainC'); var p = {};
-  if (eid) { for (var i = 0; i < APP.properties.length; i++) { if (APP.properties[i].id === eid) { p = APP.properties[i]; break; } } formImgs = p.images ? p.images.slice() : []; } else formImgs = [];
-  var h = '<h2 class="section-title" style="font-size:1.4rem">' + (editId ? 'Edit Property' : 'Add New Property') + '</h2>';
-  h += '<div class="form-group"><label>Property Name</label><input type="text" id="fName" placeholder="e.g., Sita Ghar" value="' + (p.name || '') + '"></div>';
-  h += '<div class="form-group"><label>Property Type</label><div class="chip-group" id="fType">';
-  for (var i = 0; i < TYPES.length; i++) h += '<span class="chip' + (p.type === TYPES[i].v ? ' selected' : '') + '" data-val="' + TYPES[i].v + '" onclick="pickChip(this,\'fType\')">' + TYPES[i].i + ' ' + TYPES[i].l + '</span>';
-  h += '</div></div>';
-  h += '<div class="form-group"><label>Monthly Rent (NPR)</label><input type="number" id="fRent" placeholder="10000" value="' + (p.rent || '') + '"></div>';
-  h += '<div class="form-group"><label>Price Type</label><div class="chip-group" id="fNeg">';
-  h += '<span class="chip selected" data-val="true" onclick="pickChip(this,\'fNeg\')">Negotiable</span>';
-  h += '<span class="chip" data-val="false" onclick="pickChip(this,\'fNeg\')">Non-Negotiable</span></div></div>';
-  h += '<div class="form-group"><label>District</label><select id="fDist">';
-  for (var i = 0; i < DISTRICTS.length; i++) h += '<option value="' + DISTRICTS[i] + '">' + DISTRICTS[i] + '</option>';
-  h += '</select></div>';
-  h += '<div class="form-group"><label>Location / Area</label><input type="text" id="fLoc" placeholder="e.g., Baneshwor" value="' + (p.location || '') + '"></div>';
-  h += '<div class="form-group"><label>Facilities</label><div class="chip-group" id="fFacs">';
-  for (var i = 0; i < FACILITIES.length; i++) h += '<span class="chip" data-val="' + FACILITIES[i] + '" onclick="this.classList.toggle(\'selected\')">' + FACILITIES[i] + '</span>';
-  h += '</div></div>';
-  h += '<div class="form-group"><label>Property Images</label>';
-  h += '<div class="img-upload" onclick="document.getElementById(\'imgUp\').click()"><div class="ui">&#128247;</div><p style="font-size:.85rem;color:var(--text-muted)">Tap to upload</p></div>';
-  h += '<input type="file" id="imgUp" accept="image/*" multiple style="display:none" onchange="handleImgUp(this)">';
-  h += '<div class="img-preview" id="imgGrid"></div></div>';
-  h += '<div class="form-group"><label>Contact Number</label><input type="tel" id="fContact" placeholder="98XXXXXXXX" value="' + (p.contact || '') + '"></div>';
-  h += '<div class="form-group"><label>Describe Your Property</label><textarea id="fDesc" rows="5" placeholder="Write a description...">' + (p.description || '') + '</textarea></div>';
-  h += '<div class="form-group"><label>Status</label><div class="chip-group" id="fStatus">';
-  h += '<span class="chip selected" data-val="available" onclick="pickChip(this,\'fStatus\')">Available</span>';
-  h += '<span class="chip" data-val="rented" onclick="pickChip(this,\'fStatus\')">Rented</span></div></div>';
-  h += '<button class="btn btn-primary btn-full" onclick="saveProp()">' + (editId ? 'Update Property' : 'Add Property') + '</button>';
-  if (editId) h += '<button class="btn btn-secondary btn-full" style="margin-top:8px" onclick="navigate(\'my-properties\')">Cancel</button>';
-  c.innerHTML = h;
-}
+function renderAddProp(eid){editId=eid||null;var c=document.getElementById('mainC');var p={};if(eid){for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===eid){p=APP.properties[i];break;}}formImgs=p.images?p.images.slice():[];}else formImgs=[];var h='<h2 class="section-title" style="font-size:1.4rem">'+(editId?'Edit Property':'Add New Property')+'</h2>';h+='<div class="form-group"><label>Property Name</label><input type="text" id="fName" placeholder="e.g., Sita Ghar" value="'+(p.name||'')+'"></div>';h+='<div class="form-group"><label>Property Type</label><div class="chip-group" id="fType">';for(var i=0;i<TYPES.length;i++)h+='<span class="chip'+(p.type===TYPES[i].v?' selected':'')+'" data-val="'+TYPES[i].v+'" onclick="pickChip(this,\'fType\')">'+TYPES[i].i+' '+TYPES[i].l+'</span>';h+='</div></div>';h+='<div class="form-group"><label>Monthly Rent (NPR)</label><input type="number" id="fRent" placeholder="10000" value="'+(p.rent||'')+'"></div>';h+='<div class="form-group"><label>Price Type</label><div class="chip-group" id="fNeg">';h+='<span class="chip selected" data-val="true" onclick="pickChip(this,\'fNeg\')">Negotiable</span>';h+='<span class="chip" data-val="false" onclick="pickChip(this,\'fNeg\')">Non-Negotiable</span></div></div>';h+='<div class="form-group"><label>District</label><select id="fDist">';for(var i=0;i<DISTRICTS.length;i++)h+='<option value="'+DISTRICTS[i]+'">'+DISTRICTS[i]+'</option>';h+='</select></div>';h+='<div class="form-group"><label>Location / Area</label><input type="text" id="fLoc" placeholder="e.g., Baneshwor" value="'+(p.location||'')+'"></div>';h+='<div class="form-group"><label>Facilities</label><div class="chip-group" id="fFacs">';for(var i=0;i<FACILITIES.length;i++)h+='<span class="chip" data-val="'+FACILITIES[i]+'" onclick="this.classList.toggle(\'selected\')">'+FACILITIES[i]+'</span>';h+='</div></div>';h+='<div class="form-group"><label>Property Images</label>';h+='<div class="img-upload" onclick="document.getElementById(\'imgUp\').click()"><div class="ui">&#128247;</div><p style="font-size:.85rem;color:var(--text-muted)">Tap to upload</p></div>';h+='<input type="file" id="imgUp" accept="image/*" multiple style="display:none" onchange="handleImgUp(this)">';h+='<div class="img-preview" id="imgGrid"></div></div>';h+='<div class="form-group"><label>Contact Number</label><input type="tel" id="fContact" placeholder="98XXXXXXXX" value="'+(p.contact||'')+'"></div>';h+='<div class="form-group"><label>Describe Your Property</label><textarea id="fDesc" rows="5" placeholder="Write a description...">'+(p.description||'')+'</textarea></div>';h+='<div class="form-group"><label>Status</label><div class="chip-group" id="fStatus">';h+='<span class="chip selected" data-val="available" onclick="pickChip(this,\'fStatus\')">Available</span>';h+='<span class="chip" data-val="rented" onclick="pickChip(this,\'fStatus\')">Rented</span></div></div>';h+='<button class="btn btn-primary btn-full" onclick="saveProp()">'+(editId?'Update':'Add Property')+'</button>';if(editId)h+='<button class="btn btn-secondary btn-full" style="margin-top:8px" onclick="navigate(\'my-properties\')">Cancel</button>';c.innerHTML=h;}
 
-function pickChip(el, gid) { var ch = document.querySelectorAll('#' + gid + ' .chip'); for (var i = 0; i < ch.length; i++) ch[i].classList.remove('selected'); el.classList.add('selected'); }
-function handleImgUp(input) { var files = input.files; if (!files.length) return; for (var j = 0; j < files.length; j++) { if (formImgs.length >= 5) break; var idx = formImgs.length; formImgs.push('loading'); (function(file, index) { var reader = new FileReader(); reader.onload = function(e) { formImgs[index] = e.target.result; updateImgGrid(); }; reader.readAsDataURL(file); })(files[j], idx); } updateImgGrid(); }
-function updateImgGrid() { var g = document.getElementById('imgGrid'); if (!g) return; var h = ''; for (var i = 0; i < formImgs.length; i++) { if (formImgs[i] && formImgs[i] !== 'loading') h += '<div class="img-pv"><img src="' + formImgs[i] + '"><span class="rm" onclick="rmImg(' + i + ')">&#10005;</span></div>'; } g.innerHTML = h; }
-function rmImg(i) { formImgs.splice(i, 1); updateImgGrid(); }
-function getVal(gid) { var s = document.querySelector('#' + gid + ' .chip.selected'); return s ? s.dataset.val : ''; }
-function getVals(gid) { var sel = document.querySelectorAll('#' + gid + ' .chip.selected'), a = []; for (var i = 0; i < sel.length; i++) a.push(sel[i].dataset.val); return a; }
+function pickChip(el,gid){var ch=document.querySelectorAll('#'+gid+' .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');}
+function handleImgUp(input){var files=input.files;if(!files.length)return;for(var j=0;j<files.length;j++){if(formImgs.length>=5)break;var idx=formImgs.length;formImgs.push('loading');(function(file,index){var reader=new FileReader();reader.onload=function(e){formImgs[index]=e.target.result;updateImgGrid();};reader.readAsDataURL(file);})(files[j],idx);}updateImgGrid();}
+function updateImgGrid(){var g=document.getElementById('imgGrid');if(!g)return;var h='';for(var i=0;i<formImgs.length;i++){if(formImgs[i]&&formImgs[i]!=='loading')h+='<div class="img-pv"><img src="'+formImgs[i]+'"><span class="rm" onclick="rmImg('+i+')">&#10005;</span></div>';}g.innerHTML=h;}
+function rmImg(i){formImgs.splice(i,1);updateImgGrid();}
+function getVal(gid){var s=document.querySelector('#'+gid+' .chip.selected');return s?s.dataset.val:'';}
+function getVals(gid){var sel=document.querySelectorAll('#'+gid+' .chip.selected'),a=[];for(var i=0;i<sel.length;i++)a.push(sel[i].dataset.val);return a;}
 
-function saveProp() {
-  var name = document.getElementById('fName').value.trim(), type = getVal('fType'), rent = parseInt(document.getElementById('fRent').value), negotiable = getVal('fNeg') === 'true', district = document.getElementById('fDist').value, location = document.getElementById('fLoc').value.trim(), facilities = getVals('fFacs'), contact = document.getElementById('fContact').value.trim(), description = document.getElementById('fDesc').value.trim(), status = getVal('fStatus') || 'available', images = formImgs.filter(function(i) { return i && i !== 'loading'; });
-  if (!name) { showToast('Enter property name', 'error'); return; } if (!type) { showToast('Select type', 'error'); return; } if (!rent) { showToast('Enter rent', 'error'); return; } if (!location) { showToast('Enter location', 'error'); return; } if (!contact) { showToast('Enter contact', 'error'); return; }
-  var data = { name: name, type: type, rent: rent, negotiable: negotiable, district: district, location: location, facilities: facilities, contact: contact, description: description, status: status, images: images, landlordId: APP.user.uid, landlordName: APP.profile ? APP.profile.name : 'Landlord', updatedAt: firebase.firestore.FieldValue.serverTimestamp() };
-  showLoading(editId ? 'Updating...' : 'Saving...');
-  if (editId) { db.collection('properties').doc(editId).update(data).then(function() { showToast('Updated!', 'success'); editId = null; formImgs = []; navigate('my-properties'); }).catch(function(e) { showToast('Error: ' + e.message, 'error'); }); }
-  else { data.createdAt = firebase.firestore.FieldValue.serverTimestamp(); db.collection('properties').add(data).then(function() { showToast('Listed!', 'success'); formImgs = []; navigate('my-properties'); }).catch(function(e) { showToast('Error: ' + e.message, 'error'); }); }
-}
+function saveProp(){var name=document.getElementById('fName').value.trim(),type=getVal('fType'),rent=parseInt(document.getElementById('fRent').value),negotiable=getVal('fNeg')==='true',district=document.getElementById('fDist').value,location=document.getElementById('fLoc').value.trim(),facilities=getVals('fFacs'),contact=document.getElementById('fContact').value.trim(),description=document.getElementById('fDesc').value.trim(),status=getVal('fStatus')||'available',images=formImgs.filter(function(i){return i&&i!=='loading';});if(!name){showToast('Enter name','error');return;}if(!type){showToast('Select type','error');return;}if(!rent){showToast('Enter rent','error');return;}if(!location){showToast('Enter location','error');return;}if(!contact){showToast('Enter contact','error');return;}var data={name:name,type:type,rent:rent,negotiable:negotiable,district:district,location:location,facilities:facilities,contact:contact,description:description,status:status,images:images,landlordId:APP.user.uid,landlordName:APP.profile?APP.profile.name:'Landlord',updatedAt:firebase.firestore.FieldValue.serverTimestamp()};showLoading(editId?'Updating...':'Saving...');if(editId){db.collection('properties').doc(editId).update(data).then(function(){showToast('Updated!','success');editId=null;formImgs=[];navigate('my-properties');}).catch(function(e){showToast('Error: '+e.message,'error');});}else{data.createdAt=firebase.firestore.FieldValue.serverTimestamp();db.collection('properties').add(data).then(function(){showToast('Listed!','success');formImgs=[];navigate('my-properties');}).catch(function(e){showToast('Error: '+e.message,'error');});}}
 
-function renderMyProps() {
-  var c = document.getElementById('mainC'); var props = isDev() ? APP.properties : APP.properties.filter(function(p) { return p.landlordId === APP.user.uid; });
-  var h = '<h2 class="section-title" style="font-size:1.4rem">My Properties</h2>';
-  h += '<div class="search-bar"><span class="si">&#128269;</span><input type="text" placeholder="Search..." oninput="searchMyP(this.value)"></div>';
-  h += '<div id="myPList">';
-  if (props.length === 0) h += '<div class="empty-state"><div class="empty-icon">&#128203;</div><h3>No properties listed</h3></div>';
-  else for (var i = 0; i < props.length; i++) h += propCard(props[i]);
-  h += '</div>'; c.innerHTML = h;
-}
-function searchMyP(q) { var props = isDev() ? APP.properties : APP.properties.filter(function(p) { return p.landlordId === APP.user.uid; }); if (q) { q = q.toLowerCase(); props = props.filter(function(p) { return (p.name || '').toLowerCase().indexOf(q) >= 0 || (p.location || '').toLowerCase().indexOf(q) >= 0; }); } var el = document.getElementById('myPList'); if (el) { if (props.length === 0) el.innerHTML = '<div class="empty-state"><h3>No results</h3></div>'; else { var h = ''; for (var i = 0; i < props.length; i++) h += propCard(props[i]); el.innerHTML = h; } } }
+function renderMyProps(){var c=document.getElementById('mainC');var props=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});var h='<h2 class="section-title" style="font-size:1.4rem">My Properties</h2>';h+='<div class="search-bar"><span class="si">&#128269;</span><input type="text" placeholder="Search..." oninput="searchMyP(this.value)"></div>';h+='<div id="myPList">';if(props.length===0)h+='<div class="empty-state"><div class="empty-icon">&#128203;</div><h3>No properties listed</h3></div>';else for(var i=0;i<props.length;i++)h+=propCard(props[i]);h+='</div>';c.innerHTML=h;}
+function searchMyP(q){var props=isDev()?APP.properties:APP.properties.filter(function(p){return p.landlordId===APP.user.uid;});if(q){q=q.toLowerCase();props=props.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0;});}var el=document.getElementById('myPList');if(el){if(props.length===0)el.innerHTML='<div class="empty-state"><h3>No results</h3></div>';else{var h='';for(var i=0;i<props.length;i++)h+=propCard(props[i]);el.innerHTML=h;}}}
 
-function editProp(id) { renderAddProp(id); }
-function delProp(id) { showModal('<h3>Delete Property?</h3><p>This cannot be undone.</p><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="confirmDel(\'' + id + '\')">Delete</button></div>'); }
-function confirmDel(id) { db.collection('properties').doc(id).delete().then(function() { closeModal(); showToast('Deleted', 'success'); navigate('my-properties'); }).catch(function(e) { showToast('Error: ' + e.message, 'error'); }); }
-function toggleStatus(id) { var p = null; for (var i = 0; i < APP.properties.length; i++) { if (APP.properties[i].id === id) { p = APP.properties[i]; break; } } if (!p) return; var ns = p.status === 'available' ? 'rented' : 'available'; db.collection('properties').doc(id).update({ status: ns }).then(function() { showToast('Marked ' + ns, 'success'); viewProp(id); }).catch(function(e) { showToast('Error: ' + e.message, 'error'); }); }
+function editProp(id){renderAddProp(id);}
+function delProp(id){showModal('<h3>Delete?</h3><p>Cannot be undone.</p><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-danger" onclick="confirmDel(\''+id+'\')">Delete</button></div>');}
+function confirmDel(id){db.collection('properties').doc(id).delete().then(function(){closeModal();showToast('Deleted','success');navigate('my-properties');}).catch(function(e){showToast('Error: '+e.message,'error');});}
+function toggleStatus(id){var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===id){p=APP.properties[i];break;}}if(!p)return;var ns=p.status==='available'?'rented':'available';db.collection('properties').doc(id).update({status:ns}).then(function(){showToast('Marked '+ns,'success');viewProp(id);}).catch(function(e){showToast('Error: '+e.message,'error');});}
 
-function contactLandlord(pid) {
-  var p = null; for (var i = 0; i < APP.properties.length; i++) { if (APP.properties[i].id === pid) { p = APP.properties[i]; break; } }
-  if (!p) return;
-  showModal('<h3>Send Message</h3><p>To: ' + (p.name || 'Landlord') + '</p><div class="form-group" style="margin-top:12px"><textarea id="cMsg" rows="4" placeholder="Hi, I am interested..."></textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="sendMsg(\'' + pid + '\')">Send</button></div>');
-}
-function sendMsg(pid) {
-  var p = null; for (var i = 0; i < APP.properties.length; i++) { if (APP.properties[i].id === pid) { p = APP.properties[i]; break; } }
-  var text = document.getElementById('cMsg').value.trim(); if (!text) { showToast('Write a message', 'error'); return; }
-  db.collection('messages').add({ fromId: APP.user.uid, fromName: APP.profile ? APP.profile.name : 'User', toId: p.landlordId, toName: p.landlordName || 'Landlord', propertyId: pid, propertyName: p.name || '', text: text, timestamp: firebase.firestore.FieldValue.serverTimestamp(), read: false }).then(function() { closeModal(); showToast('Message sent!', 'success'); }).catch(function(e) { showToast('Error: ' + e.message, 'error'); });
-}
+function contactLandlord(pid){var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===pid){p=APP.properties[i];break;}}if(!p)return;showModal('<h3>Send Message</h3><p>To: '+(p.name||'Landlord')+'</p><div class="form-group" style="margin-top:12px"><textarea id="cMsg" rows="4" placeholder="Hi, I am interested..."></textarea></div><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="sendMsg(\''+pid+'\')">Send</button></div>');}
+function sendMsg(pid){var p=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===pid){p=APP.properties[i];break;}}var text=document.getElementById('cMsg').value.trim();if(!text){showToast('Write a message','error');return;}db.collection('messages').add({fromId:APP.user.uid,fromName:APP.profile?APP.profile.name:'User',toId:p.landlordId,toName:p.landlordName||'Landlord',propertyId:pid,propertyName:p.name||'',text:text,timestamp:firebase.firestore.FieldValue.serverTimestamp(),read:false}).then(function(){closeModal();showToast('Sent!','success');}).catch(function(e){showToast('Error: '+e.message,'error');});}
 
-function renderMessages() {
-  var c = document.getElementById('mainC'), uid = APP.user.uid;
-  Promise.all([db.collection('messages').where('fromId', '==', uid).get(), db.collection('messages').where('toId', '==', uid).get()]).then(function(res) {
-    var all = []; for (var r = 0; r < res.length; r++) for (var d = 0; d < res[r].docs.length; d++) all.push(Object.assign({ id: res[r].docs[d].id }, res[r].docs[d].data()));
-    all.sort(function(a, b) { return ((b.timestamp && b.timestamp.seconds) || 0) - ((a.timestamp && a.timestamp.seconds) || 0); });
-    var convos = {}; for (var i = 0; i < all.length; i++) { var m = all[i], oid = m.fromId === uid ? m.toId : m.fromId, oname = m.fromId === uid ? m.toName : m.fromName, key = oid + '_' + m.propertyId;
-      if (!convos[key] || ((m.timestamp && m.timestamp.seconds) || 0) > ((convos[key].lastMsg && convos[key].lastMsg.timestamp && convos[key].lastMsg.timestamp.seconds) || 0)) convos[key] = { otherId: oid, otherName: oname, propertyId: m.propertyId, propertyName: m.propertyName, lastMsg: m, unread: (m.toId === uid && !m.read) ? 1 : 0 };
-      else if (m.toId === uid && !m.read) convos[key].unread++; }
-    var list = []; for (var k in convos) list.push(convos[k]); list.sort(function(a, b) { return ((b.lastMsg.timestamp && b.lastMsg.timestamp.seconds) || 0) - ((a.lastMsg.timestamp && a.lastMsg.timestamp.seconds) || 0); });
-    var h = '<h2 class="section-title" style="font-size:1.4rem">Messages</h2>';
-    if (list.length === 0) h += '<div class="empty-state"><div class="empty-icon">&#128172;</div><h3>No messages yet</h3></div>';
-    else { h += '<div class="msg-list">'; for (var i = 0; i < list.length; i++) { var co = list[i];
-      h += '<div class="msg-item' + (co.unread ? ' unread' : '') + '" onclick="openChat(\'' + co.otherId + '\',\'' + co.propertyId + '\')">';
-      h += '<div class="msg-av">' + (co.otherName ? co.otherName.charAt(0) : 'U') + '</div>';
-      h += '<div class="msg-c"><div class="mn">' + (co.otherName || 'User') + '</div><div class="mp">' + (co.propertyName ? co.propertyName + ': ' : '') + (co.lastMsg.text || '') + '</div></div>';
-      h += '<div class="msg-t">' + (co.lastMsg.timestamp && co.lastMsg.timestamp.seconds ? timeAgo(co.lastMsg.timestamp.seconds * 1000) : '') + '</div></div>'; } h += '</div>'; }
-    c.innerHTML = h;
-  }).catch(function(e) { c.innerHTML = '<div class="empty-state"><h3>Error</h3><p>' + e.message + '</p></div>'; });
-}
+function renderMessages(){var c=document.getElementById('mainC'),uid=APP.user.uid;Promise.all([db.collection('messages').where('fromId','==',uid).get(),db.collection('messages').where('toId','==',uid).get()]).then(function(res){var all=[];for(var r=0;r<res.length;r++)for(var d=0;d<res[r].docs.length;d++)all.push(Object.assign({id:res[r].docs[d].id},res[r].docs[d].data()));all.sort(function(a,b){return((b.timestamp&&b.timestamp.seconds)||0)-((a.timestamp&&a.timestamp.seconds)||0);});var convos={};for(var i=0;i<all.length;i++){var m=all[i],oid=m.fromId===uid?m.toId:m.fromId,oname=m.fromId===uid?m.toName:m.fromName,key=oid+'_'+m.propertyId;if(!convos[key]||((m.timestamp&&m.timestamp.seconds)||0)>((convos[key].lastMsg&&convos[key].lastMsg.timestamp&&convos[key].lastMsg.timestamp.seconds)||0))convos[key]={otherId:oid,otherName:oname,propertyId:m.propertyId,propertyName:m.propertyName,lastMsg:m,unread:(m.toId===uid&&!m.read)?1:0};else if(m.toId===uid&&!m.read)convos[key].unread++;}var list=[];for(var k in convos)list.push(convos[k]);list.sort(function(a,b){return((b.lastMsg.timestamp&&b.lastMsg.timestamp.seconds)||0)-((a.lastMsg.timestamp&&a.lastMsg.timestamp.seconds)||0);});var h='<h2 class="section-title" style="font-size:1.4rem">Messages</h2>';if(list.length===0)h+='<div class="empty-state"><div class="empty-icon">&#128172;</div><h3>No messages yet</h3></div>';else{h+='<div class="msg-list">';for(var i=0;i<list.length;i++){var co=list[i];h+='<div class="msg-item'+(co.unread?' unread':'')+'" onclick="openChat(\''+co.otherId+'\',\''+co.propertyId+'\')">';h+='<div class="msg-av">'+(co.otherName?co.otherName.charAt(0):'U')+'</div>';h+='<div class="msg-c"><div class="mn">'+(co.otherName||'User')+'</div><div class="mp">'+(co.propertyName?co.propertyName+': ':'')+(co.lastMsg.text||'')+'</div></div>';h+='<div class="msg-t">'+(co.lastMsg.timestamp&&co.lastMsg.timestamp.seconds?timeAgo(co.lastMsg.timestamp.seconds*1000):'')+'</div></div>';}h+='</div>';}c.innerHTML=h;}).catch(function(e){c.innerHTML='<div class="empty-state"><h3>Error</h3><p>'+e.message+'</p></div>';});}
 
-function openChat(oid, pid) {
-  var c = document.getElementById('mainC'), uid = APP.user.uid;
-  db.collection('messages').where('fromId', '==', oid).where('toId', '==', uid).where('propertyId', '==', pid).where('read', '==', false).get()
-    .then(function(s) { var b = db.batch(); for (var i = 0; i < s.docs.length; i++) b.update(s.docs[i].ref, { read: true }); return b.commit(); })
-    .then(function() { return Promise.all([db.collection('messages').where('fromId', '==', uid).where('toId', '==', oid).where('propertyId', '==', pid).get(), db.collection('messages').where('fromId', '==', oid).where('toId', '==', uid).where('propertyId', '==', pid).get()]); })
-    .then(function(res) {
-      var msgs = []; for (var r = 0; r < res.length; r++) for (var d = 0; d < res[r].docs.length; d++) msgs.push(res[r].docs[d].data());
-      msgs.sort(function(a, b) { return ((a.timestamp && a.timestamp.seconds) || 0) - ((b.timestamp && b.timestamp.seconds) || 0); });
-      var oname = msgs.length > 0 ? (msgs[0].fromId === uid ? msgs[0].toName : msgs[0].fromName) : 'User';
-      var pname = msgs.length > 0 ? msgs[0].propertyName : '';
-      var h = '<div class="chat-view" style="margin:-20px;height:calc(100vh - 56px)"><div class="chat-hdr"><button class="bb" onclick="navigate(\'messages\')">&#8592;</button><div><div style="font-weight:600;font-size:.95rem">' + (oname || 'User') + '</div>';
-      if (pname) h += '<div style="font-size:.72rem;color:var(--text-muted)">Re: ' + pname + '</div>';
-      h += '</div></div><div class="chat-msgs" id="chatMsgs">';
-      for (var i = 0; i < msgs.length; i++) h += '<div class="bubble ' + (msgs[i].fromId === uid ? 'sent' : 'recv') + '">' + (msgs[i].text || '') + '<div class="bt">' + (msgs[i].timestamp && msgs[i].timestamp.seconds ? timeAgo(msgs[i].timestamp.seconds * 1000) : '') + '</div></div>';
-      h += '</div><div class="chat-in"><input type="text" id="chatIn" placeholder="Type a message..." onkeydown="if(event.key===\'Enter\')sendChat(\'' + oid + '\',\'' + pid + '\')"><button class="btn btn-primary btn-sm" onclick="sendChat(\'' + oid + '\',\'' + pid + '\')">Send</button></div></div>';
-      c.innerHTML = h; setTimeout(function() { var m = document.getElementById('chatMsgs'); if (m) m.scrollTop = m.scrollHeight; }, 100);
-    });
-}
+function openChat(oid,pid){var c=document.getElementById('mainC'),uid=APP.user.uid;db.collection('messages').where('fromId','==',oid).where('toId','==',uid).where('propertyId','==',pid).where('read','==',false).get().then(function(s){var b=db.batch();for(var i=0;i<s.docs.length;i++)b.update(s.docs[i].ref,{read:true});return b.commit();}).then(function(){return Promise.all([db.collection('messages').where('fromId','==',uid).where('toId','==',oid).where('propertyId','==',pid).get(),db.collection('messages').where('fromId','==',oid).where('toId','==',uid).where('propertyId','==',pid).get()]);}).then(function(res){var msgs=[];for(var r=0;r<res.length;r++)for(var d=0;d<res[r].docs.length;d++)msgs.push(res[r].docs[d].data());msgs.sort(function(a,b){return((a.timestamp&&a.timestamp.seconds)||0)-((b.timestamp&&b.timestamp.seconds)||0);});var oname=msgs.length>0?(msgs[0].fromId===uid?msgs[0].toName:msgs[0].fromName):'User';var pname=msgs.length>0?msgs[0].propertyName:'';var h='<div class="chat-view" style="margin:-20px;height:calc(100vh - 56px)"><div class="chat-hdr"><button class="bb" onclick="navigate(\'messages\')">&#8592;</button><div><div style="font-weight:600;font-size:.95rem">'+(oname||'User')+'</div>';if(pname)h+='<div style="font-size:.72rem;color:var(--text-muted)">Re: '+pname+'</div>';h+='</div></div><div class="chat-msgs" id="chatMsgs">';for(var i=0;i<msgs.length;i++)h+='<div class="bubble '+(msgs[i].fromId===uid?'sent':'recv')+'">'+(msgs[i].text||'')+'<div class="bt">'+(msgs[i].timestamp&&msgs[i].timestamp.seconds?timeAgo(msgs[i].timestamp.seconds*1000):'')+'</div></div>';h+='</div><div class="chat-in"><input type="text" id="chatIn" placeholder="Type a message..." onkeydown="if(event.key===\'Enter\')sendChat(\''+oid+'\',\''+pid+'\')"><button class="btn btn-primary btn-sm" onclick="sendChat(\''+oid+'\',\''+pid+'\')">Send</button></div></div>';c.innerHTML=h;setTimeout(function(){var m=document.getElementById('chatMsgs');if(m)m.scrollTop=m.scrollHeight;},100);});}
 
-function sendChat(oid, pid) {
-  var inp = document.getElementById('chatIn'), text = inp.value.trim(); if (!text) return;
-  var prop = null; for (var i = 0; i < APP.properties.length; i++) { if (APP.properties[i].id === pid) { prop = APP.properties[i]; break; } }
-  db.collection('users').doc(oid).get().then(function(d) { var on = d.exists ? d.data().name : 'User';
-    return db.collection('messages').add({ fromId: APP.user.uid, fromName: APP.profile ? APP.profile.name : 'User', toId: oid, toName: on, propertyId: pid, propertyName: prop ? prop.name : '', text: text, timestamp: firebase.firestore.FieldValue.serverTimestamp(), read: false });
-  }).then(function() { inp.value = ''; openChat(oid, pid); }).catch(function(e) { showToast('Error: ' + e.message, 'error'); });
-}
+function sendChat(oid,pid){var inp=document.getElementById('chatIn'),text=inp.value.trim();if(!text)return;var prop=null;for(var i=0;i<APP.properties.length;i++){if(APP.properties[i].id===pid){prop=APP.properties[i];break;}}db.collection('users').doc(oid).get().then(function(d){var on=d.exists?d.data().name:'User';return db.collection('messages').add({fromId:APP.user.uid,fromName:APP.profile?APP.profile.name:'User',toId:oid,toName:on,propertyId:pid,propertyName:prop?prop.name:'',text:text,timestamp:firebase.firestore.FieldValue.serverTimestamp(),read:false});}).then(function(){inp.value='';openChat(oid,pid);}).catch(function(e){showToast('Error: '+e.message,'error');});}
 
-function renderSearch() {
-  var c = document.getElementById('mainC'), av = APP.properties.filter(function(p) { return p.status === 'available'; });
-  var h = '<h2 class="section-title" style="font-size:1.4rem">Search Properties</h2>';
-  h += '<div class="search-bar"><span class="si">&#128269;</span><input type="text" id="sInput" placeholder="Search..." oninput="doSearch()"></div>';
-  h += '<div class="filter-chips" id="sfType"><span class="chip selected" onclick="sfType(this,\'all\')">All</span><span class="chip" onclick="sfType(this,\'room\')">Rooms</span><span class="chip" onclick="sfType(this,\'flat\')">Flats</span><span class="chip" onclick="sfType(this,\'office\')">Offices</span><span class="chip" onclick="sfType(this,\'building\')">Buildings</span></div>';
-  h += '<div class="filter-chips" style="margin-top:-4px" id="sfDist"><span class="chip selected" onclick="sfDist(this,\'all\')">All</span><span class="chip" onclick="sfDist(this,\'Kathmandu\')">Kathmandu</span><span class="chip" onclick="sfDist(this,\'Lalitpur\')">Lalitpur</span><span class="chip" onclick="sfDist(this,\'Bhaktapur\')">Bhaktapur</span></div>';
-  h += '<div id="sResults">'; for (var i = 0; i < av.length; i++) h += propCard(av[i], true); h += '</div>';
-  c.innerHTML = h;
-}
-var sf = { type: 'all', district: 'all' };
-function sfType(el, t) { var ch = document.querySelectorAll('#sfType .chip'); for (var i = 0; i < ch.length; i++) ch[i].classList.remove('selected'); el.classList.add('selected'); sf.type = t; doSearch(); }
-function sfDist(el, d) { var ch = document.querySelectorAll('#sfDist .chip'); for (var i = 0; i < ch.length; i++) ch[i].classList.remove('selected'); el.classList.add('selected'); sf.district = d; doSearch(); }
-function doSearch() {
-  var se = document.getElementById('sInput'), q = se ? se.value.toLowerCase() : '';
-  var ps = APP.properties.filter(function(p) { return p.status === 'available'; });
-  if (sf.type !== 'all') ps = ps.filter(function(p) { return p.type === sf.type; });
-  if (sf.district !== 'all') ps = ps.filter(function(p) { return p.district === sf.district; });
-  if (q) ps = ps.filter(function(p) { return (p.name || '').toLowerCase().indexOf(q) >= 0 || (p.location || '').toLowerCase().indexOf(q) >= 0 || (p.district || '').toLowerCase().indexOf(q) >= 0; });
-  var el = document.getElementById('sResults');
-  if (el) { if (ps.length === 0) el.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No results</h3></div>'; else { var h = ''; for (var i = 0; i < ps.length; i++) h += propCard(ps[i], true); el.innerHTML = h; } }
-}
+function renderSearch(){var c=document.getElementById('mainC'),av=APP.properties.filter(function(p){return p.status==='available';});var h='<h2 class="section-title" style="font-size:1.4rem">Search Properties</h2>';h+='<div class="search-bar"><span class="si">&#128269;</span><input type="text" id="sInput" placeholder="Search..." oninput="doSearch()"></div>';h+='<div class="filter-chips" id="sfType"><span class="chip selected" onclick="sfType(this,\'all\')">All</span><span class="chip" onclick="sfType(this,\'room\')">Rooms</span><span class="chip" onclick="sfType(this,\'flat\')">Flats</span><span class="chip" onclick="sfType(this,\'office\')">Offices</span><span class="chip" onclick="sfType(this,\'building\')">Buildings</span></div>';h+='<div class="filter-chips" style="margin-top:-4px" id="sfDist"><span class="chip selected" onclick="sfDist(this,\'all\')">All</span><span class="chip" onclick="sfDist(this,\'Kathmandu\')">Kathmandu</span><span class="chip" onclick="sfDist(this,\'Lalitpur\')">Lalitpur</span><span class="chip" onclick="sfDist(this,\'Bhaktapur\')">Bhaktapur</span></div>';h+='<div id="sResults">';for(var i=0;i<av.length;i++)h+=propCard(av[i],true);h+='</div>';c.innerHTML=h;}
+var sf={type:'all',district:'all'};function sfType(el,t){var ch=document.querySelectorAll('#sfType .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');sf.type=t;doSearch();}function sfDist(el,d){var ch=document.querySelectorAll('#sfDist .chip');for(var i=0;i<ch.length;i++)ch[i].classList.remove('selected');el.classList.add('selected');sf.district=d;doSearch();}function doSearch(){var se=document.getElementById('sInput'),q=se?se.value.toLowerCase():'';var ps=APP.properties.filter(function(p){return p.status==='available';});if(sf.type!=='all')ps=ps.filter(function(p){return p.type===sf.type;});if(sf.district!=='all')ps=ps.filter(function(p){return p.district===sf.district;});if(q)ps=ps.filter(function(p){return(p.name||'').toLowerCase().indexOf(q)>=0||(p.location||'').toLowerCase().indexOf(q)>=0;});var el=document.getElementById('sResults');if(el){if(ps.length===0)el.innerHTML='<div class="empty-state"><div class="empty-icon">&#128269;</div><h3>No results</h3></div>';else{var h='';for(var i=0;i<ps.length;i++)h+=propCard(ps[i],true);el.innerHTML=h;}}}
 
-function renderFavs() { document.getElementById('mainC').innerHTML = '<h2 class="section-title" style="font-size:1.4rem">Saved Properties</h2><div class="empty-state"><div class="empty-icon">&#10084;</div><h3>Coming Soon</h3></div>'; }
+function renderFavs(){document.getElementById('mainC').innerHTML='<h2 class="section-title" style="font-size:1.4rem">Saved Properties</h2><div class="empty-state"><div class="empty-icon">&#10084;</div><h3>Coming Soon</h3></div>';}
 
-function showNotifs() {
-  var n = APP.notifications.sort(function(a, b) { return ((b.timestamp && b.timestamp.seconds) || 0) - ((a.timestamp && a.timestamp.seconds) || 0); });
-  var h = '<h3>Notifications</h3>';
-  if (n.length === 0) h += '<p style="text-align:center;color:var(--text-muted)">No notifications</p>';
-  else { h += '<div style="max-height:300px;overflow-y:auto;margin-top:12px">'; for (var i = 0; i < n.length; i++) h += '<div style="padding:10px;border-bottom:1px solid var(--border);font-size:.85rem"><div>' + (n[i].text || '') + '</div><div style="font-size:.7rem;color:var(--text-muted);margin-top:4px">' + (n[i].timestamp && n[i].timestamp.seconds ? timeAgo(n[i].timestamp.seconds * 1000) : '') + '</div></div>'; h += '</div>'; }
-  h += '<div class="modal-acts" style="margin-top:16px"><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button></div>';
-  showModal(h); var dot = document.getElementById('nDot'); if (dot) dot.classList.add('hidden');
-}
+function showNotifs(){var n=APP.notifications.sort(function(a,b){return((b.timestamp&&b.timestamp.seconds)||0)-((a.timestamp&&a.timestamp.seconds)||0);});var h='<h3>Notifications</h3>';if(n.length===0)h+='<p style="text-align:center;color:var(--text-muted)">No notifications</p>';else{h+='<div style="max-height:300px;overflow-y:auto;margin-top:12px">';for(var i=0;i<n.length;i++)h+='<div style="padding:10px;border-bottom:1px solid var(--border);font-size:.85rem"><div>'+(n[i].text||'')+'</div><div style="font-size:.7rem;color:var(--text-muted);margin-top:4px">'+(n[i].timestamp&&n[i].timestamp.seconds?timeAgo(n[i].timestamp.seconds*1000):'')+'</div></div>';h+='</div>';}h+='<div class="modal-acts" style="margin-top:16px"><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button></div>';showModal(h);var dot=document.getElementById('nDot');if(dot)dot.classList.add('hidden');}
 
-function showSupport() { showModal('<h3>Support the Developer</h3><p>Would you like to contribute?</p><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">No Thanks</button><button class="btn btn-primary" onclick="showDonate()">Yes!</button></div>'); }
-function showDonate() { showModal('<h3>Thank You!</h3><p>Your support means a lot!</p><div style="text-align:center;margin-top:16px"><div style="margin:16px 0"><p style="font-weight:600;color:var(--accent);margin-bottom:8px">Esewa ID</p><p style="font-size:.95rem">9800000000</p></div></div><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button>'); }
+function showSupport(){showModal('<h3>Support the Developer</h3><p>Would you like to contribute?</p><div class="modal-acts"><button class="btn btn-secondary" onclick="closeModal()">No Thanks</button><button class="btn btn-primary" onclick="showDonate()">Yes!</button></div>');}
+function showDonate(){showModal('<h3>Thank You!</h3><div style="text-align:center;margin-top:16px"><div style="margin:16px 0"><p style="font-weight:600;color:var(--accent);margin-bottom:8px">Esewa ID</p><p style="font-size:.95rem">9800000000</p></div></div><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button>');}
 
-function renderSettings() {
-  var c = document.getElementById('mainC'), theme = document.documentElement.dataset.theme, devMode = isDev(), u = APP.profile || {};
-  var h = '<h2 class="section-title" style="font-size:1.4rem">Settings</h2>';
-  h += '<div class="set-group"><div class="set-group-t">Account</div>';
-  h += '<div class="set-item"><div class="set-il"><div class="si">&#128100;</div><div class="st"><div class="st-t">' + (u.name || 'User') + '</div><div class="st-d">' + (u.role || '') + '</div></div></div><span class="badge badge-accent">' + (u.role || '') + '</span></div>';
-  h += '<div class="set-item"><div class="set-il"><div class="si">&#9993;</div><div class="st"><div class="st-t">' + (u.email || 'Not set') + '</div><div class="st-d">Email</div></div></div></div></div>';
-  h += '<div class="set-group"><div class="set-group-t">Appearance</div>';
-  h += '<div class="set-item" onclick="toggleTheme()"><div class="set-il"><div class="si">' + (theme === 'dark' ? '&#127769;' : '&#9728;') + '</div><div class="st"><div class="st-t">Theme</div><div class="st-d">' + (theme === 'dark' ? 'Dark (AMOLED)' : 'Light') + '</div></div></div><div class="toggle ' + (theme === 'dark' ? 'active' : '') + '"></div></div></div>';
-  h += '<div class="set-group"><div class="set-group-t">App</div>';
-  h += '<div class="set-item" onclick="showSupport()"><div class="set-il"><div class="si">&#10084;</div><div class="st"><div class="st-t">Support Developer</div></div></div><span class="set-ir">&#8250;</span></div>';
-  h += '<div class="set-item" onclick="showAbout()"><div class="set-il"><div class="si">&#8505;</div><div class="st"><div class="st-t">About</div></div></div><span class="set-ir">&#8250;</span></div></div>';
-  if (devMode) { h += '<div class="set-group"><div class="set-group-t">Developer</div><div class="dev-panel"><h3>Developer Options</h3><div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">';
-  h += '<div class="set-item" onclick="devAllUsers()"><div class="set-il"><div class="si">&#128101;</div><div class="st"><div class="st-t">Manage Users</div></div></div><span class="set-ir">&#8250;</span></div>';
-  h += '<div class="set-item" onclick="devAllProps()"><div class="set-il"><div class="si">&#127970;</div><div class="st"><div class="st-t">Manage Properties</div></div></div><span class="set-ir">&#8250;</span></div></div></div></div>'; }
-  h += '<button class="btn btn-danger btn-full" onclick="doLogout()" style="margin-top:12px">Sign Out</button>';
-  h += '<p style="text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:24px;padding-bottom:20px">Kotha Khali Chha v2.0</p>';
-  c.innerHTML = h;
-}
+function renderSettings(){var c=document.getElementById('mainC'),theme=document.documentElement.dataset.theme,devMode=isDev(),u=APP.profile||{};var h='<h2 class="section-title" style="font-size:1.4rem">Settings</h2>';h+='<div class="set-group"><div class="set-group-t">Account</div>';h+='<div class="set-item"><div class="set-il"><div class="si">&#128100;</div><div class="st"><div class="st-t">'+(u.name||'User')+'</div><div class="st-d">'+(u.role||'')+'</div></div></div><span class="badge badge-accent">'+(u.role||'')+'</span></div>';h+='<div class="set-item"><div class="set-il"><div class="si">&#128222;</div><div class="st"><div class="st-t">'+(u.phone||'Not set')+'</div><div class="st-d">Phone</div></div></div></div>';h+='<div class="set-item"><div class="set-il"><div class="si">&#9993;</div><div class="st"><div class="st-t">'+(u.email||'Not set')+'</div><div class="st-d">Email</div></div></div></div></div>';h+='<div class="set-group"><div class="set-group-t">Appearance</div>';h+='<div class="set-item" onclick="toggleTheme()"><div class="set-il"><div class="si">'+(theme==='dark'?'&#127769;':'&#9728;')+'</div><div class="st"><div class="st-t">Theme</div><div class="st-d">'+(theme==='dark'?'Dark':'Light')+'</div></div></div><div class="toggle '+(theme==='dark'?'active':'')+'"></div></div></div>';h+='<div class="set-group"><div class="set-group-t">App</div>';h+='<div class="set-item" onclick="showSupport()"><div class="set-il"><div class="si">&#10084;</div><div class="st"><div class="st-t">Support Developer</div></div></div><span class="set-ir">&#8250;</span></div>';h+='<div class="set-item" onclick="showAbout()"><div class="set-il"><div class="si">&#8505;</div><div class="st"><div class="st-t">About</div></div></div><span class="set-ir">&#8250;</span></div></div>';if(devMode){h+='<div class="set-group"><div class="set-group-t">Developer</div><div class="dev-panel"><h3>Developer Options</h3><div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">';h+='<div class="set-item" onclick="devAllUsers()"><div class="set-il"><div class="si">&#128101;</div><div class="st"><div class="st-t">Manage Users</div></div></div><span class="set-ir">&#8250;</span></div>';h+='<div class="set-item" onclick="devAllProps()"><div class="set-il"><div class="si">&#127970;</div><div class="st"><div class="st-t">Manage Properties</div></div></div><span class="set-ir">&#8250;</span></div></div></div></div>';}h+='<button class="btn btn-danger btn-full" onclick="doLogout()" style="margin-top:12px">Sign Out</button>';h+='<p style="text-align:center;font-size:.72rem;color:var(--text-muted);margin-top:24px;padding-bottom:20px">Kotha Khali Chha v2.0</p>';c.innerHTML=h;}
 
-function toggleTheme() { var t = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'; document.documentElement.dataset.theme = t; localStorage.setItem('kkc_theme', t); renderSettings(); }
-function showAbout() { showModal('<h3>About</h3><div style="text-align:center;margin:16px 0"><div style="font-size:3rem;margin-bottom:8px">&#127968;</div><p style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--accent)">Kotha Khali Chha !?</p><p style="font-size:.82rem;color:var(--text-muted)">Version 2.0</p></div><p style="font-size:.85rem;color:var(--text-secondary);line-height:1.6;text-align:center">The ultimate room finding solution for Kathmandu Valley.</p><div style="margin-top:16px"><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button></div>'); }
+function toggleTheme(){var t=document.documentElement.dataset.theme==='dark'?'light':'dark';document.documentElement.dataset.theme=t;localStorage.setItem('kkc_theme',t);renderSettings();}
+function showAbout(){showModal('<h3>About</h3><div style="text-align:center;margin:16px 0"><div style="font-size:3rem;margin-bottom:8px">&#127968;</div><p style="font-family:var(--font-display);font-size:1.2rem;font-weight:700;color:var(--accent)">Kotha Khali Chha !?</p><p style="font-size:.82rem;color:var(--text-muted)">Version 2.0</p></div><p style="font-size:.85rem;color:var(--text-secondary);line-height:1.6;text-align:center">The ultimate room finding solution for Kathmandu Valley.</p><div style="margin-top:16px"><button class="btn btn-secondary btn-full" onclick="closeModal()">Close</button></div>');}
 
-function devAllUsers() {
-  showLoading('Loading users...');
-  db.collection('users').get().then(function(s) { var users = s.docs.map(function(d) { return Object.assign({ id: d.id }, d.data()); });
-    var h = '<h3>All Users (' + users.length + ')</h3><div style="max-height:300px;overflow-y:auto;margin-top:12px">';
-    for (var i = 0; i < users.length; i++) h += '<div style="padding:10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600;font-size:.9rem">' + (users[i].name || '') + '</div><div style="font-size:.75rem;color:var(--text-muted)">' + (users[i].email || '') + '</div></div><span class="badge badge-info">' + (users[i].role || '') + '</span></div>';
-    h += '</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();navigate(\'dashboard\')">Close</button>';
-    showModal(h);
-  });
-}
-function devAllProps() {
-  var h = '<h3>All Properties (' + APP.properties.length + ')</h3><div style="max-height:300px;overflow-y:auto;margin-top:12px">';
-  for (var i = 0; i < APP.properties.length; i++) { var p = APP.properties[i]; h += '<div style="padding:10px;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:.9rem">' + (p.name || '') + ' <span class="badge badge-info">' + (p.type || '') + '</span></div><div style="font-size:.75rem;color:var(--text-muted)">' + (p.location || '') + ' ' + formatNPR(p.rent || 0) + '</div></div>'; }
-  h += '</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();navigate(\'dashboard\')">Close</button>';
-  showModal(h);
-}
+function devAllUsers(){showLoading('Loading users...');db.collection('users').get().then(function(s){var users=s.docs.map(function(d){return Object.assign({id:d.id},d.data());});var h='<h3>All Users ('+users.length+')</h3><div style="max-height:300px;overflow-y:auto;margin-top:12px">';for(var i=0;i<users.length;i++)h+='<div style="padding:10px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:600;font-size:.9rem">'+(users[i].name||'')+'</div><div style="font-size:.75rem;color:var(--text-muted)">'+(users[i].phone||'')+' '+(users[i].email||'')+'</div></div><span class="badge badge-info">'+(users[i].role||'')+'</span></div>';h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();navigate(\'dashboard\')">Close</button>';showModal(h);});}
+function devAllProps(){var h='<h3>All Properties ('+APP.properties.length+')</h3><div style="max-height:300px;overflow-y:auto;margin-top:12px">';for(var i=0;i<APP.properties.length;i++){var p=APP.properties[i];h+='<div style="padding:10px;border-bottom:1px solid var(--border)"><div style="font-weight:600;font-size:.9rem">'+(p.name||'')+' <span class="badge badge-info">'+(p.type||'')+'</span></div><div style="font-size:.75rem;color:var(--text-muted)">'+(p.location||'')+' '+formatNPR(p.rent||0)+'</div></div>';}h+='</div><button class="btn btn-secondary btn-full" style="margin-top:12px" onclick="closeModal();navigate(\'dashboard\')">Close</button>';showModal(h);}
 
-function doLogout() {
-  APP.unsubscribers.forEach(function(u) { u(); }); APP.unsubscribers = []; APP.user = null; APP.profile = null;
-  auth.signOut().then(function() {
-    document.getElementById('app').classList.remove('active');
-    document.getElementById('devBadge').classList.add('hidden');
-    showScreen('splash');
-    document.getElementById('authEmail').value = '';
-    document.getElementById('authPass').value = '';
-    document.getElementById('authStep1').classList.remove('hidden');
-    document.getElementById('authStep2').classList.add('hidden');
-    var rl = document.querySelectorAll('.role-opt');
-    for (var i = 0; i < rl.length; i++) rl[i].classList.remove('selected');
-    APP.role = null;
-    showToast('Signed out', 'info');
-  });
-}
+function doLogout(){APP.unsubscribers.forEach(function(u){u();});APP.unsubscribers=[];APP.user=null;APP.profile=null;auth.signOut().then(function(){document.getElementById('app').classList.remove('active');document.getElementById('devBadge').classList.add('hidden');showScreen('splash');var rl=document.querySelectorAll('.role-opt');for(var i=0;i<rl.length;i++)rl[i].classList.remove('selected');APP.role=null;document.getElementById('googleBtn').disabled=false;showToast('Signed out','info');});}
 
-(function() { var t = localStorage.getItem('kkc_theme') || 'dark'; document.documentElement.dataset.theme = t; })();
+(function(){var t=localStorage.getItem('kkc_theme')||'dark';document.documentElement.dataset.theme=t;})();
 </script>
 </body>
 </html>
